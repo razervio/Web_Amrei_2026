@@ -1,0 +1,3204 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
+  <title>Marketer AMREI</title>
+    <link rel="icon" type="image/svg+xml" href="/images/amrei-favicon-teal.svg?v=2">
+    <link rel="stylesheet" href="style.css?v=20260924">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body class="marketer-page">
+<script>
+window.addEventListener('pageshow', async () => {
+    try {
+        const response = await fetch('/api/me', { cache: 'no-store' });
+        if (!response.ok) window.location.replace('/index.html');
+    } catch (_error) {
+        window.location.replace('/index.html');
+    }
+});
+</script>
+  <div class="app">
+    <aside class="sidebar">
+                        <div class="logo dashboard-logo" id="dashboard-logo" role="button" tabindex="0" aria-label="Buka Dashboard">
+                <img src="/images/amrei-favicon-teal.svg" alt="Logo AMREI">
+            </div>
+                        <button type="button" class="mobile-menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false" onclick='const isOpen = document.body.classList.toggle("mobile-menu-open"); this.setAttribute("aria-expanded", String(isOpen)); this.setAttribute("aria-label", isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"); this.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;'>
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+      <nav class="nav">
+        <button data-section="overview" class="active dashboard-nav-link" hidden>
+        <i class="fa-solid fa-chart-line"></i>
+         Dashboard
+    </button>
+
+    <button data-section="chat">
+        <i class="fa-solid fa-comments"></i>
+        Chat Bot
+    </button>
+
+    <button data-section="about">
+        <i class="fa-solid fa-circle-info"></i>
+        Tentang AMREI
+    </button>
+
+    <button data-section="products">
+      <i class="fa-solid fa-building"></i>
+        Properti AMREI
+    </button>
+
+    <button data-section="articles">
+        <i class="fa-solid fa-newspaper"></i>
+        Artikel AMREI
+    </button>
+
+    <button data-section="link">
+        <i class="fa-solid fa-address-book"></i>
+        Link Referral
+    </button>
+
+    <button data-section="blast">
+        <i class="fa-brands fa-whatsapp"></i>
+        WhatsApp Blast
+    </button>
+
+    <button data-section="leads">
+        <i class="fa-solid fa-users"></i>
+        Lead Saya
+    </button>
+</nav>
+      <div class="sidebar-bottom">
+        <button id="logout" class="btn danger full">
+    <i class="fa-solid fa-right-from-bracket"></i>
+    Keluar
+</button>
+      </div>
+    </aside>
+
+    <div class="header-promo">Temukan Properti Terbaik Anda Bersama Kami.</div>
+
+    <main class="main">
+      <div class="topbar">
+
+    <div class="topbar-left">
+
+        <h1 id="title">
+            Dashboard Marketer
+        </h1>
+
+        <div
+            class="muted"
+            id="welcome"
+        ></div>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <div class="date-card">
+
+            📅
+            <span id="today-date">
+                -
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+      <section id="overview" class="section active">
+        <div class="hero-banner">
+
+    <div class="hero-content">
+
+        <span class="hero-badge">
+            AMREI PROPERTY MANAGEMENT
+        </span>
+
+        <h2>
+    Selamat Datang di Dashboard Marketer AMREI
+    <i class="fa-solid fa-handshake"></i>
+</h2>
+
+        <p>
+            Kelola properti, bagikan link referral, pantau lead, dan bantu customer dengan AMREI Bot.
+        </p>
+
+    </div>
+
+    <div class="hero-logo">
+
+        <img
+            src="images/amrei 2.png"
+            alt="AMREI Logo"
+        >
+
+    </div>
+
+</div>
+        <div class="grid stats-grid">
+
+    <div class="card stat-card">
+        <div class="stat-icon user-icon"><i class="fa-solid fa-user"></i></div>
+        <div class="stat-info">
+                <span class="muted">Nama Marketer</span>
+                <strong id="name-stat" class="stat-name">-</strong>
+                <small>Akun Marketer Aktif</small>
+        </div>
+    </div>
+
+  <div class="card stat-card">
+    <div class="stat-icon property-icon">🏠</div>
+    <div class="stat-info">
+        <span class="muted">Total Properti Dipilih</span>
+        <strong id="product-stat" class="stat">0</strong>
+        <small>Properti untuk dipasarkan</small>
+    </div>
+  </div>
+
+  <div class="card stat-card">
+    <div class="stat-icon lead-icon">👥</div>
+    <div class="stat-info">
+        <span class="muted">Total Lead</span>
+        <strong id="lead-stat" class="stat">0</strong>
+        <small>Customer terdaftar</small>
+    </div>
+  </div>
+
+  <div class="card stat-card">
+    <div class="stat-icon birthday-icon">🎂</div>
+    <div class="stat-info">
+        <span class="muted">Ulang Tahun Hari Ini</span>
+        <strong id="birthday-stat" class="stat">0</strong>
+        <small>Customer berulang tahun</small>
+    </div>
+  </div>
+
+  <div class="card stat-card wedding-anniversary-card">
+    <div class="stat-icon birthday-icon">💍</div>
+    <div class="stat-info">
+        <span class="muted">Ulang Tahun Pernikahan</span>
+        <strong id="anniversary-stat" class="stat">0</strong>
+        <small>Customer hari ini</small>
+    </div>
+  </div>
+
+</div>
+        <div class="card flow-card" style="margin-top:24px;">
+
+    <h3> Alur Pemasaran Properti AMREI</h3>
+
+    <div class="flow-list">
+
+        <div class="flow-item">
+            <span class="flow-step">01</span>
+            <p>Pilih properti yang ingin dipasarkan.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-step">02</span>
+            <p>Simpan properti pilihanmu.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-step">03</span>
+            <p>Bagikan Link Referral ke calon customer.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-step">04</span>
+            <p>Customer mengisi nama dan WhatsApp.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-step">05</span>
+            <p>Lead otomatis masuk ke Dashboard Admin.</p>
+        </div>
+
+    </div>
+
+</div>
+      </section>
+
+      <section id="chat" class="section">
+        <div class="card chat">
+          <div id="messages" class="messages">
+            <div class="bubble bot">Hallo Saya AMREI Bot. Ada yang ingin kamu tanyakan?</div>
+          </div>
+          <form id="chat-form" autocomplete="off" class="chat-form">
+            <input id="chat-input" placeholder="Tanya tentang AMREI...">
+            <button class="btn primary">Kirim</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+                <div id="about-content">
+        <div class="about-hero">
+
+       <h2 class="about-title">Asosiasi Marketer Real Estate indonesia</h2>
+
+    <p>
+        AMREI merupakan wadah pengembangan bagi para marketer real estate di Indonesia
+        yang berfokus pada peningkatan kompetensi, profesionalisme, kolaborasi,
+        serta pemanfaatan teknologi dalam pemasaran properti.
+    </p>
+
+    <div class="about-highlight">
+
+        <div class="highlight-item">
+            <i class="fa-solid fa-graduation-cap"></i>
+<span>Edukasi</span>
+        </div>
+
+        <div class="highlight-item">
+            <i class="fa-solid fa-users"></i>
+<span>Networking</span>
+        </div>
+
+        <div class="highlight-item">
+            <i class="fa-solid fa-microchip"></i>
+<span>Digital & AI</span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="about-grid">
+
+    <div class="about-card">
+
+        <div class="about-card-icon">
+    <i class="fa-solid fa-bullseye"></i>
+</div>
+
+        <h3>Visi</h3>
+
+        <p>
+            Mendorong terbentuknya ekosistem marketer real estate Indonesia
+            yang profesional, kompeten, berintegritas, adaptif terhadap
+            perkembangan zaman, serta mampu membangun kepercayaan dalam
+            industri properti.
+        </p>
+
+    </div>
+
+    <div class="about-card">
+
+        <div class="about-card-icon">
+    <i class="fa-solid fa-rocket"></i>
+</div>
+
+        <h3>Misi</h3>
+
+        <ul>
+
+            <li>Meningkatkan kompetensi marketer properti.</li>
+
+            <li>Mendorong profesionalisme dan integritas.</li>
+
+            <li>Mengembangkan networking antar pelaku industri.</li>
+
+            <li>Memanfaatkan Digital Marketing dan AI.</li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<div class="about-values">
+
+    <h2>Nilai-Nilai AMREI</h2>
+
+    <p>
+        Nilai-nilai yang menjadi landasan dalam membangun marketer profesional di industri real estate.
+    </p>
+
+    <div class="values-grid">
+
+        <div class="value-card">
+            <div class="value-icon">
+    <i class="fa-solid fa-shield-halved"></i>
+</div>
+            <h4>Integrity</h4>
+            <span>Menjunjung kejujuran dan etika dalam setiap proses pemasaran.</span>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon">
+    <i class="fa-solid fa-chart-line"></i>
+</div>
+            <h4>Growth</h4>
+            <span>Terus belajar dan berkembang mengikuti perubahan industri.</span>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon">
+    <i class="fa-solid fa-handshake"></i>
+</div>
+            <h4>Collaboration</h4>
+            <span>Membangun jaringan dan saling bertumbuh bersama.</span>
+        </div>
+
+        <div class="value-card">
+           <div class="value-icon">
+    <i class="fa-solid fa-comments"></i>
+</div>
+            <h4>Trust</h4>
+            <span>Membangun kepercayaan dengan konsumen dan mitra.</span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="about-learning">
+
+    <h2>Apa yang Dipelajari di AMREI</h2>
+
+    <p>
+        AMREI membantu marketer meningkatkan kemampuan pemasaran properti melalui berbagai materi praktis yang relevan dengan kebutuhan industri saat ini.
+    </p>
+
+    <div class="learning-grid">
+
+        <div class="learning-item"> <i class="fa-solid fa-house"></i> Property Marketing</div>
+
+        <div class="learning-item"> <i class="fa-solid fa-brain"></i> Buyer Psychology</div>
+
+        <div class="learning-item"> <i class="fa-solid fa-comments"></i> Komunikasi dan Presentasi</div>
+
+        <div class="learning-item"> <i class="fa-solid fa-phone"></i> Follow Up Strategy</div>
+
+        <div class="learning-item"> <i class="fa-solid fa-handshake-angle"></i> Negosiasi</div>
+
+        <div class="learning-item"> <i class="fa-solid fa-bullseye"></i> Closing Technique</div>
+
+        <div class="learning-item"> <i class="fa-solid fa-chart-simple"></i> Digital Marketing</div>
+
+         <div class="learning-item"> <i class="fa-solid fa-robot"></i> Artificial Intelligence (AI)</div>
+
+    </div>
+
+</div>
+<div class="about-activities">
+
+    <h2>Bentuk Kegiatan AMREI</h2>
+
+    <p>
+        Berbagai kegiatan AMREI dirancang untuk meningkatkan kompetensi,
+        memperluas jaringan profesional, serta mengikuti perkembangan dunia
+        pemasaran properti.
+    </p>
+
+    <div class="about-activity-grid">
+
+    <div class="about-activity-card">
+        <div class="about-activity-icon">
+            <i class="fa-solid fa-video"></i>
+        </div>
+
+        <h4>Webinar</h4>
+        <span>Pembelajaran online mengenai marketing.</span>
+    </div>
+
+    <div class="about-activity-card">
+        <div class="about-activity-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+        <h4>Kopdar</h4>
+        <span>Silaturahmi sekaligus berbagi pengalaman.</span>
+    </div>
+
+    <div class="about-activity-card">
+        <div class="about-activity-icon">
+            <i class="fa-solid fa-lightbulb"></i>
+        </div>
+
+        <h4>MarkeThink</h4>
+        <span>Diskusi strategi dan AI.</span>
+    </div>
+
+    <div class="about-activity-card">
+        <div class="about-activity-icon">
+            <i class="fa-solid fa-network-wired"></i>
+        </div>
+
+        <h4>Networking</h4>
+        <span>Membangun relasi profesional.</span>
+    </div>
+
+</div>
+
+</div>
+<div class="about-training">
+
+    <div class="training-content">
+
+        <span class="training-kicker">PROGRAM PENGEMBANGAN AMREI</span>
+
+        <h2>Pelatihan Digital Marketing</h2>
+
+        <p class="training-lead">
+            Raih lebih banyak peluang dan bangun personal branding yang kuat
+            melalui strategi pemasaran digital untuk marketer properti.
+        </p>
+
+        <p class="training-description">
+            Pelatihan ini dirancang untuk membantu marketer menguasai teknik
+            promosi online, membangun kepercayaan calon customer, serta
+            meningkatkan penjualan melalui platform digital.
+        </p>
+
+        <div class="training-points">
+            <span><i class="fa-solid fa-bullseye"></i> Strategi promosi online</span>
+            <span><i class="fa-solid fa-chart-line"></i> Personal branding</span>
+            <span><i class="fa-solid fa-mobile-screen-button"></i> Praktik platform digital</span>
+        </div>
+
+    </div>
+
+    <div class="training-details">
+
+        <div class="training-detail">
+            <small>JADWAL</small>
+            <strong>Setiap Senin</strong>
+        </div>
+
+        <div class="training-detail">
+            <small>WAKTU</small>
+            <strong>13.00 - 17.00 WIB</strong>
+        </div>
+
+        <div class="training-detail">
+            <small>KONTRIBUSI</small>
+            <strong>Infaq terbaik</strong>
+        </div>
+
+        <div class="training-contact">
+            <small>CONTACT PERSON</small>
+            <strong><i class="fa-solid fa-user training-contact-name-icon" aria-hidden="true"></i><span>Coach Dedy</span><br><a class="training-contact-link" href="https://wa.me/62881081646464" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span class="training-contact-text">0881081646464</span></a></strong>
+        </div>
+
+    </div>
+
+</div>
+<div class="about-closing">
+
+    <div class="closing-content">
+
+        <span class="closing-badge">
+            BERGABUNG BERSAMA AMREI
+        </span>
+
+        <h2>
+            Bertumbuh Bersama Menjadi Marketer Properti Profesional
+        </h2>
+
+        <p>
+            AMREI hadir sebagai wadah pembelajaran, kolaborasi, dan pengembangan
+            kompetensi bagi marketer properti agar mampu menghadapi perubahan
+            industri dengan profesionalisme, integritas, dan pemanfaatan teknologi.
+        </p>
+
+        <div class="closing-points">
+
+            <div>
+                <i class="fa-solid fa-circle-check"></i>
+                Edukasi Berkelanjutan
+            </div>
+
+            <div>
+                <i class="fa-solid fa-handshake"></i>
+                Networking Profesional
+            </div>
+
+            <div>
+                <i class="fa-solid fa-microchip"></i>
+                Digital Marketing & AI
+            </div>
+
+            <div>
+                <i class="fa-solid fa-trophy"></i>
+                Pengembangan Kompetensi
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+      </div>
+    </section>
+
+    <section id="products" class="section">
+
+    <div class="property-toolbar">
+
+        <input
+            type="text"
+            id="property-search"
+            class="property-search"
+            autocomplete="off"
+            placeholder="🔍 Cari nama, lokasi, tipe, harga..."
+        >
+
+        <button id="save-products" class="btn primary">
+    <i class="fa-solid fa-check-to-slot"></i>
+    Simpan Pilihan
+</button>
+
+    </div>
+
+    <div id="products-list" class="property-grid"></div>
+    <div id="pagination" class="pagination"></div>
+
+</section>
+
+
+<section id="articles" class="section">
+
+    <div class="user-articles-hero">
+        <div class="user-articles-brand">
+            <img src="/images/amrei.png?v=5" alt="AMREI">
+            <span>AMREI</span>
+        </div>
+        <span class="user-articles-kicker">INSIGHT COLLECTION</span>
+        <h2>Pengetahuan untuk<br><em>bergerak lebih maju.</em></h2>
+        <p>Insight properti, strategi pemasaran, dan cerita yang membantu Anda mengambil keputusan lebih baik.</p>
+    </div>
+
+    <div class="property-toolbar">
+
+        <input
+            type="text"
+            id="article-search"
+            class="property-search"
+            autocomplete="off"
+            placeholder="Cari insight AMREI..."
+        >
+
+    </div>
+
+    <div
+        id="article-list"
+        class="property-grid"
+    ></div>
+
+    <div
+        id="article-pagination"
+        class="pagination"
+    ></div>
+
+</section>
+
+
+      <section id="link" class="section">
+        <div class="card">
+          <h2>Link Referral Kamu</h2>
+          <p class="muted">Bagikan link ini ke calon customer.</p>
+          <div id="referral" class="toast"></div>
+                    <button id="copy-link" class="btn secondary" type="button" style="margin-top:10px">
+            Salin Link
+          </button>
+        </div>
+      </section>
+
+      <section id="leads" class="section">
+
+    <div class="property-toolbar">
+
+                <button id="refresh-marketer-leads" class="btn secondary" type="button">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        Refresh Leads
+                </button>
+
+        <input
+            type="text"
+            id="lead-search"
+            class="property-search"
+            autocomplete="off"
+            placeholder="🔍 Cari lead..."
+        >
+
+    </div>
+
+        <div class="table-wrap">
+            <table class="table leads-table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>WA</th>
+                <th>Email</th>
+                <th>Tanggal Lahir</th>
+                <th>Tanggal Pernikahan</th>
+                <th>Jenis Kelamin</th>
+                <th>Domisili</th>
+                <th>Pekerjaan</th>
+                <th>Customer Service</th>
+                <th>Jenis Konsumen</th>
+                <th>Properti</th>
+                <th>Status</th>
+                <th>Tanggal Tanya</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="leads-body"></tbody>
+          </table>
+        </div>
+
+        <div
+    id="lead-pagination"
+    class="pagination"
+></div>
+      </section>
+
+<div id="marketer-lead-modal" class="modal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h2>Edit Lead</h2>
+            <button class="close" type="button" id="close-marketer-lead-modal">&times;</button>
+        </div>
+        <form id="marketer-lead-form" autocomplete="off">
+            <input type="hidden" id="marketer-lead-id">
+            <div class="field"><label>Nama</label><input id="marketer-lead-nama"></div>
+            <div class="field"><label>No. WhatsApp</label><input id="marketer-lead-wa"></div>
+            <div class="field"><label>Email</label><input id="marketer-lead-email" type="email"></div>
+            <div class="field"><label>Tanggal Lahir</label><input id="marketer-lead-tgl-lahir" type="date"></div>
+            <div class="field"><label>Tanggal Pernikahan</label><input id="marketer-lead-tanggal-pernikahan" type="date"></div>
+            <div class="field"><label>Jenis Kelamin</label>
+                <select id="marketer-lead-jenis-kelamin">
+                    <option value="">-- Pilih Jenis Kelamin --</option>
+                    <option value="Laki-laki">Laki-laki</option><option value="Perempuan">Perempuan</option>
+                    <option value="Tidak ingin memberi tahu">Tidak ingin memberi tahu</option>
+                </select>
+            </div>
+            <div class="field"><label>Domisili</label><input id="marketer-lead-domisili"></div>
+            <div class="field"><label>Pekerjaan</label><input id="marketer-lead-pekerjaan"></div>
+            <div class="field"><label>Jenis Konsumen</label>
+                <select id="marketer-lead-jenis-konsumen">
+                    <option value="">-- Pilih Jenis Konsumen --</option>
+                    <option value="Hot">Hot</option><option value="Warm">Warm</option><option value="Cold">Cold</option>
+                </select>
+            </div>
+            <div class="field"><label>Properti</label><input id="marketer-lead-properti"></div>
+            <div class="field"><label>Status</label>
+                <select id="marketer-lead-status">
+                    <option value="">-- Pilih Status --</option><option>Baru</option><option>Follow Up</option><option>Booking</option><option>Closing</option><option>Tidak Lanjut</option>
+                </select>
+            </div>
+            <div class="field"><label>Keterangan</label><textarea id="marketer-lead-keterangan"></textarea></div>
+            <button class="btn primary full" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
+        </form>
+    </div>
+</div>
+
+            <section id="blast" class="section">
+                <div class="grid">
+                    <div class="card blast-customer-card">
+                        <div class="blast-card-header">
+                            <div>
+                                <h3>Sumber Customer</h3>
+                                <p class="muted">Pilih lead Anda untuk WhatsApp Blast.</p>
+                                <div class="customer-source-selector">
+                                    <label><input type="radio" checked disabled> Lead Saya</label>
+                                </div>
+                            </div>
+                            <div class="blast-header-icon"><i class="fa-solid fa-address-book"></i></div>
+                        </div>
+                        <div class="blast-info">
+                            <div class="blast-info-icon"><i class="fa-solid fa-users"></i></div>
+                            <div>
+                                <strong>Lead Customer</strong>
+                                <p>Customer yang tampil hanya lead yang ditugaskan kepada Anda.</p>
+                            </div>
+                        </div>
+                        <div id="marketer-birthday-box" class="card blast-birthday-box">
+                            <div class="birthday-title">
+                                <span class="birthday-icon">🎂</span>
+                                <div>
+                                    <strong>Ulang Tahun Hari Ini</strong>
+                                    <small>Customer lead Anda yang berulang tahun hari ini</small>
+                                </div>
+                                <select id="marketer-greeting-type" class="blast-greeting-type" aria-label="Jenis ucapan">
+                                    <option value="birthday">Ulang Tahun</option>
+                                    <option value="anniversary">Anniversary</option>
+                                </select>
+                            </div>
+                            <div id="marketer-birthday-list" class="status">Memuat...</div>
+                        </div>
+                    </div>
+
+                    <div class="card blast-whatsapp-card">
+                        <div class="blast-card-header">
+                            <div>
+                                <h3>WhatsApp</h3>
+                                <p class="muted">Siapkan pesan untuk customer terpilih.</p>
+                            </div>
+                            <div class="blast-header-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                        </div>
+                        <div class="wa-connection-box">
+                            <div class="wa-connection-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                            <div class="wa-connection-info">
+                                <strong>Status WhatsApp</strong>
+                                <p>Hubungkan WhatsApp marketer Anda untuk mulai mengirim pesan.</p>
+                            </div>
+                        </div>
+                        <div id="marketer-wa-status" class="status blast-wa-status">Memuat status WhatsApp...</div>
+                        <div class="wa-action-buttons">
+                            <button id="marketer-start-wa" class="btn success" type="button"><i class="fa-solid fa-link"></i> Hubungkan WhatsApp</button>
+                            <button id="marketer-logout-wa" class="btn wa-logout-btn" type="button" style="display:none;"><i class="fa-brands fa-whatsapp"></i> Logout WhatsApp</button>
+                            <button id="marketer-birthday-blast" class="btn primary" type="button"><i class="fa-solid fa-gift"></i> Kirim Ucapan Ultah</button>
+                        </div>
+                        <div id="marketer-wa-qr-container" class="wa-qr-container" style="display:none;">
+                            <div class="wa-qr-title">📱 Hubungkan WhatsApp</div>
+                            <div id="marketer-wa-qr-code" class="wa-qr-code"></div>
+                            <p id="marketer-wa-qr-status" class="wa-qr-status">Menunggu QR Code...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card blast-product-card">
+                    <div class="blast-product-header">
+                        <div>
+                            <h3>Product Blast</h3>
+                            <p class="muted">Kirim informasi properti kepada customer yang dipilih menggunakan template admin atau template pribadi Anda.</p>
+                        </div>
+                        <div class="blast-product-icon"><i class="fa-solid fa-house"></i></div>
+                    </div>
+
+                    <div class="blast-template-manager marketer-blast-template-manager">
+                        <div>
+                            <strong>Template Pesan Saya</strong>
+                            <span class="blast-template-limit">Template pribadi yang hanya digunakan oleh akun marketer ini.</span>
+                        </div>
+                        <button id="marketer-new-template" class="btn secondary" type="button"><i class="fa-solid fa-plus"></i> Custom Pesan</button>
+                        <div id="marketer-template-list" class="blast-template-list"></div>
+                        <p id="marketer-blast-status" class="blast-send-status" role="alert"></p>
+                    </div>
+
+                    <div class="blast-property-field">
+                        <label for="marketer-blast-property"><i class="fa-solid fa-house"></i> Pilih Properti</label>
+                        <select id="marketer-blast-property"></select>
+                    </div>
+
+                    <div class="blast-customer-list marketer-blast-customer-panel">
+                        <div class="blast-customer-list-title"><i class="fa-solid fa-user-check"></i> Pilih Customer yang Ingin Dikirimkan Promosi</div>
+                        <div class="customer-search"><input id="marketer-customer-search" class="customer-search-input" type="search" placeholder="Cari nama atau nomor WhatsApp..."></div>
+                        <div id="marketer-selected-customer-count" class="selected-customer-count">Belum ada customer dipilih</div>
+                        <div id="marketer-blast-customers" class="check-list"></div>
+                    </div>
+
+                    <div class="blast-preview-actions">
+                        <button id="marketer-product-blast" class="btn primary" type="button" disabled><i class="fa-solid fa-paper-plane"></i> Kirim Produk ke Customer Terpilih</button>
+                    </div>
+                </div>
+            </section>
+    </main>
+  </div>
+
+    <div id="marketer-greeting-modal" class="modal">
+        <div class="modal-card blast-preview-modal-card">
+            <div class="modal-head">
+                <div class="blast-preview-heading">
+                    <h2 id="marketer-greeting-title">Preview Ucapan</h2>
+                    <p>Sesuaikan isi pesan sebelum dikirim ke customer</p>
+                </div>
+                <button class="close" type="button" data-close="marketer-greeting-modal">×</button>
+            </div>
+            <div class="blast-greeting-editor-toolbar">
+                <span class="muted">Sisipkan nama customer:</span>
+                <button id="marketer-greeting-name-token" class="template-token-button" type="button">+ Nama Customer</button>
+            </div>
+            <div id="marketer-greeting-editor" class="blast-greeting-editor" contenteditable="true" role="textbox" aria-label="Template isi pesan ucapan"></div>
+            <p id="marketer-greeting-send-status" class="blast-send-status" role="alert"></p>
+            <div class="blast-preview-actions">
+                <button class="btn secondary" type="button" data-close="marketer-greeting-modal">Batal</button>
+                <button id="marketer-greeting-send" class="btn primary" type="button">Kirim WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="marketer-template-modal" class="modal">
+        <div class="modal-card admin-template-modal-card">
+            <div class="modal-head">
+                <h2 id="marketer-template-modal-title">Buat Pesan Custom</h2>
+                <button class="close" type="button" data-close="marketer-template-modal">×</button>
+            </div>
+            <div class="admin-template-form">
+                <label for="marketer-template-title">Judul Template
+                    <input id="marketer-template-title" type="text" maxlength="120" placeholder="Contoh: Follow Up Produk">
+                </label>
+                <div class="admin-template-message-field">
+                    <label for="marketer-template-message-editor">Isi Pesan</label>
+                    <div class="admin-template-auto-data">
+                        <span class="admin-template-auto-data-title">Sisipkan placeholder:</span>
+                        <button type="button" class="admin-template-token" data-marketer-modal-token="{{nama_customer}}">Nama Customer</button>
+                        <button type="button" class="admin-template-token" data-marketer-modal-token="{{nama_produk}}">Nama Properti</button>
+                        <button type="button" class="admin-template-token" data-marketer-modal-token="{{harga_produk}}">Harga Properti</button>
+                        <button type="button" class="admin-template-token" data-marketer-modal-token="{{link_produk}}">Link Properti</button>
+                    </div>
+                    <div class="admin-template-message-shell">
+                        <div id="marketer-template-message-editor" class="template-visual-editor" contenteditable="true" role="textbox" aria-label="Isi pesan custom" data-placeholder="Tulis pesan custom di sini..."></div>
+                        <textarea id="marketer-template-message" hidden></textarea>
+                    </div>
+                </div>
+                <p class="muted admin-template-placeholder-hint">Data otomatis akan menyesuaikan customer dan properti yang dipilih saat pesan dikirim.</p>
+                <p id="marketer-template-modal-status" class="blast-send-status" role="alert"></p>
+            </div>
+            <div class="blast-preview-actions">
+                <button class="btn secondary" type="button" data-close="marketer-template-modal">Batal</button>
+                <button id="marketer-template-save" class="btn primary" type="button"><i class="fa-solid fa-floppy-disk"></i> Simpan Template</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="marketer-product-modal" class="modal">
+        <div class="modal-card blast-preview-modal-card blast-product-preview-modal-card">
+            <div class="modal-head">
+                <div class="blast-preview-heading">
+                    <h2>Preview Pesan Product Blast</h2>
+                    <p>Sesuaikan isi pesan sebelum dikirim ke customer</p>
+                </div>
+                <button class="close" type="button" data-close="marketer-product-modal">×</button>
+            </div>
+            <label class="blast-template-preview-select">Template Pesan
+                <select id="marketer-product-template"></select>
+            </label>
+            <div class="admin-product-token-toolbar">
+                <span class="muted">Sisipkan placeholder:</span>
+                <button type="button" class="admin-template-token" data-marketer-product-token="{{nama_customer}}">Nama Customer</button>
+                <button type="button" class="admin-template-token" data-marketer-product-token="{{nama_produk}}">Nama Properti</button>
+                <button type="button" class="admin-template-token" data-marketer-product-token="{{harga_produk}}">Harga Properti</button>
+                <button type="button" class="admin-template-token" data-marketer-product-token="{{link_produk}}">Link Properti</button>
+            </div>
+            <div id="marketer-product-message" class="blast-message-editor" contenteditable="true" role="textbox" aria-label="Isi pesan product blast"></div>
+            <h3 class="blast-photo-title">Foto yang akan dikirim</h3>
+            <div id="marketer-product-photos" class="blast-product-photos"></div>
+            <div id="marketer-photo-count" class="blast-photo-count">0 dari 0 foto terpilih</div>
+            <p id="marketer-product-send-status" class="blast-send-status" role="alert"></p>
+            <div class="blast-preview-actions">
+                <button class="btn secondary" type="button" data-close="marketer-product-modal">Batal</button>
+                <button id="marketer-product-send" class="btn primary" type="button">Kirim WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="marketer-blast-success-modal" class="modal" aria-hidden="true">
+        <div class="modal-card blast-success-modal-card">
+            <div id="marketer-blast-success-icon" class="blast-success-icon">✓</div>
+            <h2 id="marketer-blast-success-title">Pesan Terkirim</h2>
+            <p id="marketer-blast-success-message">Pesan berhasil masuk ke antrean WhatsApp.</p>
+            <button id="marketer-blast-success-close" class="btn primary" type="button">Tutup</button>
+        </div>
+    </div>
+
+  <div id="property-detail-modal" class="modal">
+
+    <div class="modal-card property-detail-modal-card">
+
+        <div class="modal-head">
+
+            <h2 id="detail-property-nama">
+                Detail Properti
+            </h2>
+
+        </div>
+
+        <div class="property-detail-content">
+
+            <div class="property-detail-image">
+                <div class="property-gallery-main">
+                    <button
+                        type="button"
+                        id="property-gallery-prev"
+                        class="property-gallery-btn property-gallery-prev"
+                        aria-label="Foto sebelumnya"
+                    >
+                        ‹
+                    </button>
+
+                    <button
+                        type="button"
+                        id="property-gallery-next"
+                        class="property-gallery-btn property-gallery-next"
+                        aria-label="Foto berikutnya"
+                    >
+                        ›
+                    </button>
+
+                    <img
+                        id="detail-property-foto"
+                        src="/images/amrei.png"
+                        alt="Foto Properti"
+                        onerror="this.onerror=null; this.src='/images/amrei.png'"
+                    />
+
+                    <div
+                        id="property-gallery-counter"
+                        class="property-gallery-counter"
+                        aria-live="polite"
+                    >
+                        1 / 1
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="close property-detail-close"
+                    data-close="property-detail-modal"
+                    aria-label="Tutup detail properti"
+                >
+                    ×
+                </button>
+
+                <div
+                    id="property-gallery-preview"
+                    class="property-gallery-preview"
+                    aria-label="Preview foto properti"
+                ></div>
+
+                <div class="property-gallery-footer">
+                    <i class="fa-solid fa-images" aria-hidden="true"></i>
+                    <span>Pilih thumbnail untuk melihat foto lainnya</span>
+                </div>
+
+            </div>
+
+            <div class="property-detail-info">
+
+                <span
+                    id="detail-property-tipe"
+                    class="tag"
+                >
+                    Properti
+                </span>
+
+                <h2 id="detail-property-title">-</h2>
+
+                <div class="property-detail-item">
+                    <strong>📍 Lokasi</strong>
+                    <span id="detail-property-lokasi">-</span>
+                </div>
+
+                <div class="property-detail-item">
+                    <strong>💰 Harga</strong>
+                    <span id="detail-property-harga">-</span>
+                </div>
+
+                <div class="property-detail-item">
+                    <strong>💵 Komisi</strong>
+                    <span id="detail-property-komisi">-</span>
+                </div>
+
+                <div class="property-detail-description">
+
+                    <h3> Deskripsi Properti</h3>
+
+                    <div id="detail-property-deskripsi">
+                        Belum ada deskripsi properti.
+                    </div>
+
+                    <button
+                        type="button"
+                        class="property-description-trigger"
+                        onclick="event.stopPropagation(); openPropertyDescriptionModal();"
+                    >
+                        Baca Selengkapnya
+                    </button>
+
+                </div>
+
+                <div
+                    id="detail-property-social-container"
+                    class="property-detail-social"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="property-description-modal" class="modal">
+    <div class="modal-card property-description-modal-card">
+        <div class="modal-head">
+            <h2 id="property-description-title">Deskripsi Properti</h2>
+            <button class="close" type="button" data-close="property-description-modal" onclick="closePropertyDescriptionModal()">×</button>
+        </div>
+        <div class="property-description-content">
+            <div id="property-description-content">Belum ada deskripsi.</div>
+        </div>
+    </div>
+</div>
+
+<div id="property-image-lightbox" class="property-image-lightbox" aria-hidden="true" role="dialog" aria-label="Foto properti ukuran penuh">
+    <button id="property-image-lightbox-close" type="button" class="property-image-lightbox-close" aria-label="Tutup foto">&times;</button>
+    <button id="property-image-lightbox-prev" type="button" class="property-image-lightbox-nav property-image-lightbox-prev" aria-label="Foto sebelumnya">&#8249;</button>
+    <img id="property-image-lightbox-image" src="/images/amrei.png" alt="Foto properti ukuran penuh">
+    <button id="property-image-lightbox-next" type="button" class="property-image-lightbox-nav property-image-lightbox-next" aria-label="Foto berikutnya">&#8250;</button>
+    <div id="property-image-lightbox-counter" class="property-image-lightbox-counter" aria-live="polite">1 / 1</div>
+</div>
+
+<div id="articleModal" class="article-modal">
+
+    <div class="article-modal-content">
+
+        <div class="article-bubble bubble1"></div>
+        <div class="article-bubble bubble2"></div>
+        <div class="article-bubble bubble3"></div>
+
+        <div class="article-preview-image-wrap">
+            <span class="article-close" onclick="closeArticle()">&times;</span>
+            <img
+                id="modal-thumbnail"
+                src="/images/amrei.png"
+                alt="Artikel"
+            >
+        </div>
+
+        <span
+            id="modal-category"
+            class="tag"
+        ></span>
+
+        <h2 id="article-popup-title"></h2>
+
+        <div
+            id="modal-date"
+            class="muted"
+        ></div>
+
+        <div id="modal-content"></div>
+
+    </div>
+
+</div>
+
+
+    <script src="/popup.js"></script>
+    <script>
+    let me,
+    products = [],
+    articles = [],
+    selected = [],
+    leads = [],
+    marketerBlastLeads = [],
+    marketerBlastTemplates = [],
+    marketerBlastProperties = [];
+    let editingMarketerTemplateId = null;
+    let currentPropertyDescription = '';
+
+    let currentPage = 1;
+    let currentLeadPage = 1;
+    let totalLeadPages = 1;
+    let totalLeads = 0;
+    const itemsPerPage = 21;
+    const $ = id => document.getElementById(id);
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    }[character]));
+
+        function applyActivity(activity) {
+            if (!activity) return;
+            const training = document.querySelector('.about-training');
+            if (!training) return;
+            const setText = (selector, value) => {
+                const element = training.querySelector(selector);
+                if (element && value !== undefined && value !== null) element.textContent = value;
+            };
+            const setPoint = (selector, value) => {
+                const element = training.querySelector(selector);
+                if (!element) return;
+                const pointText = String(value ?? '').trim();
+                element.hidden = !pointText;
+                if (!pointText) {
+                    element.textContent = '';
+                    return;
+                }
+                const icon = element.querySelector('i');
+                element.textContent = '';
+                if (icon) element.append(icon, ' ');
+                element.append(pointText);
+            };
+            setText('.training-kicker', activity.kicker);
+            setText('h2', activity.title);
+            setText('.training-lead', activity.lead);
+            setText('.training-description', activity.description);
+            setPoint('.training-points > span:nth-child(1)', activity.point1);
+            setPoint('.training-points > span:nth-child(2)', activity.point2);
+            setPoint('.training-points > span:nth-child(3)', activity.point3);
+            setText('.training-detail:nth-child(1) strong', activity.schedule);
+            setText('.training-detail:nth-child(2) strong', activity.time);
+            setText('.training-detail:nth-child(3) strong', activity.contribution);
+            const contact = training.querySelector('.training-contact strong');
+            if (contact) {
+                const phone = String(activity.contactPhone || '').trim();
+                const whatsappPhone = phone.replace(/\D/g, '').replace(/^0/, '62');
+                contact.innerHTML = '';
+                const name = document.createElement('span');
+                name.textContent = activity.contactName || '';
+                const nameIcon = document.createElement('i');
+                nameIcon.className = 'fa-solid fa-user training-contact-name-icon';
+                nameIcon.setAttribute('aria-hidden', 'true');
+                contact.append(nameIcon);
+                contact.append(name, document.createElement('br'));
+                const link = document.createElement('a');
+                link.className = 'training-contact-link';
+                link.target = '_blank';
+                link.rel = 'noopener';
+                link.href = whatsappPhone ? `https://wa.me/${whatsappPhone}` : '#';
+                const icon = document.createElement('i');
+                icon.className = 'fa-brands fa-whatsapp';
+                icon.setAttribute('aria-hidden', 'true');
+                const text = document.createElement('span');
+                text.className = 'training-contact-text';
+                text.textContent = phone;
+                link.append(icon, text);
+                contact.append(link);
+            }
+        }
+
+        async function loadActivity() {
+            try {
+                const response = await fetch('/api/activity');
+                const result = await response.json();
+                applyActivity(result.activity);
+            } catch (error) {
+                console.error('Gagal memuat informasi kegiatan:', error);
+            }
+        }
+
+    function formatCurrencyDisplay(value) {
+      if (value === null || value === undefined || value === '') return '-';
+
+      const text = String(value).trim();
+      if (!/\d/.test(text)) return text;
+
+      return text.replace(/(\d[\d.\s,]*)/g, match => {
+        const numericValue = Number(match.replace(/[^\d]/g, ''));
+
+        if (Number.isNaN(numericValue)) {
+          return match;
+        }
+
+        return `Rp ${new Intl.NumberFormat('id-ID').format(numericValue)}`;
+      });
+    }
+
+    function parseSocialLinks(value) {
+      const fallback = { instagram: '', facebook: '', tiktok: '', youtube: '', maps: '' };
+
+      if (!value) return fallback;
+
+      if (typeof value === 'object') {
+        return {
+          instagram: value.instagram || '',
+          facebook: value.facebook || '',
+          tiktok: value.tiktok || '',
+          youtube: value.youtube || '',
+          maps: value.maps || value.google_maps || ''
+        };
+      }
+
+      try {
+        const parsed = JSON.parse(value);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            instagram: parsed.instagram || '',
+            facebook: parsed.facebook || '',
+            tiktok: parsed.tiktok || '',
+            youtube: parsed.youtube || '',
+            maps: parsed.maps || parsed.google_maps || ''
+          };
+        }
+      } catch (error) {
+        return {
+          instagram: value || '',
+          facebook: '',
+          tiktok: '',
+          youtube: '',
+          maps: ''
+        };
+      }
+
+      return fallback;
+    }
+
+    function renderSocialLinks(property) {
+      const links = parseSocialLinks(property?.link_sosmed);
+      const items = [
+        { key: 'instagram', url: links.instagram, icon: 'fa-instagram', family: 'fa-brands', label: 'Instagram' },
+        { key: 'facebook', url: links.facebook, icon: 'fa-facebook-f', family: 'fa-brands', label: 'Facebook' },
+        { key: 'tiktok', url: links.tiktok, icon: 'fa-tiktok', family: 'fa-brands', label: 'TikTok' },
+        { key: 'youtube', url: links.youtube, icon: 'fa-youtube', family: 'fa-brands', label: 'YouTube' },
+        { key: 'maps', url: links.maps, icon: 'fa-location-dot', family: 'fa-solid', label: 'Google Maps' }
+      ].filter(item => item.url);
+
+      if (!items.length) return '';
+
+      return `
+        <div class="property-social-block">
+          <div class="property-social-label">Lihat postingan media sosial</div>
+          <div class="property-social-row">
+            ${items.map(item => `
+              <a
+                href="${item.url}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="property-social-icon"
+                title="${item.label}"
+                aria-label="${item.label}"
+              >
+                <i class="${item.family} ${item.icon}"></i>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    async function api(u, o = {}) {
+            const r = await fetch(u, { cache: 'no-store', ...o });
+            const contentType = r.headers.get('content-type') || '';
+            if (!contentType.includes('application/json')) {
+                throw new Error(r.status === 404
+                    ? `Endpoint tidak ditemukan: ${u}. Restart server terlebih dahulu.`
+                    : `Server mengembalikan HTML, bukan JSON (${r.status}).`);
+            }
+            const d = await r.json();
+      if (!r.ok) throw new Error(d.message || 'Gagal');
+      return d;
+    }
+
+        async function loadAboutContent() {
+            const result = await fetch('/api/about').then(response => response.json());
+            if (result.html && $('about-content')) $('about-content').innerHTML = result.html;
+        }
+
+    async function init() {
+      const m = await api('/api/me').catch(() => null);
+      if (!m || m.user.role !== 'marketer') return location.href = '/login.html';
+      
+      me = m.user;
+            loadAboutContent()
+                .then(() => loadActivity())
+                .catch(() => {});
+      $('welcome').textContent = `Pantau performa pemasaran Anda serta akses seluruh fitur marketer AMREI dari sini.`;
+      $('today-date').textContent =
+    new Date().toLocaleDateString(
+        'id-ID',
+        {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        }
+    );
+    $('name-stat').textContent = me.name;
+
+    const p = await api('/api/marketer/products');
+      products = p.all_products;
+      selected = (p.selected_products || []).map(String);
+      selected = selected.map(String);
+
+        renderProducts();
+        updateStats();
+        loadLeads();
+        loadMarketerGreetingStats().catch(error => console.error('Gagal memuat statistik ucapan:', error));
+        loadArticles();
+
+            const savedSection = sessionStorage.getItem('marketer-active-section');
+            const savedButton = savedSection
+                    ? document.querySelector(`[data-section="${savedSection}"]`)
+                    : null;
+            if (savedButton) savedButton.click();
+
+      const link = `${location.origin}/m/${me.slug}`;
+            $('referral').textContent = link;
+            $('copy-link').onclick = async () => {
+                const button = $('copy-link');
+                let copied = false;
+
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(link);
+                        copied = true;
+                    }
+                } catch (error) {
+                    console.warn('Clipboard API tidak tersedia:', error);
+                }
+
+                if (!copied) {
+                    const helper = document.createElement('textarea');
+                    helper.value = link;
+                    helper.setAttribute('readonly', '');
+                    helper.style.position = 'fixed';
+                    helper.style.top = '0';
+                    helper.style.left = '-9999px';
+                    helper.style.opacity = '0';
+                    document.body.appendChild(helper);
+                    helper.focus();
+                    helper.select();
+                    helper.setSelectionRange(0, helper.value.length);
+                    try {
+                        copied = document.execCommand('copy');
+                    } finally {
+                        helper.remove();
+                    }
+                }
+
+                const originalText = button.textContent;
+                button.textContent = copied ? 'Link Berhasil Disalin' : 'Salin Link Gagal';
+                setTimeout(() => { button.textContent = originalText; }, 1800);
+            };
+    }
+
+        const publicContentEvents = new EventSource('/api/public/content-events');
+        let publicContentRefreshTimer = null;
+        publicContentEvents.addEventListener('content-changed', event => {
+            const type = JSON.parse(event.data).type;
+            clearTimeout(publicContentRefreshTimer);
+            publicContentRefreshTimer = setTimeout(async () => {
+                try {
+                    if (type === 'properties' || type === 'marketers') {
+                        const p = await api('/api/marketer/products');
+                        products = p.all_products || [];
+                        selected = (p.selected_products || []).map(String);
+                        renderProducts();
+                        updateStats();
+                    }
+
+                    if (type === 'articles') {
+                        await loadArticles();
+                    }
+
+                    if (type === 'about' || type === 'activity') {
+                        await loadAboutContent();
+                        await loadActivity();
+                    }
+
+                    if (type === 'lead-created') {
+                        await loadLeads(currentLeadPage, $('lead-search').value.trim());
+                        await loadMarketerGreetingStats();
+                    }
+                } catch (error) {
+                    console.error('Gagal menyinkronkan perubahan konten marketer:', error);
+                }
+            }, 150);
+        });
+
+    function updateStats() {
+      $('product-stat').textContent = selected.length;
+      $('lead-stat').textContent = leads.length;
+    }
+
+        async function loadMarketerGreetingStats() {
+            const [birthday, anniversary] = await Promise.all([
+                api('/api/marketer/greeting-preview?type=birthday'),
+                api('/api/marketer/greeting-preview?type=anniversary')
+            ]);
+            $('birthday-stat').textContent = birthday.targets.length;
+            $('anniversary-stat').textContent = anniversary.targets.length;
+        }
+
+ function renderProducts(list = products) {
+
+    const start = (currentPage - 1) * itemsPerPage;
+const end = start + itemsPerPage;
+
+const paginated = list.slice(start, end);
+    $('products-list').innerHTML = paginated.map(property => `
+    
+        <div class="card property-card" onclick="if (!event.target.closest('button, a, input')) showPropertyDetail('${property.id}')">
+
+            <input
+                type="checkbox"
+                class="property-checkbox"
+                value="${property.id}"
+                onchange="toggleProduct(this)"
+                ${selected.includes(String(property.id)) ? 'checked' : ''}
+            />
+
+            <div class="property-image">
+                <img
+                    src="${property.thumbnail || '/images/amrei.png'}"
+                    alt="${property.nama}"
+                    onerror="this.onerror=null; this.src='/images/amrei.png'"
+                >
+            </div>
+
+            <div class="property-content">
+
+                <span class="tag">
+                    ${property.tipe || 'Properti'}
+                </span>
+
+                <h3>${property.nama}</h3>
+
+                <div class="property-price">
+                    ${formatCurrencyDisplay(property.harga)}
+                </div>
+
+                <div class="property-location">
+                    📍 ${property.lokasi || '-'}
+                </div>
+                
+                ${renderSocialLinks(property)}
+
+            </div>
+
+        </div>
+    `).join('');
+    renderPagination(list.length);
+}
+
+function renderArticles(data = articles) {
+
+    $('article-list').innerHTML = data.map(article => `
+
+        <div class="card property-card" onclick="if (!event.target.closest('button, a, input')) showArticle('${article.id}')">
+
+            <div class="property-image">
+
+                <img
+                    src="${article.thumbnail || '/images/amrei.png'}"
+                    alt="${article.judul}"
+                    onerror="this.onerror=null;this.src='/images/amrei.png'"
+                >
+
+            </div>
+
+            <div class="property-content">
+
+                <span class="tag">
+                    ${article.kategori || 'Artikel'}
+                </span>
+
+                <h3>${article.judul}</h3>
+
+                <div class="muted article-summary">
+
+                    ${
+                        article.ringkasan
+                            ? article.ringkasan.length > 150
+                                ? article.ringkasan.substring(0,150) + "..."
+                                : article.ringkasan
+                            : ""
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+    renderArticlePagination();
+
+}
+
+
+function renderArticlePagination() {
+
+    const container = $('article-pagination');
+
+    if (!container) return;
+
+    if (totalArticlePages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+
+    // Tombol pertama
+    html += `
+<button
+    class="property-page-btn"
+    ${currentArticlePage === 1 ? 'disabled' : ''}
+    onclick="loadArticles(
+    1,
+    document.getElementById('article-search').value
+)"
+>
+    ⏮
+</button>
+
+<button
+    class="property-page-btn"
+    ${currentArticlePage === 1 ? 'disabled' : ''}
+    onclick="loadArticles(
+    ${currentArticlePage - 1},
+    document.getElementById('article-search').value
+)"
+>
+    ◀
+</button>
+`;
+
+    const maxVisible = 5;
+
+    let startPage = Math.max(
+        1,
+        currentArticlePage - 2
+    );
+
+    let endPage = Math.min(
+        totalArticlePages,
+        startPage + maxVisible - 1
+    );
+
+    if (endPage - startPage < maxVisible - 1) {
+
+        startPage = Math.max(
+            1,
+            endPage - maxVisible + 1
+        );
+
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+
+        html += `
+<button
+    class="property-page-btn ${i === currentArticlePage ? 'active' : ''}"
+    onclick="loadArticles(
+    ${i},
+    document.getElementById('article-search').value
+)"
+>
+    ${i}
+</button>
+`;
+
+    }
+
+    html += `
+<button
+    class="property-page-btn"
+    ${currentArticlePage === totalArticlePages ? 'disabled' : ''}
+    onclick="loadArticles(
+    ${currentArticlePage + 1},
+    document.getElementById('article-search').value
+)"
+>
+    ▶
+</button>
+
+<button
+    class="property-page-btn"
+    ${currentArticlePage === totalArticlePages ? 'disabled' : ''}
+    onclick="loadArticles(
+    ${totalArticlePages},
+    document.getElementById('article-search').value
+)"
+>
+    ⏭
+</button>
+`;
+
+    container.innerHTML = `
+<div class="property-page-row">
+
+    <div class="property-page-buttons">
+        ${html}
+    </div>
+
+    <div class="property-page-jump">
+
+        <span>Pindah ke Halaman</span>
+
+        <input
+            type="number"
+            id="article-page-input"
+            min="1"
+            max="${totalArticlePages}"
+            placeholder="${currentArticlePage}"
+        >
+
+    </div>
+
+</div>
+`;
+
+document
+    .getElementById('article-page-input')
+    ?.addEventListener('keydown', e => {
+
+        if (e.key === 'Enter') {
+
+            jumpArticlePage();
+
+        }
+
+    });
+
+}
+
+
+function jumpArticlePage() {
+
+    const page = parseInt(
+        document.getElementById('article-page-input').value
+    );
+
+    if (
+        isNaN(page) ||
+        page < 1 ||
+        page > totalArticlePages
+    ) {
+        return;
+    }
+
+    loadArticles(
+    page,
+    document.getElementById('article-search').value
+);
+
+}
+
+
+function toggleProduct(checkbox) {
+
+    const id = String(checkbox.value);
+
+    if (checkbox.checked) {
+
+        if (!selected.includes(id)) {
+            selected.push(id);
+        }
+
+    } else {
+
+        selected = selected.filter(x => x !== id);
+
+    }
+
+    updateStats();
+
+}
+
+
+function renderPagination(totalItems){
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    if(totalPages <= 1){
+
+        $('pagination').innerHTML = '';
+        return;
+
+    }
+
+    let html = '';
+
+    // Tombol pertama
+    html += `
+<button
+    class="property-page-btn"
+    ${currentPage === 1 ? 'disabled' : ''}
+    onclick="changePage(1)">
+    ⏮
+</button>
+
+<button
+    class="property-page-btn"
+    ${currentPage === 1 ? 'disabled' : ''}
+    onclick="changePage(${currentPage - 1})">
+    ◀
+</button>
+`;
+
+    const maxVisible = 5;
+
+    let startPage = Math.max(
+        1,
+        currentPage - 2
+    );
+
+    let endPage = Math.min(
+        totalPages,
+        startPage + maxVisible - 1
+    );
+
+    if(endPage - startPage < maxVisible - 1){
+
+        startPage = Math.max(
+            1,
+            endPage - maxVisible + 1
+        );
+
+    }
+
+    for(let i = startPage; i <= endPage; i++){
+
+        html += `
+<button
+    class="property-page-btn ${i === currentPage ? 'active' : ''}"
+    onclick="changePage(${i})">
+    ${i}
+</button>
+`;
+
+    }
+
+    // Tombol terakhir
+    html += `
+<button
+    class="property-page-btn"
+    ${currentPage === totalPages ? 'disabled' : ''}
+    onclick="changePage(${currentPage + 1})">
+    ▶
+</button>
+
+<button
+    class="property-page-btn"
+    ${currentPage === totalPages ? 'disabled' : ''}
+    onclick="changePage(${totalPages})">
+    ⏭
+</button>
+`;
+
+    $('pagination').innerHTML = `
+<div class="property-page-row">
+
+    <div class="property-page-buttons">
+
+        ${html}
+
+    </div>
+
+    <div class="property-page-jump">
+
+        <span>Pindah ke Halaman</span>
+
+        <input
+            type="number"
+            id="property-page-input"
+            min="1"
+            max="${totalPages}"
+            placeholder="${currentPage}"
+        >
+
+    </div>
+
+</div>
+`;
+
+document
+    .getElementById('property-page-input')
+    ?.addEventListener('keydown', e => {
+
+        if (e.key === 'Enter') {
+
+            jumpPropertyPage();
+
+        }
+
+    });
+
+}
+
+
+function jumpPropertyPage(){
+
+    const page = parseInt(
+        document.getElementById('property-page-input').value
+    );
+
+    const keyword = $('property-search').value;
+
+    const filtered = products.filter(property => {
+
+        return (
+            (property.nama || '').toLowerCase().includes(keyword.toLowerCase()) ||
+            (property.lokasi || '').toLowerCase().includes(keyword.toLowerCase()) ||
+            (property.tipe || '').toLowerCase().includes(keyword.toLowerCase()) ||
+            (property.harga || '').toString().toLowerCase().includes(keyword.toLowerCase()) ||
+            (property.komisi || '').toString().toLowerCase().includes(keyword.toLowerCase())
+        );
+
+    });
+
+    const totalPages = Math.ceil(
+        filtered.length / itemsPerPage
+    );
+
+    if(
+        isNaN(page) ||
+        page < 1 ||
+        page > totalPages
+    ){
+        return;
+    }
+
+    changePage(page);
+
+}
+
+function changePage(page){
+
+    const keyword = $('property-search').value.toLowerCase();
+
+    const filtered = products.filter(property => {
+
+        return (
+            (property.nama || '').toLowerCase().includes(keyword) ||
+            (property.lokasi || '').toLowerCase().includes(keyword) ||
+            (property.tipe || '').toLowerCase().includes(keyword) ||
+            (property.harga || '').toString().toLowerCase().includes(keyword) ||
+            (property.komisi || '').toString().toLowerCase().includes(keyword)
+        );
+
+    });
+
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+
+    if(page < 1) page = 1;
+    if(page > totalPages) page = totalPages;
+
+    currentPage = page;
+
+    renderProducts(filtered);
+
+    document
+        .getElementById('products')
+        ?.scrollIntoView({
+        behavior: 'auto',
+        block: 'start'
+    });
+
+}
+
+
+let propertyGalleryImages = [];
+let propertyGalleryIndex = 0;
+
+function normalizePropertyGalleryImages(property) {
+    const rawImages = Array.isArray(property?.images)
+        ? property.images
+        : (typeof property?.images === 'string'
+            ? (() => {
+                try {
+                    const parsed = JSON.parse(property.images);
+                    return Array.isArray(parsed) ? parsed : [parsed];
+                } catch (error) {
+                    return [property.images];
+                }
+            })()
+            : []);
+
+    const imageList = rawImages.filter(Boolean);
+    const fallback = property?.thumbnail ? [property.thumbnail] : [];
+
+    return (imageList.length ? imageList : fallback).filter(Boolean);
+}
+
+function renderPropertyGalleryThumbnails() {
+    const preview = document.getElementById('property-gallery-preview');
+    const total = propertyGalleryImages.length || 1;
+
+    if (!preview) return;
+
+    const sliceStart = Math.max(0, propertyGalleryIndex - 3);
+    const visibleIndices = [];
+    for (let i = sliceStart; i < total && visibleIndices.length < 4; i++) {
+        visibleIndices.push(i);
+    }
+
+    const remainingCount = Math.max(total - (sliceStart + visibleIndices.length), 0);
+
+    preview.innerHTML = visibleIndices.map(index => {
+        const isActive = index === propertyGalleryIndex;
+        const image = propertyGalleryImages[index];
+
+        return `
+            <button
+                type="button"
+                class="property-gallery-thumb ${isActive ? 'active' : ''}"
+                data-index="${index}"
+                style="background-image: url('${image}')"
+                aria-label="Lihat foto ${index + 1}"
+                title="Foto ${index + 1}"
+            ></button>
+        `;
+    }).join('');
+
+    if (remainingCount > 0) {
+        const nextIndex = Math.min(total - 1, sliceStart + visibleIndices.length);
+        preview.innerHTML += `
+            <button
+                type="button"
+                class="property-gallery-thumb property-gallery-thumb-more"
+                data-index="${nextIndex}"
+                style="--more-image: url('${propertyGalleryImages[nextIndex]}')"
+                aria-label="Lihat foto lainnya"
+                title="Lihat foto lainnya"
+            >
+                <span class="property-gallery-thumb-more-text">+${remainingCount}</span>
+            </button>
+        `;
+    }
+
+    preview.querySelectorAll('.property-gallery-thumb').forEach(button => {
+        button.addEventListener('click', () => {
+            const targetIndex = Number(button.dataset.index);
+            if (targetIndex >= 0 && targetIndex < propertyGalleryImages.length) {
+                propertyGalleryIndex = targetIndex;
+                updatePropertyGallery();
+            }
+        });
+    });
+}
+
+function updatePropertyGallery() {
+    const image = propertyGalleryImages[propertyGalleryIndex] || '/images/amrei.png';
+    const prevBtn = document.getElementById('property-gallery-prev');
+    const nextBtn = document.getElementById('property-gallery-next');
+    const counter = document.getElementById('property-gallery-counter');
+
+    document.getElementById('detail-property-foto').src = image;
+
+    const total = propertyGalleryImages.length || 1;
+    if (counter) {
+        counter.style.display = 'block';
+        counter.textContent = `${propertyGalleryIndex + 1} / ${total}`;
+    }
+
+    const hasMultiple = propertyGalleryImages.length > 1;
+    if (prevBtn) prevBtn.style.display = hasMultiple ? 'flex' : 'none';
+    if (nextBtn) nextBtn.style.display = hasMultiple ? 'flex' : 'none';
+
+    renderPropertyGalleryThumbnails();
+}
+
+function normalizePropertyDescriptionText(value) {
+    const text = String(value || 'Belum ada deskripsi.').trim();
+    if (!text) return 'Belum ada deskripsi.';
+    return text
+        .replace(/\r\n/g, '\n')
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .trim();
+}
+
+function formatPropertyDescriptionPreview(value) {
+    const normalizedText = normalizePropertyDescriptionText(value);
+    return normalizedText.length > 220
+        ? `${normalizedText.slice(0, 220).trim()}...`
+        : normalizedText;
+}
+
+function openPropertyDescriptionModal() {
+    const description = normalizePropertyDescriptionText(currentPropertyDescription);
+    $('property-description-content').innerHTML = description.replace(/\n/g, '<br>');
+    $('property-description-modal').classList.add('open');
+}
+
+function closePropertyDescriptionModal() {
+    $('property-description-modal')?.classList.remove('open');
+}
+
+function showPropertyDetail(id) {
+
+    const property = products.find(
+        p => String(p.id) === String(id)
+    );
+
+    if (!property) return;
+
+    currentPropertyDescription = property.deskripsi || 'Belum ada deskripsi.';
+    propertyGalleryImages = normalizePropertyGalleryImages(property);
+    propertyGalleryIndex = 0;
+    renderPropertyGalleryThumbnails();
+    updatePropertyGallery();
+
+    document.getElementById('detail-property-nama').textContent =
+        property.nama;
+
+    document.getElementById('detail-property-title').textContent =
+        property.nama;
+
+    document.getElementById('detail-property-tipe').textContent =
+        property.tipe || 'Properti';
+
+    document.getElementById('detail-property-lokasi').textContent =
+        property.lokasi || '-';
+
+    document.getElementById('detail-property-harga').textContent =
+        formatCurrencyDisplay(property.harga);
+
+    document.getElementById('detail-property-komisi').textContent =
+        formatCurrencyDisplay(property.komisi);
+
+    document.getElementById('detail-property-deskripsi').textContent =
+        formatPropertyDescriptionPreview(currentPropertyDescription);
+
+    const social =
+        document.getElementById('detail-property-social-container');
+    social.innerHTML = renderSocialLinks(property);
+
+    document
+        .getElementById('property-detail-modal')
+        .classList.add('open');
+
+}
+
+document.getElementById('property-gallery-prev')?.addEventListener('click', () => {
+    if (propertyGalleryImages.length <= 1) return;
+
+    propertyGalleryIndex =
+        (propertyGalleryIndex - 1 + propertyGalleryImages.length) % propertyGalleryImages.length;
+
+    updatePropertyGallery();
+});
+
+document.getElementById('property-gallery-next')?.addEventListener('click', () => {
+    if (propertyGalleryImages.length <= 1) return;
+
+    propertyGalleryIndex =
+        (propertyGalleryIndex + 1) % propertyGalleryImages.length;
+
+    updatePropertyGallery();
+});
+
+function updatePropertyImageLightbox() {
+    const image = document.getElementById('property-image-lightbox-image');
+    const counter = document.getElementById('property-image-lightbox-counter');
+    const total = propertyGalleryImages.length || 1;
+
+    if (image) image.src = propertyGalleryImages[propertyGalleryIndex] || '/images/amrei.png';
+    if (counter) counter.textContent = `${propertyGalleryIndex + 1} / ${total}`;
+}
+
+function openPropertyImageLightbox() {
+    if (!propertyGalleryImages.length) return;
+    updatePropertyImageLightbox();
+    const lightbox = document.getElementById('property-image-lightbox');
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+}
+
+function closePropertyImageLightbox() {
+    const lightbox = document.getElementById('property-image-lightbox');
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+}
+
+function changePropertyImageLightbox(direction) {
+    if (propertyGalleryImages.length <= 1) return;
+    propertyGalleryIndex = (propertyGalleryIndex + direction + propertyGalleryImages.length) % propertyGalleryImages.length;
+    updatePropertyGallery();
+    updatePropertyImageLightbox();
+}
+
+document.getElementById('detail-property-foto')?.addEventListener('click', openPropertyImageLightbox);
+document.querySelector('#property-image-lightbox .property-image-lightbox-close')?.addEventListener('click', closePropertyImageLightbox);
+document.querySelector('#property-image-lightbox .property-image-lightbox-prev')?.addEventListener('click', () => changePropertyImageLightbox(-1));
+document.querySelector('#property-image-lightbox .property-image-lightbox-next')?.addEventListener('click', () => changePropertyImageLightbox(1));
+document.getElementById('property-image-lightbox')?.addEventListener('click', event => {
+    if (event.target.id === 'property-image-lightbox') closePropertyImageLightbox();
+});
+document.addEventListener('keydown', event => {
+    const lightbox = document.getElementById('property-image-lightbox');
+    if (!lightbox?.classList.contains('open')) return;
+    if (event.key === 'Escape') closePropertyImageLightbox();
+    if (event.key === 'ArrowLeft') changePropertyImageLightbox(-1);
+    if (event.key === 'ArrowRight') changePropertyImageLightbox(1);
+});
+
+async function showArticle(id) {
+
+    const article = await api(`/api/artikel/${id}`);
+
+    document.getElementById('modal-thumbnail').src =
+        article.thumbnail || '/images/amrei.png';
+
+    document.getElementById('modal-category').textContent =
+        article.kategori || 'Artikel';
+
+    document.getElementById('article-popup-title').textContent =
+        article.judul || 'Artikel';
+
+    document.getElementById('modal-date').textContent =
+        article.created_at
+            ? new Date(article.created_at).toLocaleDateString('id-ID')
+            : '-';
+
+    const articleContent = document.getElementById('modal-content');
+    articleContent.innerHTML = article.isi || '-';
+    articleContent.querySelectorAll('a[href]').forEach(link => {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+    });
+
+    document.getElementById('articleModal').classList.add('open');
+
+}
+
+function closeArticle() {
+
+    document.getElementById('articleModal').classList.remove('open');
+
+}
+
+document.getElementById("articleModal").addEventListener("click", function(e) {
+
+    if (e.target === this) {
+        closeArticle();
+    }
+
+});
+
+
+$('property-search').addEventListener('input', function(){
+
+    currentPage = 1;
+
+    const keyword = this.value.toLowerCase();
+
+    const filtered = products.filter(p => {
+
+        return (
+            (p.nama || '').toLowerCase().includes(keyword) ||
+            (p.lokasi || '').toLowerCase().includes(keyword) ||
+            (p.tipe || '').toLowerCase().includes(keyword) ||
+            (p.harga || '').toString().toLowerCase().includes(keyword) ||
+            (p.komisi || '').toString().toLowerCase().includes(keyword)
+        );
+
+    });
+
+    renderProducts(filtered);
+
+});
+
+$('lead-search').addEventListener(
+    'input',
+    function(){
+
+        currentLeadPage = 1;
+
+        loadLeads(
+            1,
+            this.value.trim()
+        );
+
+    }
+);
+
+document
+    .getElementById('refresh-marketer-leads')
+    ?.addEventListener('click', () => {
+        currentLeadPage = 1;
+        loadLeads(1, $('lead-search').value.trim());
+    });
+
+
+    $('save-products').onclick = async () => {
+
+    const d = await api('/api/marketer/products', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            selected_products: selected
+        })
+    });
+
+    me = d.user;
+    updateStats();
+
+    alert('Pilihan properti berhasil disimpan.');
+
+};
+
+    async function loadLeads(page = 1, keyword = '') {
+
+    const result = await api(
+        `/api/marketer/leads?page=${page}&limit=50&search=${encodeURIComponent(keyword)}`
+    );
+
+    leads = result.data;
+
+    currentLeadPage = result.pagination.page;
+    totalLeadPages = result.pagination.totalPages;
+    totalLeads = result.pagination.total;
+
+    $('lead-stat').textContent = totalLeads;
+
+    const formatLeadDate = value => {
+        if (!value || value === '-') return '-';
+        const dateOnlyMatch = String(value).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        const date = dateOnlyMatch
+            ? new Date(
+                Number(dateOnlyMatch[1]),
+                Number(dateOnlyMatch[2]) - 1,
+                Number(dateOnlyMatch[3])
+            )
+            : new Date(value);
+        return Number.isNaN(date.getTime())
+            ? value
+            : date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                timeZone: 'Asia/Jakarta'
+            });
+    };
+
+    const formatLeadDateTime = value => {
+        if (!value || value === '-') return '-';
+
+        const date = new Date(value);
+        return Number.isNaN(date.getTime())
+            ? value
+            : `${date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                timeZone: 'Asia/Jakarta'
+            })}, ${date.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Jakarta'
+            })}`;
+    };
+
+    $('leads-body').innerHTML = leads.map(l => `
+        <tr>
+            <td>${l.nama}</td>
+            <td>${l.no_wa}</td>
+            <td>${l.email || '-'}</td>
+            <td>${formatLeadDate(l.tgl_lahir)}</td>
+            <td>${formatLeadDate(l.tanggal_pernikahan)}</td>
+            <td><span class="${l.jenis_kelamin === 'Laki-laki' ? 'gender-male' : l.jenis_kelamin === 'Perempuan' ? 'gender-female' : ''}">${l.jenis_kelamin || '-'}</span></td>
+            <td>${l.domisili || '-'}</td>
+            <td>${l.pekerjaan || '-'}</td>
+            <td>${String(l.customer_service || l.kategori || '-').trim().split(/\s+/)[0]}</td>
+            <td>
+                <span class="consumer-${String(l.jenis_konsumen || '').toLowerCase()}">
+                    ${l.jenis_konsumen || '-'}
+                </span>
+            </td>
+            <td>${l.property_name}</td>
+            <td>
+                <span class="lead-status-badge ${String(l.status || '').toLowerCase().replace(/\s+/g, '-')}">
+                    ${l.status || '-'}
+                </span>
+            </td>
+            <td>${formatLeadDateTime(l.created_at)}</td>
+            <td class="lead-actions">
+                <button type="button" class="btn secondary" onclick="editMarketerLead('${l.id}')"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                <button type="button" class="btn danger" onclick="deleteMarketerLead('${l.id}')"><i class="fa-solid fa-trash"></i> Hapus</button>
+            </td>
+        </tr>
+    `).join('') || `
+        <tr>
+            <td colspan="14">
+                Belum ada lead.
+            </td>
+        </tr>
+    `;
+
+    renderLeadPagination();
+
+    document
+        .getElementById('leads')
+        ?.scrollIntoView({
+            behavior: 'auto',
+            block: 'start'
+        });
+
+}
+
+function setMarketerLeadField(id, value) {
+    $(id).value = value ?? '';
+}
+
+window.editMarketerLead = id => {
+    const lead = leads.find(item => String(item.id) === String(id));
+    if (!lead) {
+        alert('Data lead tidak ditemukan. Silakan refresh terlebih dahulu.');
+        return;
+    }
+
+    setMarketerLeadField('marketer-lead-id', lead.id);
+    setMarketerLeadField('marketer-lead-nama', lead.nama);
+    setMarketerLeadField('marketer-lead-wa', lead.no_wa);
+    setMarketerLeadField('marketer-lead-email', lead.email);
+    setMarketerLeadField('marketer-lead-tgl-lahir', lead.tgl_lahir);
+    setMarketerLeadField('marketer-lead-tanggal-pernikahan', lead.tanggal_pernikahan);
+    setMarketerLeadField('marketer-lead-jenis-kelamin', lead.jenis_kelamin);
+    setMarketerLeadField('marketer-lead-domisili', lead.domisili);
+    setMarketerLeadField('marketer-lead-pekerjaan', lead.pekerjaan);
+    setMarketerLeadField('marketer-lead-jenis-konsumen', lead.jenis_konsumen);
+    setMarketerLeadField('marketer-lead-properti', lead.property_name);
+    setMarketerLeadField('marketer-lead-status', lead.status);
+    setMarketerLeadField('marketer-lead-keterangan', lead.keterangan);
+    $('marketer-lead-modal').classList.add('open');
+};
+
+window.deleteMarketerLead = async id => {
+    if (!confirm('Hapus customer/lead ini?')) return;
+    try {
+        await api('/api/marketer/leads/' + id, { method: 'DELETE' });
+        await loadLeads(currentLeadPage, $('lead-search').value.trim());
+    } catch (error) {
+        alert(error.message);
+    }
+};
+
+$('close-marketer-lead-modal').onclick = () => $('marketer-lead-modal').classList.remove('open');
+$('marketer-lead-form').onsubmit = async event => {
+    event.preventDefault();
+    const id = $('marketer-lead-id').value;
+    const value = fieldId => $(fieldId).value;
+    try {
+        await api('/api/marketer/leads/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nama: value('marketer-lead-nama'), no_wa: value('marketer-lead-wa'), email: value('marketer-lead-email'),
+                tgl_lahir: value('marketer-lead-tgl-lahir'), tanggal_pernikahan: value('marketer-lead-tanggal-pernikahan'),
+                jenis_kelamin: value('marketer-lead-jenis-kelamin'), domisili: value('marketer-lead-domisili'),
+                pekerjaan: value('marketer-lead-pekerjaan'), jenis_konsumen: value('marketer-lead-jenis-konsumen'),
+                property_name: value('marketer-lead-properti'), status: value('marketer-lead-status'),
+                keterangan: value('marketer-lead-keterangan')
+            })
+        });
+        $('marketer-lead-modal').classList.remove('open');
+        await loadLeads(currentLeadPage, $('lead-search').value.trim());
+        alert('Data lead berhasil diperbarui.');
+    } catch (error) {
+        alert(error.message);
+    }
+};
+
+function renderLeadPagination(){
+
+    if(totalLeadPages <= 1){
+
+        $('lead-pagination').innerHTML = '';
+        return;
+
+    }
+
+    let html = '';
+
+    html += `
+<button
+    class="property-page-btn"
+    ${currentLeadPage === 1 ? 'disabled' : ''}
+    onclick="loadLeads(1, document.getElementById('lead-search').value)">
+    ⏮
+</button>
+
+<button
+    class="property-page-btn"
+    ${currentLeadPage === 1 ? 'disabled' : ''}
+    onclick="loadLeads(${currentLeadPage - 1}, document.getElementById('lead-search').value)">
+    ◀
+</button>
+`;
+
+    const maxVisible = 5;
+
+    let startPage = Math.max(1, currentLeadPage - 2);
+    let endPage = Math.min(totalLeadPages, startPage + maxVisible - 1);
+
+    if(endPage - startPage < maxVisible - 1){
+
+        startPage = Math.max(
+            1,
+            endPage - maxVisible + 1
+        );
+
+    }
+
+    for(let i = startPage; i <= endPage; i++){
+
+        html += `
+<button
+    class="property-page-btn ${i === currentLeadPage ? 'active' : ''}"
+    onclick="loadLeads(${i}, document.getElementById('lead-search').value)">
+    ${i}
+</button>
+`;
+
+    }
+
+    html += `
+<button
+    class="property-page-btn"
+    ${currentLeadPage === totalLeadPages ? 'disabled' : ''}
+    onclick="loadLeads(${currentLeadPage + 1}, document.getElementById('lead-search').value)">
+    ▶
+</button>
+
+<button
+    class="property-page-btn"
+    ${currentLeadPage === totalLeadPages ? 'disabled' : ''}
+    onclick="loadLeads(${totalLeadPages}, document.getElementById('lead-search').value)">
+    ⏭
+</button>
+`;
+
+    $('lead-pagination').innerHTML = `
+<div class="property-page-row">
+
+    <div class="property-page-buttons">
+
+        ${html}
+
+    </div>
+
+    <div class="property-page-jump">
+
+        <span>Pindah ke Halaman</span>
+
+        <input
+            type="number"
+            id="lead-page-input"
+            min="1"
+            max="${totalLeadPages}"
+            placeholder="${currentLeadPage}"
+        >
+
+    </div>
+
+</div>
+`;
+
+    document
+        .getElementById('lead-page-input')
+        ?.addEventListener('keydown', e => {
+
+            if(e.key === 'Enter'){
+
+                jumpLeadPage();
+
+            }
+
+        });
+
+}
+
+
+function jumpLeadPage(){
+
+    const page = parseInt(
+        document.getElementById('lead-page-input').value
+    );
+
+    if(
+        isNaN(page) ||
+        page < 1 ||
+        page > totalLeadPages
+    ){
+        return;
+    }
+
+    loadLeads(
+        page,
+        document.getElementById('lead-search').value
+    );
+
+}
+
+
+    let currentArticlePage = 1;
+    let totalArticlePages = 1;
+
+async function loadArticles(page = 1, keyword = '', shouldScroll = true) {
+
+    const result = await api(
+        `/api/artikel?page=${page}&limit=30&search=${encodeURIComponent(keyword)}`
+    );
+
+    articles = result.data;
+
+    currentArticlePage = result.pagination.page;
+    totalArticlePages = result.pagination.totalPages;
+    totalArticles = result.pagination.total;
+
+    renderArticles();
+
+    if (shouldScroll) {
+        document
+        .getElementById('articles')
+        ?.scrollIntoView({
+            behavior: 'auto',
+            block: 'start'
+        });
+    }
+
+}
+
+   document.querySelectorAll('.nav button').forEach(b => {
+    b.onclick = () => {
+
+        sessionStorage.setItem('marketer-active-section', b.dataset.section);
+
+
+        // Ganti menu aktif
+        document.querySelectorAll('.nav button').forEach(btn =>
+            btn.classList.remove('active')
+        );
+        b.classList.add('active');
+
+        // Ganti section
+        document.querySelectorAll('.section').forEach(sec =>
+            sec.classList.remove('active')
+        );
+        $(b.dataset.section).classList.add('active');
+        if (b.dataset.section === 'articles') {
+
+            currentArticlePage = 1;
+            loadArticles(1);
+
+        }
+        if (b.dataset.section === 'blast') {
+            loadMarketerBlast().catch(error => {
+                $('marketer-blast-status').textContent = error.message;
+            });
+            loadMarketerGreeting().catch(error => {
+                $('marketer-birthday-list').textContent = error.message;
+            });
+            loadMarketerWaStatus().catch(error => {
+                $('marketer-wa-status').textContent = error.message;
+            });
+        }
+
+        // Ganti judul
+        $('title').textContent = {
+            overview: 'Dashboard Marketer',
+            chat: 'Chat AMREI Bot',
+            about: 'Tentang AMREI',
+            products: 'Produk AMREI',
+            articles: 'Artikel AMREI',
+            link: 'Link Referral',
+            leads: 'Daftar Leads',
+            blast: 'WhatsApp Blast'
+        }[b.dataset.section];
+    };
+});
+
+const dashboardLogo = document.getElementById('dashboard-logo');
+const openDashboard = () => document.querySelector('.dashboard-nav-link')?.click();
+dashboardLogo.addEventListener('click', openDashboard);
+dashboardLogo.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openDashboard();
+    }
+});
+
+document.querySelectorAll('.nav button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.body.classList.remove('mobile-menu-open');
+        const toggle = document.querySelector('.mobile-menu-toggle');
+        if (!toggle) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Buka menu navigasi');
+        toggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    });
+});
+
+async function loadMarketerBlast() {
+    const [leadData, productData, templateData] = await Promise.all([
+        api('/api/marketer/blast-customers'),
+        api('/api/marketer/products'),
+        api('/api/message-templates')
+    ]);
+    marketerBlastLeads = leadData;
+    marketerBlastProperties = productData.all_products.filter(property =>
+        (productData.selected_products || []).map(String).includes(String(property.id))
+    );
+    marketerBlastTemplates = templateData.templates || [];
+    $('marketer-blast-property').innerHTML = marketerBlastProperties.map(property =>
+        `<option value="${escapeHtml(property.id)}">${escapeHtml(property.nama)}</option>`
+    ).join('') || '<option value="">Belum ada properti dipilih</option>';
+    renderMarketerBlastTemplates();
+    renderMarketerBlastCustomers();
+}
+
+async function loadMarketerGreeting() {
+    const type = $('marketer-greeting-type').value;
+    const result = await api(`/api/marketer/greeting-preview?type=${type}`);
+    $('marketer-birthday-list').innerHTML = result.targets.length
+        ? result.targets.map(customer => `<div>${type === 'anniversary' ? '💍' : '🎂'} <b>${escapeHtml(customer.nama || '-')}</b> — ${escapeHtml(customer.no_wa || '-')}</div>`).join('')
+        : (type === 'anniversary' ? 'Tidak ada customer yang anniversary hari ini.' : 'Tidak ada customer yang ulang tahun hari ini.');
+}
+
+async function loadMarketerWaStatus() {
+    const status = await api('/api/marketer/wa-status');
+    $('marketer-wa-status').innerHTML = `
+        <span class="wa-status-item ${status.enabled ? 'wa-status-online' : 'wa-status-warning'}">${status.enabled ? '✓' : '⚠'} Enabled: ${status.enabled ? 'YA' : 'TIDAK'}</span>
+        <span class="wa-status-item ${status.ready ? 'wa-status-online' : 'wa-status-warning'}">${status.ready ? '●' : '○'} Ready: ${status.ready ? 'YA' : 'BELUM'}</span>
+        <span class="wa-status-item wa-status-queue">📋 Antrean: ${status.queue}</span>
+        <span class="wa-status-item wa-status-delay">⏱️ Jeda: ${status.delay_ms / 60000} menit</span>
+    `;
+    $('marketer-start-wa').style.display = status.ready ? 'none' : 'inline-flex';
+    $('marketer-logout-wa').style.display = status.ready ? 'inline-flex' : 'none';
+    const qrContainer = $('marketer-wa-qr-container');
+    const qrCode = $('marketer-wa-qr-code');
+    const qrStatus = $('marketer-wa-qr-status');
+    if (status.ready) {
+        qrContainer.style.display = 'none';
+        qrCode.innerHTML = '';
+    } else {
+        qrContainer.style.display = 'block';
+        if (status.qr) {
+            qrCode.innerHTML = '<img src="' + status.qr + '" alt="QR WhatsApp Marketer" style="width:220px;height:220px;">';
+            qrStatus.textContent = 'Silakan scan QR Code untuk menggunakan WhatsApp.';
+        } else {
+            qrContainer.style.display = 'none';
+            qrCode.innerHTML = '';
+        }
+    }
+}
+
+setInterval(() => {
+    if (document.getElementById('blast')?.classList.contains('active')) {
+        loadMarketerWaStatus().catch(() => {});
+    }
+}, 2000);
+
+function renderMarketerBlastTemplates() {
+    const list = $('marketer-template-list');
+    const personalTemplates = marketerBlastTemplates.filter(template => template.scope === 'marketer');
+    const newTemplateButton = $('marketer-new-template');
+    const templateLimitReached = personalTemplates.length >= 10;
+    newTemplateButton.disabled = templateLimitReached;
+    newTemplateButton.title = templateLimitReached
+        ? 'Maksimal 10 pesan custom. Hapus salah satu untuk membuat pesan baru.'
+        : 'Buat pesan custom';
+    $('marketer-blast-status').textContent = templateLimitReached
+        ? 'Maksimal 10 pesan custom. Hapus salah satu untuk membuat pesan baru.'
+        : '';
+    list.innerHTML = personalTemplates.length
+        ? personalTemplates.map(template => `<div class="blast-template-item"><strong>${escapeHtml(template.title)}</strong><div class="blast-template-actions"><button type="button" class="btn secondary" data-edit-marketer-template="${template.id}"><i class="fa-solid fa-pen"></i> Edit</button><button type="button" class="btn danger" data-delete-marketer-template="${template.id}"><i class="fa-solid fa-trash"></i> Hapus</button></div></div>`).join('')
+        : '<p class="muted">Belum ada template pribadi.</p>';
+}
+
+function renderMarketerBlastCustomers() {
+    const keyword = $('marketer-customer-search').value.trim().toLowerCase();
+    const visible = marketerBlastLeads.filter(lead =>
+        !keyword || `${lead.nama} ${lead.no_wa}`.toLowerCase().includes(keyword)
+    );
+    $('marketer-blast-customers').innerHTML = visible.length ? visible.map(lead => `
+        <label class="check"><input type="checkbox" name="marketer-blast-target" value="${escapeHtml(lead.no_wa)}"><span>${escapeHtml(lead.nama || '-')}<br><small>${escapeHtml(lead.no_wa)}</small></span></label>
+    `).join('') : '<p class="muted">Belum ada lead yang sesuai.</p>';
+    updateMarketerBlastCount();
+}
+
+function getMarketerBlastProperty() {
+    return marketerBlastProperties.find(property => String(property.id) === String($('marketer-blast-property').value));
+}
+
+function getMarketerSystemMessage() {
+    const property = getMarketerBlastProperty();
+    if (!property) return '';
+    const links = property.link_sosmed && typeof property.link_sosmed === 'string'
+        ? (() => { try { return JSON.parse(property.link_sosmed); } catch (_error) { return {}; } })()
+        : property.link_sosmed || {};
+    const socialLinks = Object.entries({ Instagram: links.instagram, Tiktok: links.tiktok, Facebook: links.facebook, Youtube: links.youtube, Maps: links.maps })
+        .filter(([, value]) => value).map(([label, value]) => `• ${label}: ${value}`).join('\n\n');
+    return `*${property.nama || ''}*\n\n*Lokasi*\n${property.lokasi || '-'}\n\n*Harga*\n${property.harga || '-'}\n\n*Deskripsi*\n${property.deskripsi || '-'}${socialLinks ? `\n\nLihat postingan media sosial properti tersebut:\n\n${socialLinks}` : ''}`;
+}
+
+function fillMarketerBlastTemplate(template) {
+    const property = getMarketerBlastProperty();
+    const sampleLead = marketerBlastLeads.find(lead => document.querySelector(`input[name="marketer-blast-target"][value="${CSS.escape(lead.no_wa)}"]`)?.checked) || marketerBlastLeads[0];
+    const links = property?.link_sosmed && typeof property.link_sosmed === 'string' ? (() => { try { return JSON.parse(property.link_sosmed); } catch (_error) { return {}; } })() : property?.link_sosmed || {};
+    const linkText = Object.entries({ Instagram: links.instagram, Tiktok: links.tiktok, Facebook: links.facebook, Youtube: links.youtube, Maps: links.maps }).filter(([, value]) => value).map(([label, value]) => `• ${label}: ${value}`).join('\n\n') || '-';
+    return String(template || '').replace(/\{\{\s*(nama_customer|name|nama_produk|harga_produk|link_produk)\s*\}\}/gi, (_match, key) => ({
+        nama_customer: sampleLead?.nama || 'Nama Customer', name: sampleLead?.nama || 'Nama Customer', nama_produk: property?.nama || '', harga_produk: property?.harga || '-', link_produk: linkText
+    }[key.toLowerCase()] || ''));
+}
+
+const marketerTokenLabels = {
+    '{{nama_customer}}': 'Nama Customer',
+    '{{nama_produk}}': 'Nama Properti',
+    '{{harga_produk}}': 'Harga Properti',
+    '{{link_produk}}': 'Link Properti'
+};
+
+function enableMarketerPlaceholderDeletion(editor) {
+    editor.addEventListener('keydown', event => {
+        if (event.key !== 'Backspace' && event.key !== 'Delete') return;
+        const selection = window.getSelection();
+        if (!selection.rangeCount || !selection.isCollapsed) return;
+
+        const range = selection.getRangeAt(0);
+        let container = range.startContainer;
+        let offset = range.startOffset;
+        if (container.nodeType === Node.TEXT_NODE) {
+            if (event.key === 'Backspace' && offset !== 0) return;
+            if (event.key === 'Delete' && offset !== container.nodeValue.length) return;
+            offset = Array.from(container.parentNode.childNodes).indexOf(container) + (event.key === 'Backspace' ? 0 : 1);
+            container = container.parentNode;
+        }
+        if (container !== editor) return;
+
+        const index = event.key === 'Backspace' ? offset - 1 : offset;
+        const chip = editor.childNodes[index];
+        if (!chip?.classList?.contains('template-token-chip')) return;
+        event.preventDefault();
+        chip.remove();
+        const caret = Math.max(0, Math.min(index, editor.childNodes.length));
+        const nextRange = document.createRange();
+        nextRange.setStart(editor, caret);
+        nextRange.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(nextRange);
+        editor.focus();
+        editor.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+}
+
+['marketer-greeting-editor', 'marketer-product-message', 'marketer-template-message-editor']
+    .forEach(id => enableMarketerPlaceholderDeletion($(id)));
+
+document.querySelectorAll('[data-marketer-product-token]').forEach(button => {
+    button.addEventListener('click', () => {
+        insertMarketerTemplateToken(button.dataset.marketerProductToken, button.textContent.trim());
+    });
+});
+
+function getMarketerBlastMessage() {
+    const editor = $('marketer-product-message');
+    const clone = editor.cloneNode(true);
+    clone.querySelectorAll('.template-token-chip').forEach(chip => chip.replaceWith(chip.dataset.token));
+    return clone.textContent || '';
+}
+
+function setMarketerBlastMessage(message) {
+    const editor = $('marketer-product-message');
+    const tokenPattern = /\{\{\s*(nama_customer|name|nama_produk|harga_produk|link_produk)\s*\}\}/gi;
+    editor.innerHTML = escapeHtml(String(message || '')).replace(tokenPattern, match => {
+        const normalizedToken = match.replace(/\s/g, '').toLowerCase();
+        const token = normalizedToken === '{{name}}' ? '{{nama_customer}}' : normalizedToken;
+        return `<span class="template-token-chip" contenteditable="false" data-token="${token}">${marketerTokenLabels[token] || token}</span>`;
+    });
+}
+
+function insertMarketerTemplateToken(token, label) {
+    const editor = $('marketer-product-message');
+    editor.focus();
+    const selection = window.getSelection();
+    if (editor._savedRange) {
+        selection.removeAllRanges();
+        selection.addRange(editor._savedRange);
+    }
+    if (!selection.rangeCount || !editor.contains(selection.anchorNode)) {
+        const range = document.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    const chip = document.createElement('span');
+    chip.className = 'template-token-chip';
+    chip.contentEditable = 'false';
+    chip.dataset.token = token;
+    chip.textContent = label;
+    range.insertNode(chip);
+    range.setStartAfter(chip);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    editor._savedRange = range.cloneRange();
+    editor.dataset.templateId = 'edited';
+}
+
+['click', 'keyup', 'mouseup'].forEach(eventName => {
+    $('marketer-product-message').addEventListener(eventName, () => {
+        const editor = $('marketer-product-message');
+        const selection = window.getSelection();
+        if (selection.rangeCount && editor.contains(selection.anchorNode)) {
+            editor._savedRange = selection.getRangeAt(0).cloneRange();
+        }
+    });
+});
+
+function updateMarketerBlastCount() {
+    const count = document.querySelectorAll('input[name="marketer-blast-target"]:checked').length;
+    $('marketer-selected-customer-count').textContent = count ? `${count} customer dipilih` : 'Belum ada customer dipilih';
+    $('marketer-product-blast').disabled = !getMarketerBlastProperty();
+}
+
+$('marketer-customer-search').addEventListener('input', renderMarketerBlastCustomers);
+$('marketer-blast-customers').addEventListener('change', updateMarketerBlastCount);
+$('marketer-start-wa').onclick = async () => {
+    try {
+        await api('/api/marketer/wa-start', { method: 'POST' });
+        await loadMarketerWaStatus();
+        let hasQr = false;
+        const interval = setInterval(async () => {
+            const status = await api('/api/marketer/wa-status');
+            await loadMarketerWaStatus();
+            if (status.qr) hasQr = true;
+            if (status.ready || (hasQr && !status.qr)) clearInterval(interval);
+        }, 2000);
+    } catch (error) {
+        alert(error.message);
+    }
+};
+$('marketer-logout-wa').onclick = async () => {
+    if (!confirm('Yakin ingin logout dari WhatsApp marketer?')) return;
+    try {
+        await api('/api/marketer/wa-logout', { method: 'POST' });
+        alert('Berhasil logout dari WhatsApp marketer.');
+        await loadMarketerWaStatus();
+    } catch (error) {
+        alert(error.message);
+    }
+};
+$('marketer-greeting-type').addEventListener('change', event => {
+    const anniversary = event.target.value === 'anniversary';
+    $('marketer-birthday-box').querySelector('.birthday-title strong').textContent = anniversary ? 'Anniversary Hari Ini' : 'Ulang Tahun Hari Ini';
+    $('marketer-birthday-blast').innerHTML = anniversary
+        ? '<i class="fa-solid fa-ring"></i> Kirim Ucapan Anniversary'
+        : '<i class="fa-solid fa-gift"></i> Kirim Ucapan Ultah';
+    loadMarketerGreeting().catch(error => { $('marketer-birthday-list').textContent = error.message; });
+});
+
+function showMarketerBlastNotice(message, title = 'Pesan Terkirim', isError = false) {
+    $('marketer-blast-success-title').textContent = title;
+    $('marketer-blast-success-message').textContent = message || 'Pesan berhasil masuk ke antrean WhatsApp.';
+    $('marketer-blast-success-icon').textContent = isError ? '!' : '✓';
+    $('marketer-blast-success-icon').classList.toggle('is-error', isError);
+    $('marketer-blast-success-modal').classList.add('open');
+    $('marketer-blast-success-modal').setAttribute('aria-hidden', 'false');
+}
+
+$('marketer-blast-success-close').onclick = () => {
+    $('marketer-blast-success-modal').classList.remove('open');
+    $('marketer-blast-success-modal').setAttribute('aria-hidden', 'true');
+};
+
+$('marketer-birthday-blast').onclick = async () => {
+    try {
+        const type = $('marketer-greeting-type').value;
+        const result = await api(`/api/marketer/greeting-preview?type=${type}`);
+        if (!result.targets.length) return showMarketerBlastNotice(type === 'anniversary' ? 'Tidak ada customer yang anniversary hari ini.' : 'Tidak ada customer yang ulang tahun hari ini.', 'Tidak Ada Penerima', true);
+        $('marketer-greeting-title').textContent = type === 'anniversary' ? 'Preview Pesan Ucapan Anniversary' : 'Preview Ucapan Ulang Tahun';
+        renderMarketerGreetingEditor(result.template || '');
+        $('marketer-greeting-send-status').textContent = '';
+        $('marketer-greeting-send').dataset.type = type;
+        $('marketer-greeting-modal').classList.add('open');
+    } catch (error) {
+        showMarketerBlastNotice(error.message, 'Gagal Menyiapkan Blast', true);
+    }
+};
+
+function getMarketerGreetingMessage() {
+    const clone = $('marketer-greeting-editor').cloneNode(true);
+    clone.querySelectorAll('.template-token-chip').forEach(chip => chip.replaceWith(chip.dataset.token));
+    return String(clone.innerText || clone.textContent || '')
+        .replace(/\u00a0/g, ' ')
+        .replace(/\r\n/g, '\n')
+        .trim();
+}
+
+function renderMarketerGreetingEditor(message) {
+    $('marketer-greeting-editor').innerHTML = escapeHtml(message || '')
+        .replace(/\{\{\s*(name|nama_customer)\s*\}\}/gi, '<span class="template-token-chip" contenteditable="false" data-token="{{nama_customer}}">Nama Customer</span>');
+}
+
+$('marketer-greeting-name-token').onclick = () => {
+    insertGreetingToken($('marketer-greeting-editor'));
+};
+
+function insertGreetingToken(editor) {
+    editor.focus();
+    const selection = window.getSelection();
+    if (!selection || !selection.rangeCount || !editor.contains(selection.anchorNode)) {
+        const range = document.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    const chip = document.createElement('span');
+    chip.className = 'template-token-chip';
+    chip.contentEditable = 'false';
+    chip.dataset.token = '{{nama_customer}}';
+    chip.textContent = 'Nama Customer';
+    range.insertNode(chip);
+    range.setStartAfter(chip);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+$('marketer-greeting-send').onclick = async event => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    try {
+        const sent = await api('/api/marketer/broadcast-ultah', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: button.dataset.type, messageTemplate: getMarketerGreetingMessage() })
+        });
+        $('marketer-greeting-modal').classList.remove('open');
+        showMarketerBlastNotice(sent.message || 'Pesan ucapan berhasil masuk ke antrean WhatsApp.');
+        await loadMarketerWaStatus();
+    } catch (error) {
+        showMarketerBlastNotice(error.message, 'Pengiriman Gagal', true);
+    } finally {
+        button.disabled = false;
+    }
+};
+function syncMarketerTemplateMessage() {
+    const editor = $('marketer-template-message-editor');
+    const clone = editor.cloneNode(true);
+    clone.querySelectorAll('.template-token-chip').forEach(chip => chip.replaceWith(chip.dataset.token));
+    $('marketer-template-message').value = clone.textContent || '';
+}
+
+function renderMarketerTemplateEditor(message = '') {
+    const editor = $('marketer-template-message-editor');
+    const tokenPattern = /\{\{\s*(nama_customer|name|nama_produk|harga_produk|link_produk)\s*\}\}/gi;
+    editor.innerHTML = escapeHtml(String(message || '')).replace(tokenPattern, match => {
+        const normalizedToken = match.replace(/\s/g, '').toLowerCase();
+        const token = normalizedToken === '{{name}}' ? '{{nama_customer}}' : normalizedToken;
+        return `<span class="template-token-chip" contenteditable="false" data-token="${token}">${marketerTokenLabels[token] || token}</span>`;
+    });
+    syncMarketerTemplateMessage();
+}
+
+function insertMarketerModalToken(token, label) {
+    const editor = $('marketer-template-message-editor');
+    editor.focus();
+    const selection = window.getSelection();
+    if (!selection.rangeCount || !editor.contains(selection.anchorNode)) {
+        const range = document.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    const chip = document.createElement('span');
+    chip.className = 'template-token-chip';
+    chip.contentEditable = 'false';
+    chip.dataset.token = token;
+    chip.textContent = label;
+    range.insertNode(chip);
+    range.setStartAfter(chip);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    syncMarketerTemplateMessage();
+}
+
+document.querySelectorAll('[data-marketer-modal-token]').forEach(button => {
+    button.addEventListener('click', () => insertMarketerModalToken(button.dataset.marketerModalToken, button.textContent.trim()));
+});
+$('marketer-template-message-editor').addEventListener('input', syncMarketerTemplateMessage);
+
+function openMarketerTemplateModal(template = null) {
+    editingMarketerTemplateId = template?.id || null;
+    $('marketer-template-modal-title').textContent = template ? 'Edit Pesan Custom' : 'Buat Pesan Custom';
+    $('marketer-template-title').value = template?.title || '';
+    renderMarketerTemplateEditor(template?.message || '');
+    $('marketer-template-modal-status').textContent = '';
+    $('marketer-template-modal').classList.add('open');
+    $('marketer-template-title').focus();
+}
+
+$('marketer-new-template').onclick = () => openMarketerTemplateModal();
+$('marketer-template-save').onclick = async () => {
+    const status = $('marketer-template-modal-status');
+    status.textContent = '';
+    try {
+        const isEditing = Boolean(editingMarketerTemplateId);
+        const result = await api(isEditing
+            ? `/api/marketer/message-templates/${editingMarketerTemplateId}`
+            : '/api/marketer/message-templates', {
+                method: isEditing ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: $('marketer-template-title').value, message: $('marketer-template-message').value })
+            });
+        marketerBlastTemplates = isEditing
+            ? marketerBlastTemplates.map(template => String(template.id) === String(editingMarketerTemplateId) ? result.template : template)
+            : [...marketerBlastTemplates, result.template];
+        renderMarketerBlastTemplates();
+        $('marketer-template-modal').classList.remove('open');
+        editingMarketerTemplateId = null;
+    } catch (error) { status.textContent = error.message; }
+};
+
+$('marketer-template-list').addEventListener('click', async event => {
+    const editButton = event.target.closest('[data-edit-marketer-template]');
+    if (editButton) {
+        const template = marketerBlastTemplates.find(item => String(item.id) === String(editButton.dataset.editMarketerTemplate) && item.scope === 'marketer');
+        if (template) openMarketerTemplateModal(template);
+        return;
+    }
+    const deleteButton = event.target.closest('[data-delete-marketer-template]');
+    if (!deleteButton) return;
+    const template = marketerBlastTemplates.find(item => String(item.id) === String(deleteButton.dataset.deleteMarketerTemplate) && item.scope === 'marketer');
+    if (!template || !confirm(`Hapus template "${template.title}"?`)) return;
+    try {
+        await api(`/api/message-templates/${template.id}`, { method: 'DELETE' });
+        marketerBlastTemplates = marketerBlastTemplates.filter(item => String(item.id) !== String(template.id));
+        renderMarketerBlastTemplates();
+    } catch (error) { $('marketer-blast-status').textContent = error.message; }
+});
+$('marketer-product-blast').onclick = async () => {
+    const targets = [...document.querySelectorAll('input[name="marketer-blast-target"]:checked')].map(input => input.value);
+    if (!targets.length) return showMarketerBlastNotice('Pilih customer terlebih dahulu.', 'Customer Belum Dipilih', true);
+    try {
+        const property = await api(`/api/marketer/product-preview/${$('marketer-blast-property').value}`);
+        const systemMessage = getMarketerSystemMessage();
+        window.currentMarketerBlastProperty = property;
+        $('marketer-product-message').dataset.systemMessage = systemMessage;
+        $('marketer-product-template').innerHTML = `<option value="system">Pesan Sistem</option>${marketerBlastTemplates.map(template => `<option value="${template.id}">${template.scope === 'admin' ? 'Admin' : 'Saya'}: ${escapeHtml(template.title)}</option>`).join('')}`;
+        $('marketer-product-template').value = 'system';
+        setMarketerBlastMessage(systemMessage);
+        $('marketer-product-photos').innerHTML = (property.images || []).length
+            ? property.images.map((image, index) => `<button class="blast-product-photo is-selected" type="button" data-marketer-image="${escapeHtml(image)}" aria-pressed="true"><img src="${escapeHtml(image)}" alt="Foto properti ${index + 1}" onerror="this.style.opacity='.35'"><span>Foto ${index + 1}</span></button>`).join('')
+            : '<p class="muted">Properti ini belum memiliki foto.</p>';
+        updateMarketerPhotoCount();
+        $('marketer-product-send-status').textContent = '';
+        $('marketer-product-send').dataset.propertyId = $('marketer-blast-property').value;
+        $('marketer-product-send').dataset.targets = JSON.stringify(targets);
+        $('marketer-product-modal').classList.add('open');
+    } catch (error) { showMarketerBlastNotice(error.message, 'Gagal Menyiapkan Blast', true); }
+};
+
+$( 'marketer-product-template').addEventListener('change', event => {
+    const template = marketerBlastTemplates.find(item => String(item.id) === String(event.target.value));
+    setMarketerBlastMessage(event.target.value === 'system' ? $('marketer-product-message').dataset.systemMessage || '' : template?.message || '');
+});
+
+function updateMarketerPhotoCount() {
+    const total = document.querySelectorAll('#marketer-product-photos .blast-product-photo').length;
+    const selected = document.querySelectorAll('#marketer-product-photos .blast-product-photo.is-selected').length;
+    $('marketer-photo-count').textContent = `${selected} dari ${total} foto terpilih`;
+}
+
+$('marketer-product-photos').addEventListener('click', event => {
+    const photo = event.target.closest('.blast-product-photo');
+    if (!photo) return;
+    photo.classList.toggle('is-selected');
+    photo.setAttribute('aria-pressed', photo.classList.contains('is-selected') ? 'true' : 'false');
+    updateMarketerPhotoCount();
+});
+
+$('marketer-product-send').onclick = async () => {
+    const button = $('marketer-product-send');
+    button.disabled = true;
+    try {
+        const targets = JSON.parse(button.dataset.targets || '[]');
+        const selectedImages = [...document.querySelectorAll('#marketer-product-photos .blast-product-photo.is-selected')].map(photo => photo.dataset.marketerImage);
+        const data = await api('/api/marketer/broadcast-produk', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ propertyId: button.dataset.propertyId, targetCustomers: targets, message: getMarketerBlastMessage(), selectedImages }) });
+        $('marketer-product-modal').classList.remove('open');
+        showMarketerBlastNotice(data.message || 'Pesan produk berhasil masuk ke antrean WhatsApp.');
+    } catch (error) { showMarketerBlastNotice(error.message, 'Pengiriman Gagal', true); }
+    finally { button.disabled = false; }
+};
+
+    $('logout').onclick = async () => {
+            sessionStorage.removeItem('marketer-active-section');
+      await fetch('/api/logout', { method: 'POST' });
+            location.replace('/index.html');
+    };
+
+    $('chat-form').onsubmit = async e => {
+      e.preventDefault();
+      const text = $('chat-input').value.trim();
+      if (!text) return;
+      
+      append('user', text);
+      $('chat-input').value = '';
+
+      const d = await api('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ history: [{ role: 'user', parts: [{ text }] }] })
+      });
+      append('bot', d.reply);
+    };
+
+    function append(role, text) {
+      const x = document.createElement('div');
+      x.className = 'bubble ' + role;
+        const message = String(text || '').replace(/\*+/g, '');
+        x.textContent = role === 'bot'
+          ? message.replace(/\s*•\s*/g, '\n\n• ')
+          : message;
+      $('messages').appendChild(x);
+      $('messages').scrollTop = $('messages').scrollHeight;
+    }
+
+
+    document
+    .querySelectorAll('[data-close]')
+    .forEach(btn => {
+
+        btn.onclick = () => {
+
+            document
+                .getElementById(btn.dataset.close)
+                .classList.remove('open');
+
+        };
+
+    });
+
+document
+    .getElementById('property-detail-modal')
+    .addEventListener('click', function(e){
+
+        if(e.target === this){
+
+            this.classList.remove('open');
+
+        }
+
+    });
+
+    $('article-search').addEventListener('input', function () {
+
+    currentArticlePage = 1;
+
+    loadArticles(
+        1,
+        this.value.trim(),
+        false
+    );
+
+});
+
+
+    init();
+
+
+    
+  </script>
+</body>
+</html>

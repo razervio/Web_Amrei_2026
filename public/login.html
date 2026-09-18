@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
+  <title>Login AMREI</title>
+  <link rel="icon" type="image/svg+xml" href="/images/amrei-favicon-teal.svg?v=2">
+  <link rel="stylesheet" href="style.css?v=20260924">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="auth-page">
+
+  <div class="auth-background">
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+    <div class="bg-circle circle-three"></div>
+  </div>
+
+  <div class="auth-container">
+
+    <div class="auth-card">
+
+      <div class="auth-brand">
+        <div class="logo-wrapper">
+          <img src="/images/amrei.png" alt="Logo AMREI">
+        </div>
+
+        <div class="brand-text">
+          <span>AMREI</span>
+          <small>Property Management</small>
+        </div>
+      </div>
+
+      <div class="auth-heading">
+        <h1>Hai, Selamat Datang 👋</h1>
+        <p>Silakan masuk untuk melanjutkan ke dashboard Anda</p>
+      </div>
+
+      <form id="login-form">
+
+        <div class="input-group">
+          <label for="username">Username</label>
+
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input
+              id="username"
+              required
+              autocomplete="username"
+              placeholder="Masukkan username"
+            >
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+
+            <input
+              id="password"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="Masukkan password"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="toggle-password"
+              aria-label="Tampilkan password"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <button class="login-button" type="submit">
+          <span>Masuk ke Portal</span>
+          <span class="login-arrow">→</span>
+        </button>
+
+        <div id="error" class="error"></div>
+
+      </form>
+
+      <div class="auth-footer">
+        © 2026 AMREI · Property Management System
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const error = document.getElementById('error');
+
+  error.textContent = '';
+
+  try {
+
+    const r = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value
+      })
+    });
+
+    const d = await r.json();
+
+    if (!r.ok) {
+      throw new Error(d.message);
+    }
+
+    location.replace(d.redirectUrl);
+
+  } catch (err) {
+
+    error.textContent = err.message || 'Login gagal';
+
+  }
+});
+
+
+document.getElementById('toggle-password').addEventListener('click', () => {
+
+  const passwordInput = document.getElementById('password');
+  const toggleButton = document.getElementById('toggle-password');
+
+  if (passwordInput.type === 'password') {
+
+    passwordInput.type = 'text';
+    toggleButton.textContent = '🙈';
+
+  } else {
+
+    passwordInput.type = 'password';
+    toggleButton.textContent = '👁';
+
+  }
+
+});
+</script>
+
+</body>
+</html>

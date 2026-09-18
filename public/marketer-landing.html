@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
+
+  <title>AMREI - Marketer</title>
+    <link rel="icon" type="image/svg+xml" href="/images/amrei-favicon-teal.svg?v=2">
+
+    <link rel="stylesheet" href="/style.css?v=20260924">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+    <style>
+        .landing-nav-header {
+            position: relative;
+            top: auto;
+            left: auto;
+            right: auto;
+            z-index: 30;
+            width: calc(100% - 40px);
+            margin: 16px auto 0;
+            padding: 0 22px;
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            border: 4px solid #fff;
+            border-radius: 56px;
+            background: #195887;
+            box-shadow: 0 18px 36px rgba(15, 23, 42, .18);
+        }
+        .landing-nav-brand { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 800; font-size: 1.2rem; }
+        .landing-nav-brand img { width: 52px; height: 52px; object-fit: contain; filter: brightness(0) invert(1); }
+        .landing-nav-links { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; }
+        .landing-nav-link { border: 0; border-bottom: 3px solid transparent; padding: 14px 12px; background: transparent; color: #dcecff; font-weight: 800; cursor: pointer; }
+        .landing-nav-link.active, .landing-nav-link:hover { color: #fff; border-bottom-color: #13d7d7; }
+        .landing-nav-link i { color: #13d7d7; margin-right: 7px; }
+        .landing-menu-toggle { display: none; width: 42px; height: 42px; flex: 0 0 42px; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.35); border-radius: 10px; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; }
+        .landing-panel { display: none; }
+        .landing-panel.active { display: block; }
+        .landing-hero { margin-bottom: 24px; }
+        .landing-about-active .landing-hero { display: none; }
+        .landing-about-active #about { width: 100vw; margin-left: calc((100% - 100vw) / 2); margin-right: calc((100% - 100vw) / 2); }
+        .landing-about-active #about .about-hero { margin-left: 0; margin-right: 0; }
+        .landing-hero h1 { max-width: 680px; margin: 16px 0 20px; font-size: clamp(3rem, 5vw, 4.5rem) !important; line-height: 1.05; }
+        .landing-hero p { max-width: 620px; margin: 0; line-height: 1.7; }
+        .landing-panel-inner { width: min(1200px, calc(100% - 32px)); margin: 0 auto; padding: 22px 0 64px; }
+        .landing-panel-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+        .landing-panel-heading h2 { margin: 0; color: #123b68; }
+        .landing-panel-heading p { margin: 0; color: #64748b; }
+        .landing-search { width: 100%; margin-bottom: 22px; padding: 14px 18px; border: 1px solid #dbe5ef; border-radius: 12px; background: #fff; color: #123b68; }
+        .landing-pagination { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 24px; flex-wrap: wrap; }
+        .landing-page-btn { border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; background: #fff; color: #123b68; cursor: pointer; }
+        .landing-page-btn.active, .landing-page-btn:hover { background: #123b68; color: #fff; }
+        .landing-page-buttons { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .landing-page-btn { min-width: 36px; height: 36px; border: 0; padding: 0 10px; background: #f1f5f9; font-weight: 600; transition: .2s; }
+        .landing-page-btn:hover { background: #e2e8f0; }
+        .landing-page-btn.active { background: #0ea5e9; color: #fff; }
+        .landing-page-btn:disabled { opacity: .45; cursor: not-allowed; }
+        .landing-page-jump { display: flex; align-items: center; gap: 10px; }
+        .landing-page-jump input { width: 60px; height: 36px; text-align: center; border: 1px solid #d1d5db; border-radius: 8px; }
+        .landing-article-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+        .landing-article-grid .article-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden; box-shadow: 0 18px 45px rgba(15, 23, 42, .08); cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+        .landing-article-grid .article-card:hover { transform: translateY(-4px); box-shadow: 0 22px 35px rgba(15, 23, 42, .12); }
+        .landing-article-grid .article-image { height: 300px; overflow: hidden; background: #dfeaf6; }
+        .landing-article-grid .article-image img { width: 100%; height: 100%; object-fit: cover; }
+        .landing-article-grid .card-body { padding: 18px 16px 16px; }
+        .landing-article-grid .tag { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #e0f2fe; color: #075985; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+        .landing-article-grid .article-card h4 { margin: 14px 0 10px; color: #044277; font-size: 1.35rem; line-height: 1.3; }
+        .landing-article-grid .article-meta { min-height: 68px; color: #64748b; font-size: .9rem; line-height: 1.5; }
+        .landing-article-grid .article-actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .landing-article-grid .mini-btn { border: 0; border-radius: 10px; padding: 10px 12px; background: #1d4ed8; color: #fff; font-weight: 700; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+        .landing-article-grid .mini-btn:hover { transform: translateY(-2px); background: #1742b8; box-shadow: 0 8px 16px rgba(15, 23, 42, .16); }
+        .landing-about-content { overflow: hidden; font-family: "Poppins", sans-serif; }
+        .landing-about-content .about-hero h2 { font-size: 40px; }
+        .landing-about-content .about-hero h4 { font-size: 20px; }
+        .landing-about-content .about-hero p { font-size: 17px; line-height: 1.8; }
+        .landing-about-content .about-card h3,
+        .landing-about-content .about-values h2,
+        .landing-about-content .about-learning h2,
+        .landing-about-content .about-activities h2 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 600;
+            line-height: 1.1;
+        }
+        .landing-about-content .about-card p,
+        .landing-about-content .about-card li,
+        .landing-about-content .about-values p,
+        .landing-about-content .about-learning p,
+        .landing-about-content .about-activities p { font-size: 15px; line-height: 1.8; }
+        .landing-about-content .training-content h2 { font-size: clamp(28px, 4vw, 46px); }
+        .landing-about-content .training-lead { font-size: 17px; line-height: 1.6; }
+        .landing-about-content .training-description { font-size: 14px; line-height: 1.8; }
+        .landing-about-content .training-detail strong,
+        .landing-about-content .training-contact strong { font-size: 14px; }
+        .landing-about-content .training-contact-link { color: inherit; text-decoration: none; }
+        .landing-about-content .training-contact-link:hover { color: #14afbd; text-decoration: underline; }
+        @media (max-width: 760px) { .landing-nav-header { width: calc(100% - 24px); margin-top: 10px; padding: 10px 14px; min-height: 72px; flex-wrap: wrap; gap: 8px 10px; border-width: 3px; border-radius: 30px; } .landing-nav-brand { min-height: 50px; } .landing-nav-brand img { width: 46px; height: 46px; } .landing-menu-toggle { display: inline-flex; margin-left: auto; } .landing-header-marketer { display: none; } .landing-nav-links { display: none; order: 4; width: 100%; flex: 0 0 100%; flex-direction: column; align-items: stretch; gap: 2px; padding: 8px 0 4px; border-top: 1px solid rgba(255,255,255,.2); overflow: visible; } body.landing.mobile-menu-open .landing-nav-links { display: flex; } .landing-nav-link { justify-content: flex-start; width: 100%; min-height: 42px; padding: 10px 12px; border: 0; border-radius: 8px; text-align: left; white-space: normal; font-size: .86rem; } .landing-nav-link.active, .landing-nav-link:hover { background: rgba(19,215,215,.16); border: 0; } .landing-hero h1 { max-width: 100%; font-size: clamp(2.5rem, 11vw, 4rem) !important; } .landing-hero p { max-width: 100%; font-size: .95rem; } .landing-article-grid { grid-template-columns: 1fr; } .landing-panel-heading { display: block; } }
+    </style>
+</head>
+<body class="landing">
+    <header class="landing-nav-header">
+        <div class="landing-nav-brand"><img src="/images/amrei.png?v=5" alt="AMREI Logo"><span>AMREI</span></div>
+        <button type="button" class="landing-menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+        <nav class="landing-nav-links" aria-label="Navigasi landing marketer">
+            <button type="button" class="landing-nav-link active" data-landing-panel="properties-panel"><i class="fa-solid fa-house"></i>Properti</button>
+            <button type="button" class="landing-nav-link" data-landing-panel="articles-panel"><i class="fa-solid fa-newspaper"></i>Artikel</button>
+            <button type="button" class="landing-nav-link" data-landing-panel="about"><i class="fa-solid fa-circle-info"></i>Tentang AMREI</button>
+        </nav>
+        <span id="marketer-name" class="landing-header-marketer">Marketer</span>
+    </header>
+
+  <main class="landing-main">
+   <div class="landing-hero">
+
+    <div class="landing-hero-content">
+
+        <div class="landing-hero-left">
+
+            <div class="landing-hero-badge">
+                AMREI PROPERTY MANAGEMENT
+            </div>
+
+            <h1>
+                Temukan Properti Impian Anda
+            </h1>
+
+            <p>
+                Selamat datang di halaman properti
+                <strong id="hero-marketer">Marketer</strong>.
+                Jelajahi beragam pilihan hunian dan investasi berkualitas yang telah dipilih untuk membantu Anda menemukan properti impian.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <section class="landing-listings landing-panel active" id="properties-panel" aria-labelledby="listing-title">
+         <div class="landing-listings-heading">
+             <div>
+                 <span class="landing-section-kicker">AMREI PROPERTY COLLECTION</span>
+                 <h2 id="listing-title">Properti pilihan untuk langkah berikutnya.</h2>
+             </div>
+             <p>Kurasi hunian dan peluang investasi dari <strong id="listing-marketer">marketer AMREI</strong>.</p>
+         </div>
+                 <input id="landing-property-search" class="landing-search" type="search" placeholder="Cari nama, tipe, lokasi, harga, atau informasi properti..." aria-label="Cari properti">
+         <div id="products" class="landing-market-products"></div>
+                 <div id="landing-property-pagination" class="landing-pagination"></div>
+     </section>
+
+         <section class="landing-panel" id="articles-panel" aria-labelledby="landing-articles-title">
+             <div class="landing-panel-inner">
+                 <div class="landing-panel-heading"><div><span class="landing-section-kicker">AMREI INSIGHT</span><h2 id="landing-articles-title">Artikel AMREI</h2></div><p>Informasi dan wawasan seputar properti.</p></div>
+                 <input id="landing-article-search" class="landing-search" type="search" placeholder="Cari judul, kategori, ringkasan, atau isi artikel..." aria-label="Cari artikel">
+                 <div id="landing-articles-grid" class="landing-article-grid"></div>
+                 <div id="landing-article-pagination" class="landing-pagination"></div>
+             </div>
+         </section>
+
+         <section class="landing-panel" id="about" aria-labelledby="landing-about-title">
+             <div id="landing-about-content" class="landing-about-content"><div class="landing-panel-inner"><p>Memuat informasi Tentang AMREI...</p></div></div>
+         </section>
+  </main>
+
+  <div id="lead-modal" class="modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="lead-title">Tanya / Booking</h2>
+        <button class="close" onclick="closeModal()">×</button>
+      </div>
+    <form id="lead-form" autocomplete="off">
+        <input type="hidden" id="property-id">
+        <input type="hidden" id="property-name">
+        <input type="hidden" id="lead-type">
+        <div class="field">
+          <label>Nama Lengkap</label>
+          <input id="nama" required>
+        </div>
+        <div class="field">
+          <label>Nomor WhatsApp</label>
+          <input id="wa" type="tel" required placeholder="0812xxxx">
+        </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input id="email" type="email" required placeholder="nama@email.com">
+                </div>
+                <div class="field">
+                    <label>Jenis Kelamin</label>
+                    <select id="jenis_kelamin" required>
+                        <option value="">-- Pilih Jenis Kelamin --</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                        <option value="Tidak ingin memberi tahu">Tidak ingin memberi tahu</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Domisili</label>
+                    <textarea id="domisili" required placeholder="Masukkan domisili Anda"></textarea>
+                </div>
+        <button class="btn primary full">Kirim Data</button>
+        <div id="result" class="status"></div>
+      </form>
+    </div>
+  </div>
+
+<div
+    id="property-detail-modal"
+    class="modal"
+    onclick="closeDetail()"
+>
+
+    <div
+    class="modal-card property-detail-modal-card"
+    onclick="event.stopPropagation()"
+>
+
+        <div class="modal-head">
+
+            <h2 id="detail-property-nama">
+                Detail Properti
+            </h2>
+
+        </div>
+
+        <div class="property-detail-content">
+
+            <div class="property-detail-image">
+                <div class="property-gallery-main">
+                    <button
+                        type="button"
+                        id="property-gallery-prev"
+                        class="property-gallery-btn property-gallery-prev"
+                        aria-label="Foto sebelumnya"
+                    >
+                        ‹
+                    </button>
+
+                    <button
+                        type="button"
+                        id="property-gallery-next"
+                        class="property-gallery-btn property-gallery-next"
+                        aria-label="Foto berikutnya"
+                    >
+                        ›
+                    </button>
+
+                    <img
+                        id="detail-property-foto"
+                        src="/images/amrei.png"
+                        alt="Foto Properti"
+                        onerror="this.onerror=null;this.src='/images/amrei.png'"
+                    >
+
+                    <div
+                        id="property-gallery-counter"
+                        class="property-gallery-counter"
+                        aria-live="polite"
+                    >
+                        1 / 1
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="close property-detail-close"
+                    onclick="closeDetail()"
+                    aria-label="Tutup detail properti"
+                >
+                    ×
+                </button>
+
+                <div
+                    id="property-gallery-preview"
+                    class="property-gallery-preview"
+                    aria-label="Preview foto properti"
+                ></div>
+
+                <div class="property-gallery-footer">
+                    <i class="fa-solid fa-images" aria-hidden="true"></i>
+                    <span>Pilih thumbnail untuk melihat foto lainnya</span>
+                </div>
+
+            </div>
+
+            <div class="property-detail-info">
+
+                <span
+                    id="detail-property-tipe"
+                    class="tag"
+                >
+                    Properti
+                </span>
+
+                <h2 id="detail-property-title">
+                    -
+                </h2>
+
+                <div class="property-detail-item">
+
+                    <strong>📍 Lokasi</strong>
+
+                    <span id="detail-property-lokasi">
+                        -
+                    </span>
+
+                </div>
+
+                <div class="property-detail-item">
+
+                    <strong>💰 Harga</strong>
+
+                    <span id="detail-property-harga">
+                        -
+                    </span>
+
+                </div>
+
+                <div class="property-detail-item">
+
+                    <strong>
+                        <i class="fa-solid fa-user-tie"></i>
+                        Dipasarkan oleh
+                    </strong>
+
+                    <span id="detail-property-marketer">
+                        -
+                    </span>
+
+                </div>
+
+                <div class="property-detail-description">
+
+                    <h3>
+                         Deskripsi Properti
+                    </h3>
+
+                    <div id="detail-property-deskripsi">
+                        Belum ada deskripsi.
+                    </div>
+
+                    <button
+                        type="button"
+                        class="property-description-trigger"
+                        onclick="event.stopPropagation(); openPropertyDescriptionModal();"
+                    >
+                        Baca Selengkapnya
+                    </button>
+
+                </div>
+
+                <div
+                    id="detail-property-social-container"
+                    class="property-detail-social"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="property-description-modal" class="modal">
+    <div class="modal-card property-description-modal-card">
+        <div class="modal-head">
+            <h2 id="property-description-title">Deskripsi Properti</h2>
+            <button class="close" type="button" data-close="property-description-modal" onclick="closePropertyDescriptionModal()">×</button>
+        </div>
+        <div class="property-description-content">
+            <div id="property-description-content">Belum ada deskripsi.</div>
+        </div>
+    </div>
+</div>
+
+<div id="property-image-lightbox" class="property-image-lightbox" aria-hidden="true" role="dialog" aria-label="Foto properti ukuran penuh">
+        <button id="property-image-lightbox-close" type="button" class="property-image-lightbox-close" aria-label="Tutup foto">&times;</button>
+        <button id="property-image-lightbox-prev" type="button" class="property-image-lightbox-nav property-image-lightbox-prev" aria-label="Foto sebelumnya">&#8249;</button>
+        <img id="property-image-lightbox-image" src="/images/amrei.png" alt="Foto properti ukuran penuh">
+        <button id="property-image-lightbox-next" type="button" class="property-image-lightbox-nav property-image-lightbox-next" aria-label="Foto berikutnya">&#8250;</button>
+        <div id="property-image-lightbox-counter" class="property-image-lightbox-counter" aria-live="polite">1 / 1</div>
+</div>
+
+  <script>
+    const slug = location.pathname.split('/').filter(Boolean).pop();
+    let marketer = null;
+    let currentPropertyDescription = '';
+    const $ = id => document.getElementById(id);
+
+    function formatCurrencyDisplay(value) {
+      if (value === null || value === undefined || value === '') return '-';
+      const text = String(value).trim();
+      if (!/\d/.test(text)) return text;
+      return text.replace(/(\d[\d.\s,]*)/g, match => {
+        const numericValue = Number(match.replace(/[^\d]/g, ''));
+        if (Number.isNaN(numericValue)) return match;
+        return `Rp ${new Intl.NumberFormat('id-ID').format(numericValue)}`;
+      });
+    }
+
+    function parseSocialLinks(value) {
+      const fallback = { instagram: '', facebook: '', tiktok: '', youtube: '', maps: '' };
+
+      if (!value) return fallback;
+
+      if (typeof value === 'object') {
+        return {
+          instagram: value.instagram || '',
+          facebook: value.facebook || '',
+          tiktok: value.tiktok || '',
+          youtube: value.youtube || '',
+          maps: value.maps || value.google_maps || ''
+        };
+      }
+
+      try {
+        const parsed = JSON.parse(value);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            instagram: parsed.instagram || '',
+            facebook: parsed.facebook || '',
+            tiktok: parsed.tiktok || '',
+            youtube: parsed.youtube || '',
+            maps: parsed.maps || parsed.google_maps || ''
+          };
+        }
+      } catch (error) {
+        return {
+          instagram: value || '',
+          facebook: '',
+          tiktok: '',
+          youtube: '',
+          maps: ''
+        };
+      }
+
+      return fallback;
+    }
+
+    function renderSocialLinks(property) {
+      const links = parseSocialLinks(property?.link_sosmed);
+      const items = [
+        { key: 'instagram', url: links.instagram, icon: 'fa-instagram', family: 'fa-brands', label: 'Instagram' },
+        { key: 'facebook', url: links.facebook, icon: 'fa-facebook-f', family: 'fa-brands', label: 'Facebook' },
+        { key: 'tiktok', url: links.tiktok, icon: 'fa-tiktok', family: 'fa-brands', label: 'TikTok' },
+        { key: 'youtube', url: links.youtube, icon: 'fa-youtube', family: 'fa-brands', label: 'YouTube' },
+        { key: 'maps', url: links.maps, icon: 'fa-location-dot', family: 'fa-solid', label: 'Google Maps' }
+      ].filter(item => item.url);
+
+      if (!items.length) return '';
+
+      return `
+        <div class="property-social-block">
+          <div class="property-social-label">Lihat postingan media sosial</div>
+          <div class="property-social-row">
+            ${items.map(item => `
+              <a
+                href="${item.url}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="property-social-icon"
+                title="${item.label}"
+                aria-label="${item.label}"
+              >
+                <i class="${item.family} ${item.icon}"></i>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    async function init() {
+      const r = await fetch('/api/public/marketer/' + encodeURIComponent(slug));
+      const d = await r.json();
+      if (!r.ok) {
+        document.querySelector('main').innerHTML = '<div class="landing-card">Marketer tidak ditemukan.</div>';
+        return;
+      }
+      marketer = d.marketer;
+      console.log(marketer);
+      $('marketer-name').textContent = marketer.name;
+      $('hero-marketer').textContent = marketer.name;
+    $('listing-marketer').textContent = marketer.name;
+        window.products = d.products || [];
+        renderLandingProperties();
+        await Promise.all([loadLandingArticles(), loadLandingAbout()]);
+        await loadLandingActivity();
+        const returnPanel = sessionStorage.getItem('amrei-landing-return-panel');
+        const savedPanel = returnPanel || sessionStorage.getItem('marketer-landing-active-panel');
+        if (returnPanel) sessionStorage.removeItem('amrei-landing-return-panel');
+        if (savedPanel) activateLandingPanel(savedPanel, false);
+        }
+
+        let landingPropertyPage = 1;
+        const landingPropertiesPerPage = 30;
+        let landingFilteredProperties = [];
+        let landingArticles = [];
+        let landingArticlePage = 1;
+        const landingArticlesPerPage = 30;
+        let landingFilteredArticles = [];
+        let landingActivityUpdatedAt = null;
+
+        function renderLandingProperties() {
+            const keyword = $('landing-property-search').value.trim().toLocaleLowerCase('id-ID');
+            landingFilteredProperties = (window.products || []).filter(property => {
+                const searchableText = [property.nama, property.tipe, property.lokasi, property.harga, property.komisi, property.deskripsi]
+                    .map(value => String(value ?? '').toLocaleLowerCase('id-ID'));
+                return !keyword || searchableText.some(value => value.includes(keyword));
+            });
+            const totalPages = Math.max(Math.ceil(landingFilteredProperties.length / landingPropertiesPerPage), 1);
+            landingPropertyPage = Math.min(Math.max(landingPropertyPage, 1), totalPages);
+            const start = (landingPropertyPage - 1) * landingPropertiesPerPage;
+            const pageData = landingFilteredProperties.slice(start, start + landingPropertiesPerPage);
+            $('products').innerHTML = pageData.map(p => `
+<div class="landing-property-card" onclick="showLandingPropertyDetail('${p.id}')">
+
+    <div class="landing-property-image">
+        <img
+            src="${p.thumbnail || '/images/amrei.png'}"
+            alt="${p.nama}"
+            onerror="this.onerror=null;this.src='/images/amrei.png'"
+        >
+    </div>
+
+    <div class="landing-property-content">
+
+        <span class="landing-tag">
+            ${p.tipe || 'Properti'}
+        </span>
+
+        <h3>${p.nama}</h3>
+
+        <div class="landing-property-price">
+            ${formatCurrencyDisplay(p.harga)}
+        </div>
+
+        <div class="landing-property-location">
+            📍 ${p.lokasi || '-'}
+        </div>
+
+        <div class="landing-toolbar">
+
+            <div class="landing-action-buttons">
+                <button
+                    type="button"
+                    class="btn primary"
+                    onclick="event.stopPropagation(); openLead('${p.id}','inquiry')"
+                >
+                    Tanya
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+`).join('') || `<div class="landing-card">${window.products?.length ? 'Properti yang dicari tidak ditemukan.' : 'Marketer belum memilih produk.'}</div>`;
+            renderLandingPagination('landing-property-pagination', landingPropertyPage, totalPages, 'landing-property-page-input', page => {
+                landingPropertyPage = page;
+                renderLandingProperties();
+                $('properties-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+
+        function renderLandingPagination(containerId, currentPage, totalPages, inputId, onChange) {
+            const container = $(containerId);
+            if (!container || totalPages <= 1) {
+                if (container) container.innerHTML = '';
+                return;
+            }
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+            let pageButtons = '';
+            for (let page = startPage; page <= endPage; page += 1) {
+                pageButtons += `<button class="landing-page-btn ${page === currentPage ? 'active' : ''}" type="button" data-page="${page}">${page}</button>`;
+            }
+            container.innerHTML = `
+                <div class="landing-page-buttons">
+                    <button class="landing-page-btn" type="button" ${currentPage === 1 ? 'disabled' : ''} data-page="1">&lt;&lt;</button>
+                    <button class="landing-page-btn" type="button" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">&lt;</button>
+                    ${pageButtons}
+                    <button class="landing-page-btn" type="button" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">&gt;</button>
+                    <button class="landing-page-btn" type="button" ${currentPage === totalPages ? 'disabled' : ''} data-page="${totalPages}">&gt;&gt;</button>
+                </div>
+                <div class="landing-page-jump">
+                    <label for="${inputId}">Pindah ke Halaman</label>
+                    <input id="${inputId}" type="number" min="1" max="${totalPages}" aria-label="Nomor halaman" />
+                </div>
+            `;
+            container.querySelectorAll('[data-page]').forEach(button => button.addEventListener('click', () => onChange(Number(button.dataset.page))));
+            $(inputId)?.addEventListener('keydown', event => {
+                if (event.key === 'Enter') {
+                    const page = Number(event.target.value);
+                    if (page) onChange(page);
+                }
+            });
+        }
+
+        async function loadLandingArticles() {
+            try {
+                const first = await (await fetch('/api/artikel?page=1&limit=30', { cache: 'no-store' })).json();
+                const totalPages = first?.pagination?.totalPages || 1;
+                const rest = await Promise.all(Array.from({ length: totalPages - 1 }, (_, index) =>
+                    fetch(`/api/artikel?page=${index + 2}&limit=30`, { cache: 'no-store' }).then(response => response.json())
+                ));
+                landingArticles = [first, ...rest].flatMap(result => result?.data || []);
+                filterLandingArticles();
+            } catch (error) {
+                $('landing-articles-grid').innerHTML = '<div class="landing-card">Gagal memuat artikel.</div>';
+            }
+        }
+
+        async function loadLandingProperties() {
+            const response = await fetch('/api/public/marketer/' + encodeURIComponent(slug), { cache: 'no-store' });
+            const result = await response.json();
+            if (!response.ok) return;
+            marketer = result.marketer;
+            window.products = result.products || [];
+            $('marketer-name').textContent = marketer.name;
+            $('hero-marketer').textContent = marketer.name;
+            $('listing-marketer').textContent = marketer.name;
+            renderLandingProperties();
+        }
+
+        function filterLandingArticles() {
+            const keyword = $('landing-article-search').value.trim().toLocaleLowerCase('id-ID');
+            landingFilteredArticles = landingArticles.filter(article => [article.judul, article.kategori, article.ringkasan, article.isi]
+                .map(value => String(value || '').replace(/<[^>]*>/g, ' ').toLocaleLowerCase('id-ID'))
+                .some(value => !keyword || value.includes(keyword)));
+            landingArticlePage = 1;
+            renderLandingArticles();
+        }
+
+        function renderLandingArticles() {
+            const totalPages = Math.max(Math.ceil(landingFilteredArticles.length / landingArticlesPerPage), 1);
+            landingArticlePage = Math.min(Math.max(landingArticlePage, 1), totalPages);
+            const start = (landingArticlePage - 1) * landingArticlesPerPage;
+            const pageData = landingFilteredArticles.slice(start, start + landingArticlesPerPage);
+            $('landing-articles-grid').innerHTML = pageData.map(article => `
+                <article class="article-card" onclick="showLandingArticleDetail('${article.id}')">
+                    <div class="article-image">
+                        <img src="${article.thumbnail || '/images/amrei.png'}" alt="${article.judul || 'Artikel'}" onerror="this.onerror=null;this.src='/images/amrei.png'">
+                    </div>
+                    <div class="card-body">
+                        <span class="tag">${article.kategori || 'Artikel'}</span>
+                        <h4>${article.judul || '-'}</h4>
+                        <div class="article-meta">${article.ringkasan ? article.ringkasan.substring(0, 110) + '...' : ''}</div>
+                    </div>
+                </article>
+            `).join('') || '<div class="landing-card">Artikel yang dicari tidak ditemukan.</div>';
+            renderLandingPagination('landing-article-pagination', landingArticlePage, totalPages, 'landing-article-page-input', page => {
+                landingArticlePage = page;
+                renderLandingArticles();
+                $('articles-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+
+        function showLandingArticleDetail(id) {
+            sessionStorage.setItem('amrei-landing-return-panel', 'articles-panel');
+            sessionStorage.setItem('amrei-article-return-url', window.location.pathname + window.location.search);
+            window.location.href = `/article-detail.html?id=${encodeURIComponent(id)}`;
+        }
+
+        async function loadLandingAbout() {
+            try {
+                const result = await fetch('/api/about', { cache: 'no-store' }).then(response => response.json());
+                if (result.html) {
+                    $('landing-about-content').innerHTML = result.html;
+                    ensureLandingContactLink();
+                }
+            } catch (error) {
+                $('landing-about-content').innerHTML = '<div class="landing-panel-inner"><p>Informasi Tentang AMREI belum tersedia.</p></div>';
+            }
+    }
+
+        function applyLandingActivity(activity) {
+            if (!activity) return;
+            const training = document.querySelector('#landing-about-content .about-training');
+            if (!training) return;
+
+            const setText = (selector, value) => {
+                const element = training.querySelector(selector);
+                if (element && value !== undefined && value !== null) element.textContent = value;
+            };
+            const setPoint = (selector, value) => {
+                const element = training.querySelector(selector);
+                if (!element) return;
+                const pointText = String(value ?? '').trim();
+                element.hidden = !pointText;
+                if (!pointText) {
+                    element.textContent = '';
+                    return;
+                }
+                const icon = element.querySelector('i');
+                element.textContent = '';
+                if (icon) element.append(icon, ' ');
+                element.append(pointText);
+            };
+
+            setText('.training-kicker', activity.kicker);
+            setText('h2', activity.title);
+            setText('.training-lead', activity.lead);
+            setText('.training-description', activity.description);
+            setPoint('.training-points > span:nth-child(1)', activity.point1);
+            setPoint('.training-points > span:nth-child(2)', activity.point2);
+            setPoint('.training-points > span:nth-child(3)', activity.point3);
+            setText('.training-detail:nth-child(1) strong', activity.schedule);
+            setText('.training-detail:nth-child(2) strong', activity.time);
+            setText('.training-detail:nth-child(3) strong', activity.contribution);
+
+            const contact = training.querySelector('.training-contact strong');
+            if (!contact) return;
+            const contactPhone = String(activity.contactPhone || '').trim();
+            const whatsappPhone = contactPhone.replace(/\D/g, '').replace(/^0/, '62');
+            contact.innerHTML = '';
+            const name = document.createElement('span');
+            name.textContent = activity.contactName || '';
+            const nameIcon = document.createElement('i');
+            nameIcon.className = 'fa-solid fa-user training-contact-name-icon';
+            nameIcon.setAttribute('aria-hidden', 'true');
+            contact.append(nameIcon);
+            contact.append(name, document.createElement('br'));
+            const link = document.createElement('a');
+            link.className = 'training-contact-link';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.href = whatsappPhone ? `https://wa.me/${whatsappPhone}` : '#';
+            const icon = document.createElement('i');
+            icon.className = 'fa-brands fa-whatsapp';
+            icon.setAttribute('aria-hidden', 'true');
+            const text = document.createElement('span');
+            text.className = 'training-contact-text';
+            text.textContent = contactPhone;
+            link.append(icon, text);
+            contact.append(link);
+        }
+
+        async function loadLandingActivity() {
+            try {
+                const response = await fetch('/api/activity', { cache: 'no-store' });
+                const result = await response.json();
+                if (result.updated_at !== landingActivityUpdatedAt) {
+                    landingActivityUpdatedAt = result.updated_at || null;
+                    applyLandingActivity(result.activity);
+                }
+            } catch (error) {
+                console.error('Gagal memuat informasi kegiatan:', error);
+            }
+        }
+
+        setInterval(loadLandingActivity, 5000);
+
+        function ensureLandingContactLink() {
+            const contact = document.querySelector('#landing-about-content .training-contact');
+            if (!contact) return;
+
+            let link = contact.querySelector('a');
+            const phoneText = contact.textContent.match(/(?:\+?62|0)\d[\d\s-]{7,}/)?.[0] || '0881081646464';
+            const phone = phoneText.replace(/\D/g, '').replace(/^0/, '62');
+
+            if (!link) {
+                link = document.createElement('a');
+                link.className = 'training-contact-link';
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                contact.appendChild(link);
+            }
+
+            link.href = `https://wa.me/${phone}`;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+        }
+
+        function activateLandingPanel(target, shouldScroll = true) {
+            const button = document.querySelector(`[data-landing-panel="${target}"]`);
+            if (!button) return;
+                sessionStorage.setItem('marketer-landing-active-panel', target);
+                const heroContent = {
+                    'properties-panel': {
+                        eyebrow: 'AMREI PROPERTY MANAGEMENT',
+                        title: 'Temukan Properti Impian Anda',
+                        description: `Selamat datang di halaman properti ${marketer?.name || 'Marketer'}. Jelajahi beragam pilihan hunian dan investasi berkualitas yang telah dipilih untuk membantu Anda menemukan properti impian.`
+                    },
+                    'articles-panel': {
+                        eyebrow: 'AMREI PROPERTY INSIGHT',
+                        title: 'Temukan Wawasan Properti Terbaru',
+                        description: 'Baca artikel pilihan AMREI tentang properti, strategi pemasaran, investasi, dan informasi terbaru untuk membantu Anda mengambil keputusan dengan lebih tepat.'
+                    },
+                    'about': {
+                        eyebrow: 'TENTANG AMREI',
+                        title: 'Mengenal AMREI Lebih Dekat',
+                        description: 'Kenali AMREI sebagai wadah pengembangan, kolaborasi, dan peningkatan profesionalisme marketer real estate di Indonesia.'
+                    }
+                }[target];
+
+                if (heroContent) {
+                    document.querySelector('.landing-hero-badge').textContent = heroContent.eyebrow;
+                    document.querySelector('.landing-hero h1').textContent = heroContent.title;
+                    document.querySelector('.landing-hero p').innerHTML = heroContent.description;
+                }
+
+                document.querySelectorAll('.landing-panel').forEach(panel => panel.classList.toggle('active', panel.id === target));
+                document.querySelectorAll('[data-landing-panel]').forEach(item => item.classList.toggle('active', item === button));
+                document.body.classList.toggle('landing-about-active', target === 'about');
+                if (shouldScroll) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+        }
+
+        document.querySelectorAll('[data-landing-panel]').forEach(button => {
+            button.addEventListener('click', () => {
+                document.body.classList.remove('mobile-menu-open');
+                const toggle = document.querySelector('.landing-menu-toggle');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                    toggle.setAttribute('aria-label', 'Buka menu navigasi');
+                    toggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                }
+                activateLandingPanel(button.dataset.landingPanel);
+            });
+        });
+
+        document.querySelector('.landing-menu-toggle')?.addEventListener('click', event => {
+            const isOpen = document.body.classList.toggle('mobile-menu-open');
+            const toggle = event.currentTarget;
+            toggle.setAttribute('aria-expanded', String(isOpen));
+            toggle.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+            toggle.innerHTML = `<i class="fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars'}"></i>`;
+        });
+
+        $('landing-property-search').addEventListener('input', () => { landingPropertyPage = 1; renderLandingProperties(); });
+        $('landing-article-search').addEventListener('input', filterLandingArticles);
+
+        const publicContentEvents = new EventSource('/api/public/content-events');
+        let publicContentRefreshTimer = null;
+        publicContentEvents.addEventListener('content-changed', event => {
+            const type = JSON.parse(event.data).type;
+            clearTimeout(publicContentRefreshTimer);
+            publicContentRefreshTimer = setTimeout(async () => {
+                try {
+                    if (type === 'properties' || type === 'marketers') await loadLandingProperties();
+                    if (type === 'articles') await loadLandingArticles();
+                    if (type === 'about') await loadLandingAbout();
+                    if (type === 'activity') await loadLandingActivity();
+                } catch (error) {
+                    console.error('Gagal menyinkronkan perubahan konten:', error);
+                }
+            }, 150);
+        });
+
+    function openLead(id, type) {
+      const p = products.find(x => String(x.id) === String(id));
+      $('property-id').value = p.id;
+      $('property-name').value = p.nama;
+      $('lead-type').value = type;
+      $('lead-title').textContent = type === 'booking' ? 'Booking ' + p.nama : 'Tanya ' + p.nama;
+      $('lead-modal').classList.add('open');
+      $('result').textContent = '';
+    }
+
+    function closeModal() {
+      $('lead-modal').classList.remove('open');
+    }
+
+    let currentPropertyId = null;
+let propertyGalleryImages = [];
+let propertyGalleryIndex = 0;
+
+function normalizePropertyGalleryImages(property) {
+    const rawImages = Array.isArray(property?.images)
+        ? property.images
+        : (typeof property?.images === 'string'
+            ? (() => {
+                try {
+                    const parsed = JSON.parse(property.images);
+                    return Array.isArray(parsed) ? parsed : [parsed];
+                } catch (error) {
+                    return [property.images];
+                }
+            })()
+            : []);
+
+    const imageList = rawImages.filter(Boolean);
+    const fallback = property?.thumbnail ? [property.thumbnail] : [];
+
+    return (imageList.length ? imageList : fallback).filter(Boolean);
+}
+
+function renderPropertyGalleryThumbnails() {
+    const preview = $('property-gallery-preview');
+    const total = propertyGalleryImages.length || 1;
+
+    if (!preview) return;
+
+    const sliceStart = Math.max(0, propertyGalleryIndex - 3);
+    const visibleIndices = [];
+    for (let i = sliceStart; i < total && visibleIndices.length < 4; i++) {
+        visibleIndices.push(i);
+    }
+
+    const remainingCount = Math.max(total - (sliceStart + visibleIndices.length), 0);
+
+    preview.innerHTML = visibleIndices.map(index => {
+        const isActive = index === propertyGalleryIndex;
+        const image = propertyGalleryImages[index];
+
+        return `
+            <button
+                type="button"
+                class="property-gallery-thumb ${isActive ? 'active' : ''}"
+                data-index="${index}"
+                style="background-image: url('${image}')"
+                aria-label="Lihat foto ${index + 1}"
+                title="Foto ${index + 1}"
+            ></button>
+        `;
+    }).join('');
+
+    if (remainingCount > 0) {
+        const nextIndex = Math.min(total - 1, sliceStart + visibleIndices.length);
+        preview.innerHTML += `
+            <button
+                type="button"
+                class="property-gallery-thumb property-gallery-thumb-more"
+                data-index="${nextIndex}"
+                style="--more-image: url('${propertyGalleryImages[nextIndex]}')"
+                aria-label="Lihat foto lainnya"
+                title="Lihat foto lainnya"
+            >
+                <span class="property-gallery-thumb-more-text">+${remainingCount}</span>
+            </button>
+        `;
+    }
+
+    preview.querySelectorAll('.property-gallery-thumb').forEach(button => {
+        button.addEventListener('click', () => {
+            const targetIndex = Number(button.dataset.index);
+            if (targetIndex >= 0 && targetIndex < propertyGalleryImages.length) {
+                propertyGalleryIndex = targetIndex;
+                updatePropertyGallery();
+            }
+        });
+    });
+}
+
+function updatePropertyGallery() {
+    const image = propertyGalleryImages[propertyGalleryIndex] || '/images/amrei.png';
+    const prevBtn = $('property-gallery-prev');
+    const nextBtn = $('property-gallery-next');
+    const counter = $('property-gallery-counter');
+
+    $('detail-property-foto').src = image;
+
+    const total = propertyGalleryImages.length || 1;
+    if (counter) {
+        counter.style.display = 'block';
+        counter.textContent = `${propertyGalleryIndex + 1} / ${total}`;
+    }
+
+    const hasMultiple = propertyGalleryImages.length > 1;
+    if (prevBtn) prevBtn.style.display = hasMultiple ? 'flex' : 'none';
+    if (nextBtn) nextBtn.style.display = hasMultiple ? 'flex' : 'none';
+
+    renderPropertyGalleryThumbnails();
+}
+
+function normalizePropertyDescriptionText(value) {
+    const text = String(value || 'Belum ada deskripsi properti.').trim();
+    if (!text) return 'Belum ada deskripsi properti.';
+    return text
+        .replace(/\r\n/g, '\n')
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .trim();
+}
+
+function formatPropertyDescriptionPreview(value) {
+    const normalizedText = normalizePropertyDescriptionText(value);
+    return normalizedText.length > 220
+        ? `${normalizedText.slice(0, 220).trim()}...`
+        : normalizedText;
+}
+
+function openPropertyDescriptionModal() {
+    const description = normalizePropertyDescriptionText(currentPropertyDescription);
+    $('property-description-content').innerHTML = description.replace(/\n/g, '<br>');
+    $('property-description-modal').classList.add('open');
+}
+
+function closePropertyDescriptionModal() {
+    $('property-description-modal')?.classList.remove('open');
+}
+
+window.showLandingPropertyDetail = function(id){
+
+    const property = products.find(
+        item => String(item.id) === String(id)
+    );
+
+    if(!property) return;
+
+    currentPropertyId = property.id;
+    currentPropertyDescription = property.deskripsi || 'Belum ada deskripsi properti.';
+    propertyGalleryImages = normalizePropertyGalleryImages(property);
+    propertyGalleryIndex = 0;
+    renderPropertyGalleryThumbnails();
+    updatePropertyGallery();
+
+    $('detail-property-nama').textContent =
+        property.nama || 'Properti';
+
+    $('detail-property-title').textContent =
+        property.nama || '-';
+
+    $('detail-property-tipe').textContent =
+        property.tipe || 'Properti';
+
+    $('detail-property-lokasi').textContent =
+        property.lokasi || '-';
+
+    $('detail-property-harga').textContent =
+        formatCurrencyDisplay(property.harga);
+
+    $('detail-property-marketer').textContent =
+        marketer.name || '-';
+
+    $('detail-property-deskripsi').textContent =
+        formatPropertyDescriptionPreview(currentPropertyDescription);
+
+    const socialContainer = $('detail-property-social-container');
+    socialContainer.innerHTML = renderSocialLinks(property);
+
+    $('property-detail-modal').classList.add('open');
+
+};
+
+$('property-gallery-prev')?.addEventListener('click', () => {
+    if (propertyGalleryImages.length <= 1) return;
+
+    propertyGalleryIndex =
+        (propertyGalleryIndex - 1 + propertyGalleryImages.length) % propertyGalleryImages.length;
+
+    updatePropertyGallery();
+});
+
+$('property-gallery-next')?.addEventListener('click', () => {
+    if (propertyGalleryImages.length <= 1) return;
+
+    propertyGalleryIndex =
+        (propertyGalleryIndex + 1) % propertyGalleryImages.length;
+
+    updatePropertyGallery();
+});
+
+function updatePropertyImageLightbox() {
+    const image = $('property-image-lightbox-image');
+    const counter = $('property-image-lightbox-counter');
+    const total = propertyGalleryImages.length || 1;
+
+    if (image) image.src = propertyGalleryImages[propertyGalleryIndex] || '/images/amrei.png';
+    if (counter) counter.textContent = `${propertyGalleryIndex + 1} / ${total}`;
+}
+
+function openPropertyImageLightbox() {
+    if (!propertyGalleryImages.length) return;
+    updatePropertyImageLightbox();
+    $('property-image-lightbox').classList.add('open');
+    $('property-image-lightbox').setAttribute('aria-hidden', 'false');
+}
+
+function closePropertyImageLightbox() {
+    $('property-image-lightbox').classList.remove('open');
+    $('property-image-lightbox').setAttribute('aria-hidden', 'true');
+}
+
+function changePropertyImageLightbox(direction) {
+    if (propertyGalleryImages.length <= 1) return;
+    propertyGalleryIndex = (propertyGalleryIndex + direction + propertyGalleryImages.length) % propertyGalleryImages.length;
+    updatePropertyGallery();
+    updatePropertyImageLightbox();
+}
+
+$('detail-property-foto')?.addEventListener('click', openPropertyImageLightbox);
+$('property-image-lightbox-close')?.addEventListener('click', closePropertyImageLightbox);
+$('property-image-lightbox-prev')?.addEventListener('click', () => changePropertyImageLightbox(-1));
+$('property-image-lightbox-next')?.addEventListener('click', () => changePropertyImageLightbox(1));
+$('property-image-lightbox')?.addEventListener('click', event => {
+    if (event.target === $('property-image-lightbox')) closePropertyImageLightbox();
+});
+document.addEventListener('keydown', event => {
+    if (!$('property-image-lightbox')?.classList.contains('open')) return;
+    if (event.key === 'Escape') closePropertyImageLightbox();
+    if (event.key === 'ArrowLeft') changePropertyImageLightbox(-1);
+    if (event.key === 'ArrowRight') changePropertyImageLightbox(1);
+});
+
+    function closeDetail(){
+
+    $('property-detail-modal').classList.remove('open');
+
+}
+
+    document.querySelectorAll('[data-close]').forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.dataset.close;
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (target) target.classList.remove('open');
+      });
+    });
+
+    function changeImage(src){
+
+    document.getElementById('main-detail-image').src = src;
+    }
+
+    $('lead-form').onsubmit = async e => {
+      e.preventDefault();
+      $('result').textContent = 'Mengirim...';
+      try {
+        const r = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nama: $('nama').value,
+            jenis_kelamin: $('jenis_kelamin').value,
+            no_wa: $('wa').value,
+            email: $('email').value,
+            domisili: $('domisili').value,
+            property_id: $('property-id').value,
+            property_name: $('property-name').value,
+            marketer_slug: slug,
+            type: $('lead-type').value
+          })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.message);
+        $('result').textContent =
+            d.message + ' Data sudah diteruskan ke admin.';
+
+        const namaCustomer = $('nama').value;
+        const domisiliCustomer = $('domisili').value;
+        const namaProperti = $('property-name').value;
+
+        $('lead-form').reset();
+
+        const pesan = `Halo ${marketer.name},
+
+        Perkenalkan saya ${namaCustomer}.
+
+        Domisili saya: ${domisiliCustomer}.
+
+        Saya tertarik dengan properti:
+        ${namaProperti}
+
+        Mohon informasi lebih lanjut. Terima kasih.`;
+
+        const waUrl =
+            `https://api.whatsapp.com/send?phone=${encodeURIComponent(d.whatsapp || marketer.phone)}&text=${encodeURIComponent(pesan)}`;
+
+            window.location.href = waUrl;
+        } catch (err) {
+        $('result').textContent = err.message;
+      }
+    };
+
+    init();
+  </script>
+</body>
+</html>

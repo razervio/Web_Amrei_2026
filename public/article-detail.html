@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Artikel AMREI</title>
+  <link rel="icon" type="image/svg+xml" href="/images/amrei-favicon-teal.svg?v=2">
+  <link rel="stylesheet" href="/style.css?v=20260924">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: #f6f8fb;
+    }
+
+    .article-page {
+      width: min(1040px, calc(100% - 40px));
+      margin: 48px auto 80px;
+    }
+
+    .article-page-card {
+      position: relative;
+    }
+
+    .article-detail-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #dbe1ea;
+      border-radius: 50%;
+      background: #fff;
+      color: #374151;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .article-detail-close:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #fff;
+    }
+
+    .article-page-image {
+      display: block;
+      width: 100%;
+      max-height: 650px;
+      object-fit: cover;
+      background: #e8eef5;
+      border-radius: 16px;
+      box-shadow: 0 18px 45px rgba(15, 76, 129, .14);
+    }
+
+    .article-page-body {
+      width: 100%;
+      margin: 42px auto 0;
+    }
+
+    .article-page-category {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: #dff4f4;
+      color: #087f83;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .article-page-title {
+      margin: 0 0 12px;
+      color: #123b68;
+      font-size: clamp(2rem, 4.5vw, 3.45rem);
+      line-height: 1.16;
+      letter-spacing: 0;
+    }
+
+    .article-page-date {
+      margin-bottom: 38px;
+      color: #64748b;
+      font-size: .95rem;
+      border-bottom: 1px solid #dce5ee;
+      padding-bottom: 24px;
+    }
+
+    .article-page-content {
+      color: #1f2937;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .article-page-content p {
+      margin: 0 0 24px;
+    }
+
+    .article-page-content ul,
+    .article-page-content ol {
+      margin: 0 0 24px;
+      padding-left: 30px;
+    }
+
+    .article-page-content h2,
+    .article-page-content h3,
+    .article-page-content h4 {
+      margin: 34px 0 14px;
+      color: #123b68;
+      line-height: 1.35;
+      text-align: left;
+    }
+
+    .article-page-content a {
+      color: #0f766e;
+      text-decoration: underline;
+    }
+
+    .article-state {
+      padding: 48px 0;
+      text-align: center;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <main class="article-page">
+    <article id="article-page-card" class="article-page-card" hidden>
+      <button type="button" class="article-detail-close" aria-label="Kembali ke daftar artikel" onclick="returnToArticles()">×</button>
+      <img id="article-thumbnail" class="article-page-image" src="/images/amrei.png" alt="Gambar artikel">
+      <div class="article-page-body">
+        <span id="article-category" class="tag article-page-category">Artikel</span>
+        <h1 id="article-title" class="article-page-title">Judul Artikel</h1>
+        <div id="article-date" class="article-page-date">Tanggal tidak tersedia</div>
+        <div id="article-content" class="article-page-content"></div>
+      </div>
+    </article>
+
+    <div id="article-state" class="article-state">Memuat artikel...</div>
+  </main>
+
+  <script>
+    function getThumbnailUrl(value) {
+      if (!value) return '/images/amrei.png';
+      if (/^https?:\/\//i.test(value) || value.startsWith('/')) return value;
+      return `/${value}`;
+    }
+
+    function renderArticleContent(value) {
+      const content = document.getElementById('article-content');
+      const rawContent = value || 'Belum ada isi artikel.';
+      const normalizedContent = String(rawContent).replace(/\r\n/g, '\n').trim();
+
+      if (/<[a-z][\s\S]*>/i.test(normalizedContent)) {
+        content.innerHTML = normalizedContent;
+        content.querySelectorAll('a[href]').forEach(link => {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        });
+        return;
+      }
+
+      content.innerHTML = normalizedContent
+        .split(/\n{2,}/)
+        .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+        .join('');
+    }
+
+    function returnToArticles() {
+      const returnUrl = sessionStorage.getItem('amrei-article-return-url');
+      if (returnUrl && returnUrl.startsWith('/m/')) {
+        sessionStorage.setItem('amrei-landing-return-panel', 'articles-panel');
+        sessionStorage.removeItem('amrei-article-return-url');
+        window.location.href = returnUrl;
+        return;
+      }
+
+      sessionStorage.setItem('amrei-return-panel', 'articles-panel');
+      window.location.href = '/index.html';
+    }
+
+    async function loadArticle() {
+      const articleId = new URLSearchParams(window.location.search).get('id');
+      const state = document.getElementById('article-state');
+
+      if (!articleId) {
+        state.textContent = 'Artikel tidak ditemukan.';
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/artikel/${encodeURIComponent(articleId)}`);
+        const article = await response.json();
+
+        if (!response.ok) throw new Error(article.message || 'Artikel tidak ditemukan.');
+
+        document.title = `${article.judul || 'Artikel'} | AMREI`;
+        document.getElementById('article-thumbnail').src = getThumbnailUrl(article.thumbnail);
+        document.getElementById('article-thumbnail').alt = article.judul || 'Gambar artikel';
+        document.getElementById('article-category').textContent = article.kategori || 'Artikel';
+        document.getElementById('article-title').textContent = article.judul || 'Judul Artikel';
+        document.getElementById('article-date').textContent = article.created_at
+          ? new Date(article.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+          : 'Tanggal tidak tersedia';
+        renderArticleContent(article.isi || article.content);
+
+        state.hidden = true;
+        document.getElementById('article-page-card').hidden = false;
+      } catch (error) {
+        state.textContent = error.message || 'Gagal memuat artikel.';
+      }
+    }
+
+    document.getElementById('article-thumbnail').addEventListener('error', event => {
+      event.target.src = '/images/amrei.png';
+    });
+
+    loadArticle();
+  </script>
+</body>
+</html>

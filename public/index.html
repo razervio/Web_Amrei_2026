@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AMREI | Properti & Artikel</title>
+  <link rel="icon" type="image/svg+xml" href="/images/amrei-favicon-teal.svg?v=2">
+  <link rel="stylesheet" href="style.css?v=20260924" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #f3f5f7;
+      --panel: #ffffff;
+      --panel-soft: #eef4ff;
+      --primary: #0f172a;
+      --primary-2: #1d4ed8;
+      --accent: #14b8a6;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --soft-blue: #edf5ff;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Poppins, Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f5f7fb 0%, #edf5ff 100%);
+      color: var(--text);
+    }
+    a { text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, select, textarea { font: inherit; }
+
+    .container { width: min(1200px, calc(100% - 32px)); margin: 0 auto; }
+
+    .topbar {
+      display: block;
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      width: calc(100% - 48px);
+      margin: 18px auto 0;
+      border: 4px solid #fff;
+      border-radius: 56px;
+      background: #195887;
+      box-shadow: 0 18px 36px rgba(15, 23, 42, .18);
+    }
+
+    #about .about-hero { margin: 0; }
+
+    #about {
+      overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
+      #about .about-hero {
+        margin: 0;
+        padding: 56px 24px 52px;
+      }
+
+      #about .about-grid,
+      #about .about-values,
+      #about .about-learning,
+      #about .about-activities {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+    }
+
+    .topbar-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 1.6rem;
+    }
+
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-left: auto;
+    }
+
+    .login-menu {
+      position: relative;
+    }
+
+    .top-actions .nav-btn {
+      min-width: 88px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border-radius: 12px;
+    }
+
+    .login-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      z-index: 30;
+      display: grid;
+      min-width: 190px;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .login-menu.open .login-dropdown {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .login-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 11px 12px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #1f2937;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .login-option:hover,
+    .login-option:focus-visible {
+      background: #edf5ff;
+      color: #195887;
+      outline: none;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 136px;
+      padding: 11px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-btn.primary {
+      background: #14AFBD;
+      border-color: transparent;
+      box-shadow: 0 12px 26px rgba(20, 175, 189, 0.28);
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-3px);
+      border-color: #13D7D7;
+      background: rgba(19, 215, 215, 0.16);
+      box-shadow: 0 10px 22px rgba(19, 215, 215, 0.2);
+    }
+
+    .nav-btn.primary:hover {
+      background: #13D7D7;
+      border-color: #13D7D7;
+      box-shadow: 0 12px 26px rgba(19, 215, 215, 0.38);
+    }
+
+    .nav-btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .top-menu-bar {
+      display: contents;
+    }
+
+    .top-menu-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .menu-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 14px;
+      color: #edf6ff;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      position: relative;
+      text-transform: none;
+      opacity: 0.55;
+      background: transparent;
+      border: 0;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+    }
+
+    .menu-link.active {
+      color: #fff;
+      border-bottom: 3px solid #13D7D7;
+      opacity: 1;
+    }
+
+    .menu-link:not(.active):hover {
+      border-bottom-color: #13D7D7;
+      opacity: 0.85;
+    }
+
+    .menu-link i {
+      font-size: 1rem;
+    }
+
+    .content-panel {
+      display: none;
+    }
+
+    .content-panel.active {
+      display: block;
+    }
+
+    .hero {
+      padding: 28px 0 20px;
+    }
+
+    .hero-grid {
+      display: block;
+    }
+
+    .hero-copy {
+      background: linear-gradient(135deg, #044277 0%, #0f6f98 55%, #14AFBD 100%);
+      border-radius: 30px;
+      padding: 42px 52px 32px;
+      color: white;
+      box-shadow: 0 22px 50px rgba(15, 23, 42, 0.12);
+      min-height: 470px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .hero-copy.article-hero {
+      background: linear-gradient(135deg, #123f91 0%, #044277 58%, #14AFBD 100%);
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      right: -120px;
+      bottom: -160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 22px;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #13D7D7;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2.8rem, 5vw, 5.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      max-width: 980px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #hero-title {
+      max-width: 920px;
+      text-wrap: balance;
+      font-weight: 800;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 1rem;
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(19, 215, 215, 0.28);
+      border-radius: 14px;
+      padding: 18px 16px 14px;
+      min-width: 0;
+      flex: 1 1 0;
+      text-align: center;
+      cursor: default;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-5px);
+      background: rgba(19, 215, 215, 0.18);
+      border-color: #13D7D7;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .stat-box strong {
+      display: block;
+      font-size: clamp(1.8rem, 2vw, 2.6rem);
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+
+    .stat-box span { color: #dbeafe; font-size: 0.9rem; }
+
+    .lead-form-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 26px 22px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .lead-form-card h2 {
+      margin: 0 0 18px;
+      font-size: 2.2rem;
+      line-height: 1.2;
+      color: #111827;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+    }
+
+    .lead-form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .field { display: grid; gap: 8px; }
+    .field label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #dfe5ee;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 15px 14px;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary-2);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.08);
+    }
+
+    .submit-btn {
+      margin-top: 8px;
+      padding: 18px 16px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #044277, #14AFBD);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(29, 78, 216, 0.25);
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .section { padding: 44px 0; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .property-search-wrapper { margin: 0 0 26px; }
+    #property-search {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+    }
+    #property-search:focus {
+      border-color: var(--primary-2);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.08);
+    }
+    .property-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .property-page-buttons,
+    .property-page-jump {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .property-page-jump {
+      width: 100%;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .property-page-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .property-page-btn:hover:not(:disabled),
+    .property-page-btn.active {
+      background: var(--primary-2);
+      border-color: var(--primary-2);
+      color: #fff;
+    }
+    .property-page-btn:disabled { opacity: .45; cursor: not-allowed; }
+    #property-page-input {
+      width: 70px;
+      height: 40px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .article-search-wrapper { margin: 0 0 26px; }
+    #article-search {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+    }
+    #article-search:focus {
+      border-color: var(--primary-2);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.08);
+    }
+    .article-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .article-page-buttons,
+    .article-page-jump {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .article-page-jump {
+      width: 100%;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .article-page-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .article-page-btn:hover:not(:disabled),
+    .article-page-btn.active {
+      background: var(--primary-2);
+      border-color: var(--primary-2);
+      color: #fff;
+    }
+    .article-page-btn:disabled { opacity: .45; cursor: not-allowed; }
+    #article-page-input {
+      width: 70px;
+      height: 40px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-kicker {
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary-2);
+      font-size: 0.72rem;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .property-card, .article-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .article-card {
+      cursor: pointer;
+    }
+
+    .property-card:hover, .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 35px rgba(15, 23, 42, 0.12);
+    }
+
+    .property-image, .article-image {
+      height: 220px;
+      overflow: hidden;
+      background: #dfeaf6;
+    }
+
+    .property-image img, .article-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-body { padding: 18px 16px 16px; }
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #075985;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .property-card h4, .article-card h4 {
+      margin: 14px 0 10px;
+      font-size: 1.35rem;
+      line-height: 1.3;
+      color: #044277;
+    }
+
+    .property-price {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #044277;
+      margin-bottom: 8px;
+    }
+
+    .property-location, .article-meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .property-actions, .article-actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .mini-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.16);
+    }
+
+    .mini-btn.primary:hover {
+      background: #1742b8;
+    }
+
+    .mini-btn.secondary:hover {
+      background: #dbe5ff;
+    }
+
+    .mini-btn.primary {
+      background: var(--primary-2);
+      color: white;
+    }
+
+    .mini-btn.secondary {
+      background: #eef2ff;
+      color: var(--primary-2);
+    }
+
+    .empty-state {
+      padding: 30px 18px;
+      border: 1px dashed var(--border);
+      background: rgba(255,255,255,0.5);
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .footer {
+      background: #0f172a;
+      color: #dbeafe;
+      padding: 26px 0;
+      margin-top: 30px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(980px, 96vw);
+      max-height: 90vh;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    #lead-modal {
+      align-items: flex-start;
+    }
+
+    #lead-modal .modal-card {
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid #e5e7eb;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .modal-head h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #111827;
+      letter-spacing: -0.03em;
+    }
+
+    .close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #dbe1ea;
+      border-radius: 50%;
+      background: #fff;
+      color: #374151;
+      font-size: 30px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #fff;
+    }
+
+    .lead-modal-body {
+      padding: 18px 24px 24px;
+    }
+
+    .lead-modal-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .lead-modal-form .field label {
+      font-size: 0.98rem;
+    }
+
+    .lead-modal-form .submit-btn {
+      margin-top: 0;
+    }
+
+    #property-detail-page {
+      display: none;
+      background: #f4f5f6;
+      min-height: 100vh;
+      padding: 42px 0 72px;
+    }
+
+    body.property-detail-active .topbar,
+    body.property-detail-active .hero,
+    body.property-detail-active .content-panel,
+    body.property-detail-active .footer {
+      display: none;
+    }
+
+    body.property-detail-active #property-detail-page {
+      display: block;
+    }
+
+    .property-detail-page-inner {
+      width: min(1200px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .property-detail-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin: 0;
+      border: 1px solid #dbe1ea;
+      border-radius: 50%;
+      background: #fff;
+      color: #374151;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .property-detail-close:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #fff;
+    }
+
+    body.property-detail-active .property-detail-layout {
+      width: 100%;
+      max-height: none;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .property-detail-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .property-detail-image {
+      position: relative;
+      border-radius: 10px;
+      overflow: visible;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 132px;
+      grid-template-rows: auto auto;
+      gap: 12px;
+      width: 100%;
+      flex-shrink: 0;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+
+    .property-gallery-main {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .property-detail-image img {
+      width: 100%;
+      height: 550px;
+      min-height: 550px;
+      max-height: 550px;
+      object-fit: cover;
+      display: block;
+      background: #f3f4f6;
+      border-radius: 6px;
+      flex-shrink: 0;
+      cursor: zoom-in;
+    }
+
+    .property-gallery-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(17, 24, 39, 0.6);
+      color: #fff;
+      font-size: 30px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+      z-index: 2;
+    }
+
+    .property-gallery-prev { left: 14px; }
+    .property-gallery-next { right: 14px; }
+
+    .property-gallery-counter {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      z-index: 2;
+      min-width: 52px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 5px;
+      background: rgba(15, 23, 42, 0.78);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      text-align: center;
+      letter-spacing: 0.04em;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.2);
+      pointer-events: none;
+    }
+
+    .property-gallery-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 0;
+      background: transparent;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 0;
+      max-height: 550px;
+      grid-column: 2;
+      grid-row: 1;
+      flex-shrink: 0;
+    }
+
+    .property-gallery-footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      margin: 6px 2px 2px;
+      padding-top: 16px;
+      border-top: 1px solid #edf0f2;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .property-gallery-footer i {
+      color: #087f83;
+      font-size: 16px;
+    }
+
+    .property-gallery-thumb {
+      flex: 0 0 auto;
+      min-width: 0;
+      width: 100%;
+      height: 100px;
+      border: 2px solid rgba(148, 163, 184, 0.35);
+      border-radius: 6px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #dfeaf6;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .property-gallery-thumb.active {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+    }
+
+    .property-gallery-thumb-more {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-color: rgba(15, 23, 42, 0.25);
+    }
+
+    .property-gallery-thumb-more::before,
+    .property-gallery-thumb-more::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+      pointer-events: none;
+    }
+
+    .property-gallery-thumb-more::before {
+      z-index: -2;
+      background-image: var(--more-image);
+      background-position: center;
+      background-size: cover;
+      filter: blur(2px);
+      transform: scale(1.04);
+    }
+
+    .property-gallery-thumb-more::after {
+      z-index: -1;
+      background: rgba(15, 23, 42, 0.24);
+    }
+
+    .property-gallery-thumb-more-text {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .property-gallery-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(7, 15, 25, 0.94);
+    }
+
+    .property-gallery-lightbox.open { display: flex; }
+
+    .property-gallery-lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.72);
+      color: #fff;
+      font-size: 34px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .property-gallery-lightbox-nav:hover { background: #087f83; }
+    .property-gallery-lightbox-prev { left: 24px; }
+    .property-gallery-lightbox-next { right: 24px; }
+
+    .property-gallery-lightbox img {
+      width: min(92vw, 1400px);
+      height: min(88vh, 900px);
+      object-fit: contain;
+      border-radius: 6px;
+      user-select: none;
+    }
+
+    .property-gallery-lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.72);
+      color: #fff;
+      font-size: 30px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .property-gallery-lightbox-close:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .property-gallery-lightbox-counter {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 12px;
+      border-radius: 5px;
+      background: rgba(15, 23, 42, 0.72);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .property-detail-info {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow: visible;
+      padding: 30px;
+      background: #fff;
+      border: 1px solid #e1e5e9;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      box-sizing: border-box;
+    }
+
+    .property-detail-info > h2 {
+      width: 100%;
+      margin: 16px 0 28px;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #044277;
+    }
+
+    .property-detail-info > .tag {
+      align-self: flex-start;
+      margin: 0;
+      padding: 7px 12px;
+      border-radius: 5px;
+      background: #e8f7f8;
+      color: #087f83;
+      font-size: 12px;
+      letter-spacing: 0.09em;
+    }
+
+    .property-detail-item {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      gap: 8px;
+      margin: 0;
+      padding: 16px 0;
+      color: #27313b;
+      font-size: 17px;
+      line-height: 1.4;
+      border-bottom: 1px solid #edf0f2;
+      text-align: left;
+      box-sizing: border-box;
+    }
+
+    .property-detail-item strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      font-size: 16px;
+      color: #4b5563;
+      font-weight: 700;
+    }
+
+    .property-detail-item span {
+      display: block;
+      margin: 0;
+      font-size: 17px;
+      font-weight: 400;
+      color: #17202a;
+      text-align: left;
+    }
+
+    .property-detail-item.price-item span {
+      color: #044277;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .property-detail-description {
+      margin-top: 22px;
+      padding: 22px 0 0;
+      background: transparent;
+      border-radius: 0;
+      border: 0;
+      border-top: 1px solid #e5e7eb;
+      box-shadow: none;
+    }
+
+    .property-detail-description h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: #17202a;
+      font-weight: 900;
+    }
+
+    #detail-property-deskripsi {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #374151;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    .property-description-trigger {
+      width: 100%;
+      border: 0;
+      border-radius: 6px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .property-description-trigger:hover {
+      background: #dbeafe;
+    }
+
+    .property-detail-contact {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 22px;
+      border: 0;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #044277, #14AFBD);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .property-detail-contact:hover {
+      background: linear-gradient(135deg, #044277, #14AFBD);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(4, 66, 119, 0.3);
+    }
+
+    .property-detail-contact:active {
+      transform: translateY(0);
+    }
+
+    .article-modal-content {
+      background: #fff;
+      width: min(1000px, 95vw);
+      border-radius: 18px;
+      padding: 26px 26px 18px;
+      position: relative;
+      animation: fadeIn 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
+      margin-bottom: 40px;
+    }
+
+    .article-modal-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .article-modal-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .article-modal-content::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+    }
+
+    .article-modal-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .article-close {
+      position: absolute;
+      right: 18px;
+      top: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 32px;
+      cursor: pointer;
+      color: #374151;
+      line-height: 1;
+      z-index: 2;
+    }
+
+    .article-close:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .article-modal img {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      max-height: 500px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px;
+      border-radius: 12px;
+      background: #e5e7eb;
+      margin-top: 36px;
+    }
+    #modal-category,
+    #article-popup-title,
+    #modal-date,
+    #modal-content {
+      width: min(100%, 900px);
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #modal-category {
+      width: fit-content;
+      max-width: 100%;
+      margin-left: max(0px, calc((100% - 900px) / 2));
+      margin-right: auto;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+
+    #article-popup-title {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    #modal-date {
+      margin-bottom: 12px;
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    #modal-content {
+      margin-top: 0;
+      line-height: 1.8;
+      text-align: justify;
+      padding: 0 6px 8px;
+      color: #1f2937;
+    }
+
+    #modal-content p {
+      margin: 0 0 22px;
+      text-align: justify;
+    }
+
+    #modal-content ul,
+    #modal-content ol {
+      padding-left: 28px;
+      margin: 0 0 22px;
+    }
+
+    #modal-content a {
+      color: #0f766e;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .detail-action-row button {
+      flex: 1 1 180px;
+      min-height: 46px;
+      padding: 12px 14px;
+      border: 0;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .detail-action-row .primary {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+    }
+
+    .detail-action-row .secondary {
+      background: #eef2ff;
+      color: #1d4ed8;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .property-detail-content { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        width: calc(100% - 20px);
+        margin-top: 10px;
+        border-width: 3px;
+        border-radius: 30px;
+      }
+
+      .topbar-inner { min-height: 0; padding: 18px 0; }
+      .topbar-inner { flex-wrap: wrap; justify-content: center; padding: 18px 0; }
+      .brand { width: 100%; justify-content: center; }
+      .top-actions { width: 100%; justify-content: center; }
+      .top-menu-inner { order: 3; width: 100%; flex: 0 0 100%; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .hero-copy { padding: 28px 22px; }
+      .lead-form-card h2 { font-size: 1.8rem; }
+      .property-detail-page-inner { width: min(100% - 32px, 1200px); }
+      #property-detail-page { padding-top: 24px; }
+      .property-detail-content { gap: 16px; }
+      .property-detail-image img { height: 330px; min-height: 330px; max-height: 330px; }
+      .property-detail-info { padding: 22px 18px; }
+      .property-detail-image { grid-template-columns: minmax(0, 1fr) 100px; }
+      .property-gallery-preview { max-height: 330px; }
+      .property-gallery-thumb { height: 70px; }
+      .property-gallery-lightbox { padding: 16px; }
+      .property-gallery-lightbox-close { top: 12px; right: 12px; }
+      .property-gallery-lightbox-nav { width: 40px; height: 40px; font-size: 28px; }
+      .property-gallery-lightbox-prev { left: 12px; }
+      .property-gallery-lightbox-next { right: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand" aria-label="AMREI brand">
+        <img src="/images/amrei-favicon-teal.svg" alt="Logo AMREI" class="brand-logo" />
+      </div>
+
+      <button type="button" class="mobile-menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false" onclick='const isOpen = document.body.classList.toggle("mobile-menu-open"); this.setAttribute("aria-expanded", String(isOpen)); this.setAttribute("aria-label", isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"); this.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;'>
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="top-menu-inner">
+        <button type="button" class="menu-link active" data-target="properties-panel"><i class="fa-solid fa-house"></i> Properti</button>
+        <button type="button" class="menu-link" data-target="articles-panel"><i class="fa-solid fa-newspaper"></i> Artikel</button>
+        <button type="button" class="menu-link" data-target="about"><i class="fa-solid fa-circle-info"></i> Tentang AMREI</button>
+      </div>
+
+      <div class="top-actions">
+        <a class="nav-btn primary" href="/login.html">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="header-promo">Temukan Properti Terbaik Anda Bersama Kami.</div>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy" id="main-hero-banner">
+          <span class="eyebrow" id="hero-eyebrow">Properti AMREI</span>
+          <h1 id="hero-title">Jelajahi Beragam Properti Terbaik Untuk Anda</h1>
+          <p id="hero-description">
+            Temukan hunian, investasi, dan berbagai pilihan properti berkualitas yang dirancang untuk memenuhi kebutuhan serta mendukung masa depan Anda
+          </p>
+
+          <div class="hero-stats">
+            <div class="stat-box"><strong id="propertyCount">0</strong><span>Properti</span></div>
+            <div class="stat-box"><strong id="articleCount">0</strong><span>Artikel</span></div>
+            <div class="stat-box"><strong id="activeMarketerCount">0</strong><span>Marketer Aktif</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section content-panel active" id="properties-panel" data-panel="properties">
+      <div class="container">
+        <div class="section-head">
+          <div>
+          
+            <h3>Jelajahi properti yang ada di AMREI</h3>
+          </div>
+        </div>
+        <div class="property-search-wrapper">
+          <input id="property-search" type="search" autocomplete="off" placeholder="Cari properti berdasarkan tipe, nama, harga, lokasi, atau informasi lainnya..." aria-label="Cari properti" />
+        </div>
+        <div id="propertiesGrid" class="cards-grid"></div>
+        <div id="property-pagination" class="property-pagination"></div>
+      </div>
+    </section>
+
+    <section class="section content-panel" id="articles-panel" data-panel="articles" style="padding-top: 10px;">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h3>Belajar Properti Bersama AMREI</h3>
+
+
+          </div>
+        </div>
+        <div class="article-search-wrapper">
+          <input id="article-search" type="search" autocomplete="off" placeholder="Cari berdasarkan judul, kategori, ringkasan, isi, atau informasi lainnya..." aria-label="Cari artikel" />
+        </div>
+        <div id="articlesGrid" class="cards-grid"></div>
+        <div id="article-pagination" class="article-pagination"></div>
+      </div>
+    </section>
+
+    <section class="section content-panel" id="about" data-panel="about">
+      <div id="about-content">
+        <div class="about-hero">
+          <h2 class="about-title">Asosiasi Marketer Real Estate Indonesia</h2>
+          <p>AMREI merupakan wadah pengembangan bagi para marketer real estate di Indonesia yang berfokus pada peningkatan kompetensi, profesionalisme, kolaborasi, serta pemanfaatan teknologi dalam pemasaran properti.</p>
+          <div class="about-highlight"><div class="highlight-item"><i class="fa-solid fa-graduation-cap"></i><span>Edukasi</span></div><div class="highlight-item"><i class="fa-solid fa-users"></i><span>Networking</span></div><div class="highlight-item"><i class="fa-solid fa-microchip"></i><span>Digital &amp; AI</span></div></div>
+        </div>
+        <div class="about-grid"><div class="about-card"><div class="about-card-icon"><i class="fa-solid fa-bullseye"></i></div><h3>Visi</h3><p>Mendorong terbentuknya ekosistem marketer real estate Indonesia yang profesional, kompeten, berintegritas, adaptif terhadap perkembangan zaman, serta mampu membangun kepercayaan dalam industri properti.</p></div><div class="about-card"><div class="about-card-icon"><i class="fa-solid fa-rocket"></i></div><h3>Misi</h3><ul><li>Meningkatkan kompetensi marketer properti.</li><li>Mendorong profesionalisme dan integritas.</li><li>Mengembangkan networking antar pelaku industri.</li><li>Memanfaatkan Digital Marketing dan AI.</li></ul></div></div>
+        <div class="about-values"><h2>Nilai-Nilai AMREI</h2><p>Nilai-nilai yang menjadi landasan dalam membangun marketer profesional di industri real estate.</p><div class="values-grid"><div class="value-card"><div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div><h4>Integrity</h4><span>Menjunjung kejujuran dan etika dalam setiap proses pemasaran.</span></div><div class="value-card"><div class="value-icon"><i class="fa-solid fa-chart-line"></i></div><h4>Growth</h4><span>Terus belajar dan berkembang mengikuti perubahan industri.</span></div><div class="value-card"><div class="value-icon"><i class="fa-solid fa-handshake"></i></div><h4>Collaboration</h4><span>Membangun jaringan dan saling bertumbuh bersama.</span></div><div class="value-card"><div class="value-icon"><i class="fa-solid fa-comments"></i></div><h4>Trust</h4><span>Membangun kepercayaan dengan konsumen dan mitra.</span></div></div></div>
+        <div class="about-learning"><h2>Apa yang Dipelajari di AMREI</h2><p>AMREI membantu marketer meningkatkan kemampuan pemasaran properti melalui berbagai materi praktis yang relevan dengan kebutuhan industri saat ini.</p><div class="learning-grid"><div class="learning-item"><i class="fa-solid fa-house"></i> Property Marketing</div><div class="learning-item"><i class="fa-solid fa-brain"></i> Buyer Psychology</div><div class="learning-item"><i class="fa-solid fa-comments"></i> Komunikasi dan Presentasi</div><div class="learning-item"><i class="fa-solid fa-phone"></i> Follow Up Strategy</div><div class="learning-item"><i class="fa-solid fa-handshake-angle"></i> Negosiasi</div><div class="learning-item"><i class="fa-solid fa-bullseye"></i> Closing Technique</div><div class="learning-item"><i class="fa-solid fa-chart-simple"></i> Digital Marketing</div><div class="learning-item"><i class="fa-solid fa-robot"></i> Artificial Intelligence (AI)</div></div></div>
+        <div class="about-activities"><h2>Bentuk Kegiatan AMREI</h2><p>Berbagai kegiatan AMREI dirancang untuk meningkatkan kompetensi, memperluas jaringan profesional, serta mengikuti perkembangan dunia pemasaran properti.</p><div class="about-activity-grid"><div class="about-activity-card"><div class="about-activity-icon"><i class="fa-solid fa-video"></i></div><h4>Webinar</h4><span>Pembelajaran online mengenai marketing.</span></div><div class="about-activity-card"><div class="about-activity-icon"><i class="fa-solid fa-users"></i></div><h4>Kopdar</h4><span>Silaturahmi sekaligus berbagi pengalaman.</span></div><div class="about-activity-card"><div class="about-activity-icon"><i class="fa-solid fa-lightbulb"></i></div><h4>MarkeThink</h4><span>Diskusi strategi dan AI.</span></div><div class="about-activity-card"><div class="about-activity-icon"><i class="fa-solid fa-network-wired"></i></div><h4>Networking</h4><span>Membangun relasi profesional.</span></div></div></div>
+        <div class="about-training"><div class="training-content"><span class="training-kicker">PROGRAM PENGEMBANGAN AMREI</span><h2>Pelatihan Digital Marketing</h2><p class="training-lead">Raih lebih banyak peluang dan bangun personal branding yang kuat melalui strategi pemasaran digital untuk marketer properti.</p><p class="training-description">Pelatihan ini dirancang untuk membantu marketer menguasai teknik promosi online, membangun kepercayaan calon customer, serta meningkatkan penjualan melalui platform digital.</p><div class="training-points"><span><i class="fa-solid fa-bullseye"></i> Strategi promosi online</span><span><i class="fa-solid fa-chart-line"></i> Personal branding</span><span><i class="fa-solid fa-mobile-screen-button"></i> Praktik platform digital</span></div></div><div class="training-details"><div class="training-detail"><small>JADWAL</small><strong>Setiap Senin</strong></div><div class="training-detail"><small>WAKTU</small><strong>13.00 - 17.00 WIB</strong></div><div class="training-detail"><small>KONTRIBUSI</small><strong>Infaq terbaik</strong></div><div class="training-contact"><small>CONTACT PERSON</small><strong><i class="fa-solid fa-user training-contact-name-icon" aria-hidden="true"></i><span>Coach Dedy</span><br><a class="training-contact-link" href="https://wa.me/62881081646464" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span class="training-contact-text">0881081646464</span></a></strong></div></div></div>
+        <div class="about-closing"><div class="closing-content"><span class="closing-badge">BERGABUNG BERSAMA AMREI</span><h2>Bertumbuh Bersama Menjadi Marketer Properti Profesional</h2><p>AMREI hadir sebagai wadah pembelajaran, kolaborasi, dan pengembangan kompetensi bagi marketer properti agar mampu menghadapi perubahan industri dengan profesionalisme, integritas, dan pemanfaatan teknologi.</p><div class="closing-points"><div><i class="fa-solid fa-circle-check"></i> Edukasi Berkelanjutan</div><div><i class="fa-solid fa-handshake"></i> Networking Profesional</div><div><i class="fa-solid fa-microchip"></i> Digital Marketing &amp; AI</div><div><i class="fa-solid fa-trophy"></i> Pengembangan Kompetensi</div></div></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 AMREI Property</div>
+      <div>Tempat terbaik untuk mencari properti dan informasi terpercaya.</div>
+    </div>
+  </footer>
+
+  <div id="lead-modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="lead-title">Tanya Properti</h2>
+        <button type="button" class="close" aria-label="Tutup" onclick="closeLeadModal()">×</button>
+      </div>
+      <div class="lead-modal-body">
+        <form id="leadModalForm" class="lead-modal-form" autocomplete="off">
+          <input type="hidden" id="leadPropertyId" />
+          <input type="hidden" id="leadPropertyName" />
+
+          <div class="field">
+            <label for="leadNama">Nama</label>
+            <input id="leadNama" type="text" placeholder="Masukkan nama lengkap" required />
+          </div>
+
+          <div class="field">
+            <label for="leadWhatsapp">WhatsApp</label>
+            <input id="leadWhatsapp" type="tel" placeholder="08xxxxxxxxxx" required />
+          </div>
+
+          <div class="field">
+            <label for="leadEmail">Email</label>
+            <input id="leadEmail" type="email" placeholder="nama@email.com" required />
+          </div>
+
+          <div class="field">
+            <label for="leadJenisKelamin">Jenis Kelamin</label>
+            <select id="leadJenisKelamin" required>
+              <option value="">-- Pilih Jenis Kelamin --</option>
+              <option value="Laki-laki">Laki-laki</option>
+              <option value="Perempuan">Perempuan</option>
+              <option value="Tidak ingin memberi tahu">Tidak ingin memberi tahu</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="leadDomisili">Domisili</label>
+            <textarea id="leadDomisili" placeholder="Masukkan domisili Anda" required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Kirim Informasi</button>
+          <div id="leadModalStatus" class="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <section id="property-detail-page" aria-hidden="true">
+    <div class="property-detail-page-inner">
+      <div class="property-detail-layout">
+        <div class="property-detail-content">
+        <div class="property-detail-image">
+          <button type="button" class="property-detail-close close" aria-label="Kembali ke daftar properti" onclick="closeDetailModal()">×</button>
+          <div class="property-gallery-main">
+            <button type="button" id="property-gallery-prev" class="property-gallery-btn property-gallery-prev" aria-label="Foto sebelumnya">‹</button>
+            <button type="button" id="property-gallery-next" class="property-gallery-btn property-gallery-next" aria-label="Foto berikutnya">›</button>
+            <img id="detail-property-foto" src="/images/amrei.png" alt="Foto Properti" onerror="this.onerror=null;this.src='/images/amrei.png'" />
+            <div id="property-gallery-counter" class="property-gallery-counter" aria-live="polite">1 / 1</div>
+          </div>
+          <div id="property-gallery-preview" class="property-gallery-preview" aria-label="Preview foto properti"></div>
+          <div class="property-gallery-footer">
+            <i class="fa-solid fa-images" aria-hidden="true"></i>
+            <span>Pilih thumbnail untuk melihat foto lainnya</span>
+          </div>
+        </div>
+
+        <div class="property-detail-info">
+          <span id="detail-property-tipe" class="tag">Properti</span>
+          <h2 id="detail-property-title">-</h2>
+
+          <div class="property-detail-item">
+            <strong>📍 Lokasi</strong>
+            <span id="detail-property-lokasi">-</span>
+          </div>
+
+          <div class="property-detail-item price-item">
+            <strong>💰 Harga</strong>
+            <span id="detail-property-harga">-</span>
+          </div>
+
+          <div class="property-detail-item">
+            <strong>💵 Komisi</strong>
+            <span id="detail-property-komisi">-</span>
+          </div>
+
+          <div class="property-detail-description">
+            <h3> Deskripsi Properti</h3>
+            <div id="detail-property-deskripsi">Belum ada deskripsi.</div>
+            <button type="button" class="property-description-trigger" onclick="event.stopPropagation(); openPropertyDescriptionModal();">Baca Selengkapnya</button>
+          </div>
+
+          <div id="detail-property-social-container" class="property-detail-social"></div>
+          <button type="button" class="property-detail-contact" onclick="openLeadModal(currentProperty.id, currentProperty.nama)">Tanya Properti Ini</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="property-gallery-lightbox" class="property-gallery-lightbox" aria-hidden="true" role="dialog" aria-label="Foto properti ukuran penuh" onclick="closePropertyGallery(event)">
+    <button type="button" class="property-gallery-lightbox-close" aria-label="Tutup foto ukuran penuh" onclick="closePropertyGallery(event)">&times;</button>
+    <button type="button" class="property-gallery-lightbox-nav property-gallery-lightbox-prev" aria-label="Foto sebelumnya" onclick="event.stopPropagation(); changePropertyGallery(-1)">‹</button>
+    <img id="property-gallery-lightbox-image" src="/images/amrei.png" alt="Foto properti ukuran penuh" onclick="event.stopPropagation()" />
+    <button type="button" class="property-gallery-lightbox-nav property-gallery-lightbox-next" aria-label="Foto berikutnya" onclick="event.stopPropagation(); changePropertyGallery(1)">›</button>
+    <div id="property-gallery-lightbox-counter" class="property-gallery-lightbox-counter" aria-live="polite">1 / 1</div>
+  </div>
+
+  <div id="property-description-modal" class="modal" aria-hidden="true">
+    <div class="modal-card property-description-modal-card">
+      <div class="modal-head">
+        <h2 id="property-description-title">Deskripsi Properti</h2>
+        <button class="close" type="button" onclick="closePropertyDescriptionModal()">×</button>
+      </div>
+      <div class="property-description-content">
+        <div id="property-description-content">Belum ada deskripsi.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/popup.js"></script>
+  <script>
+    const propertyGrid = document.getElementById('propertiesGrid');
+    const articleGrid = document.getElementById('articlesGrid');
+    const propertyCountEl = document.getElementById('propertyCount');
+    const articleCountEl = document.getElementById('articleCount');
+    const activeMarketerCountEl = document.getElementById('activeMarketerCount');
+    const propertySearch = document.getElementById('property-search');
+    const propertyPagination = document.getElementById('property-pagination');
+    const articleSearch = document.getElementById('article-search');
+    const articlePagination = document.getElementById('article-pagination');
+    const heroSection = document.querySelector('.hero');
+    const heroBanner = document.getElementById('main-hero-banner');
+    const heroEyebrow = document.getElementById('hero-eyebrow');
+    const heroTitle = document.getElementById('hero-title');
+    const heroDescription = document.getElementById('hero-description');
+    const leadModal = document.getElementById('lead-modal');
+    const leadModalForm = document.getElementById('leadModalForm');
+    const leadModalStatus = document.getElementById('leadModalStatus');
+
+    let allProperties = [];
+    let allArticles = [];
+    let filteredProperties = [];
+    let currentPropertyPage = 1;
+    const propertiesPerPage = 30;
+    let filteredArticles = [];
+    let currentArticlePage = 1;
+    const articlesPerPage = 30;
+    let currentProperty = null;
+    let propertyGalleryImages = [];
+    let propertyGalleryIndex = 0;
+    let currentArticle = null;
+    let activityUpdatedAt = null;
+
+    async function loadAboutContent() {
+      try {
+        const response = await fetch('/api/about');
+        const result = await response.json();
+        if (result.html && document.getElementById('about-content')) {
+          document.getElementById('about-content').innerHTML = result.html;
+        }
+      } catch (error) {
+        console.error('Gagal memuat informasi About AMREI:', error);
+      }
+    }
+
+    function applyActivity(activity) {
+      if (!activity) return;
+      const training = document.querySelector('#about .about-training');
+      if (!training) return;
+      const setText = (selector, value) => {
+        const element = training.querySelector(selector);
+        if (element && value !== undefined && value !== null) element.textContent = value;
+      };
+      const setPoint = (selector, value) => {
+        const element = training.querySelector(selector);
+        if (!element) return;
+        const pointText = String(value ?? '').trim();
+        element.hidden = !pointText;
+        if (!pointText) {
+          element.textContent = '';
+          return;
+        }
+        const icon = element.querySelector('i');
+        element.textContent = '';
+        if (icon) element.append(icon, ' ');
+        element.append(pointText);
+      };
+      const setContact = (name, phone) => {
+        const element = training.querySelector('.training-contact strong');
+        if (!element) return;
+        const contactPhone = String(phone || '').trim();
+        const whatsappPhone = contactPhone.replace(/\D/g, '').replace(/^0/, '62');
+        element.innerHTML = '';
+        const nameIcon = document.createElement('i');
+        nameIcon.className = 'fa-solid fa-user training-contact-name-icon';
+        nameIcon.setAttribute('aria-hidden', 'true');
+        const nameText = document.createElement('span');
+        nameText.textContent = name || '';
+        element.append(nameIcon, nameText, document.createElement('br'));
+        const link = document.createElement('a');
+        link.className = 'training-contact-link';
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.href = whatsappPhone ? `https://wa.me/${whatsappPhone}` : '#';
+        const icon = document.createElement('i');
+        icon.className = 'fa-brands fa-whatsapp';
+        icon.setAttribute('aria-hidden', 'true');
+        const phoneText = document.createElement('span');
+        phoneText.className = 'training-contact-text';
+        phoneText.textContent = contactPhone;
+        link.append(icon, phoneText);
+        element.append(link);
+      };
+      setText('.training-kicker', activity.kicker);
+      setText('h2', activity.title);
+      setText('.training-lead', activity.lead);
+      setText('.training-description', activity.description);
+      setPoint('.training-points > span:nth-child(1)', activity.point1);
+      setPoint('.training-points > span:nth-child(2)', activity.point2);
+      setPoint('.training-points > span:nth-child(3)', activity.point3);
+      setText('.training-detail:nth-child(1) strong', activity.schedule);
+      setText('.training-detail:nth-child(2) strong', activity.time);
+      setText('.training-detail:nth-child(3) strong', activity.contribution);
+      setContact(activity.contactName, activity.contactPhone);
+    }
+
+    async function loadActivity() {
+      try {
+        const response = await fetch('/api/activity');
+        const result = await response.json();
+        if (result.updated_at !== activityUpdatedAt) {
+          activityUpdatedAt = result.updated_at || null;
+          applyActivity(result.activity);
+        }
+      } catch (error) {
+        console.error('Gagal memuat informasi kegiatan:', error);
+      }
+    }
+
+    setInterval(loadActivity, 5000);
+
+    function updateHeroBanner(targetId) {
+      const isArticle = targetId === 'articles-panel';
+      const isAbout = targetId === 'about';
+      if (heroSection) heroSection.style.display = isAbout ? 'none' : '';
+      heroBanner.classList.toggle('article-hero', isArticle);
+      heroEyebrow.textContent = isArticle ? 'Artikel AMREI' : 'Properti AMREI';
+      heroTitle.textContent = isArticle
+        ? 'Perluas wawasan properti untuk masa depan yang lebih baik'
+        : 'Jelajahi Beragam Properti Terbaik Untuk Anda';
+      heroDescription.textContent = isArticle
+        ? 'Temukan wawasan, tips, dan inspirasi properti untuk membantu Anda mengambil keputusan dengan lebih percaya diri'
+        : 'Jelajahi koleksi properti unggulan AMREI dan temukan pilihan yang sesuai dengan kebutuhan Anda.';
+    }
+
+    function formatCurrency(value) {
+      if (value === null || value === undefined || value === '') return '-';
+      const text = String(value).trim();
+      if (!/\d/.test(text)) return text;
+      return text.replace(/(\d[\d.\s,]*)/g, match => {
+        const numericValue = Number(match.replace(/[^\d]/g, ''));
+        if (Number.isNaN(numericValue)) return match;
+        return `Rp ${new Intl.NumberFormat('id-ID').format(numericValue)}`;
+      });
+    }
+
+    function getThumbnailUrl(value, fallback = '/images/amrei.png') {
+      if (!value) return fallback;
+      return value;
+    }
+
+    function parseStringToArray(value) {
+      if (Array.isArray(value)) return value.filter(Boolean);
+      if (!value) return [];
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+      } catch (error) {}
+      return [value];
+    }
+
+    function normalizeText(value, fallback = 'Belum ada deskripsi.') {
+      const text = String(value || fallback).trim();
+      if (!text) return fallback;
+      return text
+        .replace(/\r\n/g, '\n')
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .trim();
+    }
+
+    function formatDescriptionPreview(value) {
+      const text = normalizeText(value, 'Belum ada deskripsi.');
+      return text.length > 220 ? `${text.slice(0, 220).trim()}...` : text;
+    }
+
+    function parseSocialLinks(value) {
+      const fallback = { instagram: '', facebook: '', tiktok: '', youtube: '', maps: '' };
+      if (!value) return fallback;
+      if (typeof value === 'object') return {
+        instagram: value.instagram || '',
+        facebook: value.facebook || '',
+        tiktok: value.tiktok || '',
+        youtube: value.youtube || '',
+        maps: value.maps || value.google_maps || ''
+      };
+
+      try {
+        const parsed = JSON.parse(value);
+        if (parsed && typeof parsed === 'object') return {
+          instagram: parsed.instagram || '',
+          facebook: parsed.facebook || '',
+          tiktok: parsed.tiktok || '',
+          youtube: parsed.youtube || '',
+          maps: parsed.maps || parsed.google_maps || ''
+        };
+      } catch (error) {}
+
+      return { ...fallback, instagram: value || '' };
+    }
+
+    function renderSocialLinks(property) {
+      const links = parseSocialLinks(property?.link_sosmed);
+      const items = [
+        { key: 'instagram', url: links.instagram, icon: 'fa-instagram', family: 'fa-brands', label: 'Instagram' },
+        { key: 'facebook', url: links.facebook, icon: 'fa-facebook-f', family: 'fa-brands', label: 'Facebook' },
+        { key: 'tiktok', url: links.tiktok, icon: 'fa-tiktok', family: 'fa-brands', label: 'TikTok' },
+        { key: 'youtube', url: links.youtube, icon: 'fa-youtube', family: 'fa-brands', label: 'YouTube' },
+        { key: 'maps', url: links.maps, icon: 'fa-location-dot', family: 'fa-solid', label: 'Google Maps' }
+      ].filter(item => item.url);
+
+      if (!items.length) return '';
+
+      return `
+        <div class="property-social-block">
+          <div class="property-social-label">Lihat postingan media sosial</div>
+          <div class="property-social-row">
+            ${items.map(item => `
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="property-social-icon" title="${item.label}" aria-label="${item.label}">
+                <i class="${item.family} ${item.icon}"></i>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function openLeadModal(propertyId, propertyName) {
+      document.getElementById('leadPropertyId').value = propertyId;
+      document.getElementById('leadPropertyName').value = propertyName;
+      document.getElementById('lead-title').textContent = 'Tanya ' + propertyName;
+      leadModal.classList.add('open');
+      leadModal.setAttribute('aria-hidden', 'false');
+      leadModalStatus.textContent = '';
+    }
+
+    function closeLeadModal() {
+      leadModal.classList.remove('open');
+      leadModal.setAttribute('aria-hidden', 'true');
+      leadModalForm.reset();
+      leadModalStatus.textContent = '';
+    }
+
+    function closeDetailModal() {
+      if (window.location.hash.startsWith('#property-')) {
+        window.history.back();
+        return;
+      }
+
+      document.body.classList.remove('property-detail-active');
+      document.getElementById('property-detail-page').setAttribute('aria-hidden', 'true');
+    }
+
+    function openPropertyDescriptionModal() {
+      if (!currentProperty) return;
+      const description = normalizeText(currentProperty.deskripsi, 'Belum ada deskripsi properti.');
+      document.getElementById('property-description-content').innerHTML = description.replace(/\n/g, '<br>');
+      document.getElementById('property-description-modal').classList.add('open');
+    }
+
+    function closePropertyDescriptionModal() {
+      document.getElementById('property-description-modal').classList.remove('open');
+    }
+
+    function updatePropertyGallery() {
+      const image = propertyGalleryImages[propertyGalleryIndex] || '/images/amrei.png';
+      const prevBtn = document.getElementById('property-gallery-prev');
+      const nextBtn = document.getElementById('property-gallery-next');
+      const total = propertyGalleryImages.length || 1;
+      document.getElementById('detail-property-foto').src = image;
+
+      if (prevBtn) prevBtn.style.display = propertyGalleryImages.length > 1 ? 'flex' : 'none';
+      if (nextBtn) nextBtn.style.display = propertyGalleryImages.length > 1 ? 'flex' : 'none';
+
+      const counter = document.getElementById('property-gallery-counter');
+      if (counter) counter.textContent = `${propertyGalleryIndex + 1} / ${total}`;
+
+      const preview = document.getElementById('property-gallery-preview');
+      if (!preview) return;
+
+      const sliceStart = Math.max(0, propertyGalleryIndex - 3);
+      const visibleIndices = [];
+      for (let index = sliceStart; index < propertyGalleryImages.length && visibleIndices.length < 4; index += 1) {
+        visibleIndices.push(index);
+      }
+
+      const remainingCount = Math.max(
+        propertyGalleryImages.length - (sliceStart + visibleIndices.length),
+        0
+      );
+
+      preview.innerHTML = visibleIndices.map(index => `
+        <button type="button" class="property-gallery-thumb ${index === propertyGalleryIndex ? 'active' : ''}" data-index="${index}" style="background-image: url('${propertyGalleryImages[index]}')" aria-label="Lihat foto ${index + 1}" title="Foto ${index + 1}"></button>
+      `).join('');
+
+      if (remainingCount > 0) {
+        const nextIndex = Math.min(
+          propertyGalleryImages.length - 1,
+          sliceStart + visibleIndices.length
+        );
+        preview.innerHTML += `
+          <button type="button" class="property-gallery-thumb property-gallery-thumb-more" data-index="${nextIndex}" style="--more-image: url('${propertyGalleryImages[nextIndex]}')" aria-label="Lihat foto lainnya" title="Lihat foto lainnya">
+            <span class="property-gallery-thumb-more-text">+${remainingCount}</span>
+          </button>
+        `;
+      }
+
+      preview.querySelectorAll('.property-gallery-thumb').forEach(button => {
+        button.addEventListener('click', () => {
+          propertyGalleryIndex = Number(button.dataset.index);
+          updatePropertyGallery();
+        });
+      });
+    }
+
+    function openPropertyGallery() {
+      const lightbox = document.getElementById('property-gallery-lightbox');
+      const image = document.getElementById('property-gallery-lightbox-image');
+      const counter = document.getElementById('property-gallery-lightbox-counter');
+      updatePropertyLightbox(image, counter);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updatePropertyLightbox(image = document.getElementById('property-gallery-lightbox-image'), counter = document.getElementById('property-gallery-lightbox-counter')) {
+      image.src = propertyGalleryImages[propertyGalleryIndex] || '/images/amrei.png';
+      counter.textContent = `${propertyGalleryIndex + 1} / ${propertyGalleryImages.length || 1}`;
+    }
+
+    function changePropertyGallery(direction) {
+      if (propertyGalleryImages.length <= 1) return;
+      propertyGalleryIndex = (propertyGalleryIndex + direction + propertyGalleryImages.length) % propertyGalleryImages.length;
+      updatePropertyGallery();
+      const lightbox = document.getElementById('property-gallery-lightbox');
+      if (lightbox.classList.contains('open')) updatePropertyLightbox();
+    }
+
+    function closePropertyGallery(event) {
+      if (event && event.target !== event.currentTarget && !event.target.classList.contains('property-gallery-lightbox-close')) return;
+      const lightbox = document.getElementById('property-gallery-lightbox');
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function renderProperties() {
+      const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
+      currentPropertyPage = Math.min(Math.max(currentPropertyPage, 1), Math.max(totalPages, 1));
+      const start = (currentPropertyPage - 1) * propertiesPerPage;
+      const data = filteredProperties.slice(start, start + propertiesPerPage);
+
+      if (!data.length) {
+        propertyGrid.innerHTML = '<div class="empty-state">Properti yang dicari tidak ditemukan.</div>';
+        propertyPagination.innerHTML = '';
+        return;
+      }
+
+      propertyGrid.innerHTML = data.map(property => `
+        <article class="property-card" onclick="if (!event.target.closest('button, a, input')) showPropertyDetail('${property.id}')">
+          <div class="property-image">
+            <img src="${getThumbnailUrl(property.thumbnail || parseStringToArray(property.images)[0] || '/images/amrei.png')}" alt="${property.nama}" onerror="this.onerror=null;this.src='/images/amrei.png'" />
+          </div>
+          <div class="card-body">
+            <span class="tag">${property.tipe || 'Properti'}</span>
+            <h4>${property.nama}</h4>
+            <div class="property-price">${formatCurrency(property.harga)}</div>
+            <div class="property-location">📍 ${property.lokasi || '-'}</div>
+          </div>
+        </article>
+      `).join('');
+      renderPropertyPagination(totalPages);
+    }
+
+    function renderPropertyPagination(totalPages) {
+      if (totalPages <= 1) {
+        propertyPagination.innerHTML = '';
+        return;
+      }
+
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPropertyPage - 2);
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+      let pageButtons = '';
+      for (let page = startPage; page <= endPage; page += 1) {
+        pageButtons += `<button class="property-page-btn ${page === currentPropertyPage ? 'active' : ''}" type="button" onclick="changePropertyPage(${page})">${page}</button>`;
+      }
+
+      propertyPagination.innerHTML = `
+        <div class="property-page-buttons">
+          <button class="property-page-btn" type="button" ${currentPropertyPage === 1 ? 'disabled' : ''} onclick="changePropertyPage(1)">&lt;&lt;</button>
+          <button class="property-page-btn" type="button" ${currentPropertyPage === 1 ? 'disabled' : ''} onclick="changePropertyPage(${currentPropertyPage - 1})">&lt;</button>
+          ${pageButtons}
+          <button class="property-page-btn" type="button" ${currentPropertyPage === totalPages ? 'disabled' : ''} onclick="changePropertyPage(${currentPropertyPage + 1})">&gt;</button>
+          <button class="property-page-btn" type="button" ${currentPropertyPage === totalPages ? 'disabled' : ''} onclick="changePropertyPage(${totalPages})">&gt;&gt;</button>
+        </div>
+        <div class="property-page-jump">
+          <label for="property-page-input">Pindah ke Halaman</label>
+          <input id="property-page-input" type="number" min="1" max="${totalPages}" aria-label="Nomor halaman" />
+        </div>
+      `;
+      document.getElementById('property-page-input')?.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+          const page = Number(event.target.value);
+          if (page) changePropertyPage(page);
+        }
+      });
+    }
+
+    function changePropertyPage(page) {
+      const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
+      if (!totalPages || page < 1 || page > totalPages) return;
+      currentPropertyPage = page;
+      renderProperties();
+      document.getElementById('properties-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function filterProperties(keyword) {
+      const normalizedKeyword = keyword.trim().toLocaleLowerCase('id-ID');
+      filteredProperties = allProperties.filter(property => {
+        if (!normalizedKeyword) return true;
+
+        const searchableText = [
+          property.nama,
+          property.tipe,
+          property.harga,
+          formatCurrency(property.harga),
+          property.lokasi
+        ].map(value => String(value ?? '').toLocaleLowerCase('id-ID'));
+
+        return searchableText.some(value => value.includes(normalizedKeyword));
+      });
+      currentPropertyPage = 1;
+      renderProperties();
+    }
+
+    async function loadProperties() {
+      try {
+        const firstResult = await (await fetch('/api/properties?page=1')).json();
+        const totalPages = firstResult?.pagination?.totalPages || 1;
+        const remainingPages = await Promise.all(Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) =>
+          fetch(`/api/properties?page=${index + 2}`).then(response => response.json())
+        ));
+        allProperties = [...(firstResult?.data || []), ...remainingPages.flatMap(result => result?.data || [])];
+        filteredProperties = allProperties;
+        propertyCountEl.textContent = String(allProperties.length);
+        renderProperties();
+        handlePropertyRoute();
+      } catch (error) {
+        propertyGrid.innerHTML = '<div class="empty-state">Gagal memuat data properti.</div>';
+      }
+    }
+
+    propertySearch.addEventListener('input', event => filterProperties(event.target.value));
+
+    function renderArticles() {
+      const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+      currentArticlePage = Math.min(Math.max(currentArticlePage, 1), Math.max(totalPages, 1));
+      const start = (currentArticlePage - 1) * articlesPerPage;
+      const data = filteredArticles.slice(start, start + articlesPerPage);
+
+      if (!data.length) {
+        articleGrid.innerHTML = '<div class="empty-state">Artikel yang dicari tidak ditemukan.</div>';
+        articlePagination.innerHTML = '';
+        return;
+      }
+
+      articleGrid.innerHTML = data.map(article => `
+        <article class="article-card" onclick="if (!event.target.closest('button, a, input')) showArticleDetail('${article.id}')">
+          <div class="article-image">
+            <img src="${getThumbnailUrl(article.thumbnail || '/images/amrei.png')}" alt="${article.judul}" onerror="this.onerror=null;this.src='/images/amrei.png'" />
+          </div>
+          <div class="card-body">
+            <span class="tag">${article.kategori || 'Artikel'}</span>
+            <h4>${article.judul}</h4>
+            <div class="article-meta">${article.ringkasan ? article.ringkasan.substring(0, 110) + '...' : ''}</div>
+          </div>
+        </article>
+      `).join('');
+      renderArticlePagination(totalPages);
+    }
+
+    function renderArticlePagination(totalPages) {
+      if (totalPages <= 1) {
+        articlePagination.innerHTML = '';
+        return;
+      }
+
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentArticlePage - 2);
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+      let pageButtons = '';
+      for (let page = startPage; page <= endPage; page += 1) {
+        pageButtons += `<button class="article-page-btn ${page === currentArticlePage ? 'active' : ''}" type="button" onclick="changeArticlePage(${page})">${page}</button>`;
+      }
+
+      articlePagination.innerHTML = `
+        <div class="article-page-buttons">
+          <button class="article-page-btn" type="button" ${currentArticlePage === 1 ? 'disabled' : ''} onclick="changeArticlePage(1)">&lt;&lt;</button>
+          <button class="article-page-btn" type="button" ${currentArticlePage === 1 ? 'disabled' : ''} onclick="changeArticlePage(${currentArticlePage - 1})">&lt;</button>
+          ${pageButtons}
+          <button class="article-page-btn" type="button" ${currentArticlePage === totalPages ? 'disabled' : ''} onclick="changeArticlePage(${currentArticlePage + 1})">&gt;</button>
+          <button class="article-page-btn" type="button" ${currentArticlePage === totalPages ? 'disabled' : ''} onclick="changeArticlePage(${totalPages})">&gt;&gt;</button>
+        </div>
+        <div class="article-page-jump">
+          <label for="article-page-input">Pindah ke Halaman</label>
+          <input id="article-page-input" type="number" min="1" max="${totalPages}" aria-label="Nomor halaman artikel" />
+        </div>
+      `;
+      document.getElementById('article-page-input')?.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+          const page = Number(event.target.value);
+          if (page) changeArticlePage(page);
+        }
+      });
+    }
+
+    function changeArticlePage(page) {
+      const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+      if (!totalPages || page < 1 || page > totalPages) return;
+      currentArticlePage = page;
+      renderArticles();
+      document.getElementById('articles-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function filterArticles(keyword) {
+      const normalizeSearchValue = value => String(value ?? '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLocaleLowerCase('id-ID');
+      const normalizedKeyword = normalizeSearchValue(keyword);
+      filteredArticles = allArticles.filter(article => {
+        if (!normalizedKeyword) return true;
+
+        const isDateSearch = /[^0-9]/.test(normalizedKeyword) || normalizedKeyword.length >= 4;
+        const articleDate = article.tanggal ? new Date(article.tanggal) : null;
+        const dateSearchValues = isDateSearch && articleDate && !Number.isNaN(articleDate.getTime())
+          ? [
+              articleDate.toISOString(),
+              articleDate.toLocaleDateString('id-ID'),
+              articleDate.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+              }),
+              articleDate.toLocaleDateString('id-ID', {
+                month: 'long',
+                year: 'numeric'
+              }),
+              articleDate.toLocaleString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+            ]
+          : [];
+
+        const searchableText = [
+          article.judul,
+          article.kategori,
+          article.ringkasan,
+          article.isi,
+          ...(isDateSearch ? [article.tanggal, ...dateSearchValues] : [])
+        ]
+          .map(normalizeSearchValue);
+
+        return searchableText.some(value => value.includes(normalizedKeyword));
+      });
+      currentArticlePage = 1;
+      renderArticles();
+    }
+
+    async function loadArticles() {
+      try {
+        const firstResult = await (await fetch('/api/artikel?page=1', { cache: 'no-store' })).json();
+        const totalPages = firstResult?.pagination?.totalPages || 1;
+        const remainingPages = await Promise.all(Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) =>
+          fetch(`/api/artikel?page=${index + 2}`, { cache: 'no-store' }).then(response => response.json())
+        ));
+        allArticles = [...(firstResult?.data || []), ...remainingPages.flatMap(result => result?.data || [])];
+        filteredArticles = allArticles;
+        articleCountEl.textContent = String(allArticles.length);
+        renderArticles();
+      } catch (error) {
+        articleGrid.innerHTML = '<div class="empty-state">Gagal memuat data artikel.</div>';
+      }
+    }
+
+    articleSearch.addEventListener('input', event => filterArticles(event.target.value));
+
+    const publicContentEvents = new EventSource('/api/public/content-events');
+    let publicContentRefreshTimer = null;
+    publicContentEvents.addEventListener('content-changed', event => {
+      const type = JSON.parse(event.data).type;
+      clearTimeout(publicContentRefreshTimer);
+      publicContentRefreshTimer = setTimeout(async () => {
+        if (type === 'properties') await loadProperties();
+        if (type === 'articles') await loadArticles();
+        if (type === 'about') await loadAboutContent();
+        if (type === 'activity') await loadActivity();
+        if (type === 'marketers') await loadActiveMarketers();
+      }, 150);
+    });
+
+    async function loadActiveMarketers() {
+      try {
+        const response = await fetch('/api/marketers');
+        const result = await response.json();
+        const marketers = result?.marketers || [];
+        const activeMarketers = marketers.filter(marketer => String(marketer.status || '').toLowerCase() === 'active');
+        activeMarketerCountEl.textContent = String(activeMarketers.length);
+      } catch (error) {
+        activeMarketerCountEl.textContent = '0';
+      }
+    }
+
+    function showPropertyDetail(id, updateUrl = true) {
+      const property = allProperties.find(item => String(item.id) === String(id));
+      if (!property) return;
+
+      if (updateUrl) {
+        sessionStorage.setItem('amrei-return-panel', 'properties-panel');
+        activateContentPanel('properties-panel');
+        window.history.pushState(null, '', `#property-${encodeURIComponent(property.id)}`);
+      }
+
+      currentProperty = property;
+      propertyGalleryImages = parseStringToArray(property.images).length ? parseStringToArray(property.images) : [property.thumbnail || '/images/amrei.png'];
+      propertyGalleryIndex = 0;
+      updatePropertyGallery();
+
+      document.getElementById('detail-property-title').textContent = property.nama || '-';
+      document.getElementById('detail-property-tipe').textContent = property.tipe || 'Properti';
+      document.getElementById('detail-property-lokasi').textContent = property.lokasi || '-';
+      document.getElementById('detail-property-harga').textContent = formatCurrency(property.harga);
+      document.getElementById('detail-property-komisi').textContent = formatCurrency(property.komisi || '');
+      document.getElementById('detail-property-deskripsi').textContent = formatDescriptionPreview(property.deskripsi || 'Belum ada deskripsi.');
+      document.getElementById('detail-property-social-container').innerHTML = renderSocialLinks(property);
+      document.body.classList.add('property-detail-active');
+      document.getElementById('property-detail-page').setAttribute('aria-hidden', 'false');
+      window.scrollTo({ top: 0, behavior: updateUrl ? 'smooth' : 'auto' });
+    }
+
+    function handlePropertyRoute() {
+      const match = window.location.hash.match(/^#property-(.+)$/);
+      if (!match) {
+        document.body.classList.remove('property-detail-active');
+        document.getElementById('property-detail-page').setAttribute('aria-hidden', 'true');
+        return;
+      }
+
+      showPropertyDetail(decodeURIComponent(match[1]), false);
+    }
+
+    function showArticleDetail(id) {
+      sessionStorage.setItem('amrei-return-panel', 'articles-panel');
+      window.location.href = `/article-detail.html?id=${encodeURIComponent(id)}`;
+    }
+
+    document.getElementById('property-gallery-prev')?.addEventListener('click', () => {
+      changePropertyGallery(-1);
+    });
+
+    document.getElementById('property-gallery-next')?.addEventListener('click', () => {
+      changePropertyGallery(1);
+    });
+
+    document.getElementById('detail-property-foto')?.addEventListener('click', openPropertyGallery);
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closePropertyGallery();
+      if (document.getElementById('property-gallery-lightbox')?.classList.contains('open')) {
+        if (event.key === 'ArrowLeft') changePropertyGallery(-1);
+        if (event.key === 'ArrowRight') changePropertyGallery(1);
+      }
+    });
+
+    window.addEventListener('popstate', handlePropertyRoute);
+    window.addEventListener('hashchange', handlePropertyRoute);
+
+    leadModalForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const nama = document.getElementById('leadNama').value.trim();
+      const jenis_kelamin = document.getElementById('leadJenisKelamin').value.trim();
+      const whatsapp = document.getElementById('leadWhatsapp').value.trim();
+      const email = document.getElementById('leadEmail').value.trim();
+      const domisili = document.getElementById('leadDomisili').value.trim();
+      const propertyId = document.getElementById('leadPropertyId').value;
+      const propertyName = document.getElementById('leadPropertyName').value;
+
+      if (!nama || !jenis_kelamin || !whatsapp || !email || !domisili || !propertyId) {
+        leadModalStatus.textContent = 'Mohon lengkapi semua data terlebih dahulu.';
+        leadModalStatus.style.color = '#dc2626';
+        return;
+      }
+
+      leadModalStatus.textContent = 'Mengirim data, silakan tunggu...';
+      leadModalStatus.style.color = '#1d4ed8';
+
+      try {
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nama,
+            jenis_kelamin,
+            no_wa: whatsapp,
+            email,
+            domisili,
+            property_id: propertyId,
+            property_name: propertyName,
+            type: 'inquiry',
+            source: 'general'
+          })
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Gagal mengirim data');
+
+        leadModalStatus.textContent = 'Data berhasil dikirim. Tim kami akan segera menghubungi Anda.';
+        leadModalStatus.style.color = '#0f766e';
+        leadModalForm.reset();
+        setTimeout(() => {
+          closeLeadModal();
+          if (data.whatsapp) {
+            window.location.href = `https://api.whatsapp.com/send?phone=${data.whatsapp}&text=${encodeURIComponent(`Halo Admin AMREI, saya tertarik dengan ${propertyName}.`)}`;
+          }
+        }, 1200);
+      } catch (error) {
+        leadModalStatus.textContent = error.message || 'Gagal mengirim data.';
+        leadModalStatus.style.color = '#dc2626';
+      }
+    });
+
+    function activateContentPanel(targetId) {
+      const targetPanel = document.getElementById(targetId);
+      const targetButton = document.querySelector(`.menu-link[data-target="${targetId}"]`);
+      if (!targetPanel || !targetButton) return;
+
+      sessionStorage.setItem('index-active-panel', targetId);
+
+      document.querySelectorAll('.menu-link').forEach(item => item.classList.toggle('active', item === targetButton));
+      document.querySelectorAll('.content-panel').forEach(panel => panel.classList.toggle('active', panel === targetPanel));
+      updateHeroBanner(targetId);
+    }
+
+    document.querySelectorAll('.menu-link').forEach(button => {
+      button.addEventListener('click', () => activateContentPanel(button.dataset.target));
+    });
+
+    document.querySelectorAll('.menu-link, .nav-btn').forEach(item => {
+      item.addEventListener('click', () => {
+        document.body.classList.remove('mobile-menu-open');
+        const toggle = document.querySelector('.mobile-menu-toggle');
+        if (!toggle) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Buka menu navigasi');
+        toggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+      });
+    });
+
+    const returnPanel = sessionStorage.getItem('amrei-return-panel');
+    const savedPanel = returnPanel || sessionStorage.getItem('index-active-panel');
+    if (returnPanel) sessionStorage.removeItem('amrei-return-panel');
+    if (savedPanel) activateContentPanel(savedPanel);
+
+    loadProperties();
+    loadArticles();
+    loadActiveMarketers();
+    loadAboutContent()
+      .then(() => loadActivity())
+      .catch(error => console.error('Gagal memuat informasi kegiatan:', error));
+  </script>
+</body>
+</html>
