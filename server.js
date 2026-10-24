@@ -1,11 +1,12 @@
 ﻿require('dotenv').config();
 require("./config/database");
 const pool = require("./config/database");
+const { randomUUID } = require('crypto');
 const express = require('express');
 const session = require('express-session');
 const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
-const pgSession = require('connect-pg-simple')(session);
+const MySQLStore = require('express-mysql-session')(session);
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
@@ -18,8 +19,10 @@ const nodemailer = require('nodemailer');
 const sanitizeHtml = require('sanitize-html');
 
 if (process.env.NODE_ENV === 'production' &&
-    (!process.env.SESSION_SECRET || process.env.SESSION_SECRET === 'amrei-dev-secret-change-this')) {
-    throw new Error('SESSION_SECRET wajib diisi dengan nilai acak yang kuat saat production.');
+    (!process.env.SESSION_SECRET ||
+        process.env.SESSION_SECRET === 'amrei-dev-secret-change-this' ||
+        process.env.SESSION_SECRET.length < 32)) {
+    throw new Error('SESSION_SECRET wajib berisi secret acak minimal 32 karakter saat production.');
 }
 if (process.env.NODE_ENV === 'production' && !process.env.APP_ORIGIN) {
     throw new Error('APP_ORIGIN wajib diisi saat production untuk validasi Origin request.');
@@ -37,7 +40,10 @@ if (process.env.NODE_ENV === 'production') {
         throw new Error('APP_ORIGIN harus berupa satu atau beberapa URL HTTPS yang valid saat production.');
     }
     if (String(process.env.DB_SSL || '').toLowerCase() !== 'true') {
-        throw new Error('DB_SSL=true wajib diisi saat production untuk melindungi koneksi database.');
+        throw new Error('DB_SSL=true wajib diisi saat production untuk melindungi koneksi MySQL.');
+    }
+    if (String(process.env.DB_SSL_REJECT_UNAUTHORIZED || 'true').toLowerCase() !== 'true') {
+        throw new Error('DB_SSL_REJECT_UNAUTHORIZED=true wajib diisi saat production untuk memvalidasi sertifikat MySQL.');
     }
 }
 
@@ -209,45 +215,63 @@ const mailTransporter = process.env.SMTP_HOST
     : null;
 
 async function ensureLeadColumns() {
-    await pool.query(`
-        ALTER TABLE leads
-            ADD COLUMN IF NOT EXISTS email TEXT,
-            ADD COLUMN IF NOT EXISTS tanggal_pernikahan DATE,
-            ADD COLUMN IF NOT EXISTS customer_service TEXT,
-                ADD COLUMN IF NOT EXISTS jenis_konsumen TEXT,
-                ADD COLUMN IF NOT EXISTS pekerjaan TEXT,
-                ADD COLUMN IF NOT EXISTS keterangan TEXT
-            `);
+    await ensureColumns('leads', {
+        email: 'TEXT NULL',
+        tanggal_pernikahan: 'DATE NULL',
+        customer_service: 'TEXT NULL',
+        jenis_konsumen: 'TEXT NULL',
+        pekerjaan: 'TEXT NULL',
+        keterangan: 'TEXT NULL'
+    });
 }
 
 async function ensureUserNoticeColumns() {
-    await pool.query(`
-        ALTER TABLE users
-            ADD COLUMN IF NOT EXISTS status_login_notice_sent_for TEXT,
-            ADD COLUMN IF NOT EXISTS keterangan TEXT,
-            ADD COLUMN IF NOT EXISTS nik TEXT,
-            ADD COLUMN IF NOT EXISTS nomor_rekening TEXT,
-            ADD COLUMN IF NOT EXISTS foto_marketer TEXT,
-            ADD COLUMN IF NOT EXISTS foto_ktp TEXT
-    `);
+    await ensureColumns('users', {
+        status_login_notice_sent_for: 'TEXT NULL',
+        keterangan: 'TEXT NULL',
+        nik: 'TEXT NULL',
+        nomor_rekening: 'TEXT NULL',
+        foto_marketer: 'TEXT NULL',
+        foto_ktp: 'TEXT NULL'
+    });
+}
+
+async function ensureColumns(tableName, columns) {
+    for (const [columnName, definition] of Object.entries(columns)) {
+        const existing = await pool.query(
+            `SELECT 1 FROM information_schema.columns
+             WHERE table_schema = DATABASE() AND table_name = ? AND column_name = ?`,
+            [tableName, columnName]
+        );
+        if (!existing.rows.length) {
+            await pool.query(`ALTER TABLE \`${tableName}\` ADD COLUMN \`${columnName}\` ${definition}`);
+        }
+    }
 }
 
 async function ensureMessageTemplatesTable() {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS message_templates (
-            id BIGSERIAL PRIMARY KEY,
+            id CHAR(36) NOT NULL PRIMARY KEY,
             title TEXT NOT NULL,
             message TEXT NOT NULL,
-            scope TEXT NOT NULL CHECK (scope IN ('admin', 'marketer')),
+            scope VARCHAR(32) NOT NULL,
             created_by TEXT NOT NULL,
-            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     `);
-    await pool.query(`
-        CREATE INDEX IF NOT EXISTS message_templates_scope_created_by_idx
-        ON message_templates (scope, created_by)
-    `);
+    const index = await pool.query(
+        `SELECT 1 FROM information_schema.statistics
+         WHERE table_schema = DATABASE() AND table_name = 'message_templates'
+           AND index_name = 'message_templates_scope_created_by_idx'`
+    );
+    if (!index.rows.length) {
+        await pool.query(`
+            CREATE INDEX message_templates_scope_created_by_idx
+            ON message_templates (scope(32), created_by(191))
+        `);
+    }
 }
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -261,11 +285,19 @@ app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: false, limit: '2mb', parameterLimit: 100 }));
 app.use('/uploads/properties', express.static(PROPERTY_UPLOAD_DIR));
 app.use('/uploads/artikel', express.static(ARTICLE_UPLOAD_DIR));
-const sessionStore = new pgSession({
-    pool,
-    createTableIfMissing: true,
-    pruneSessionInterval: false
-});
+const sessionStore = new MySQLStore({
+    clearExpired: false,
+    createDatabaseTable: true,
+    endConnectionOnClose: false,
+    schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
+}, pool.sessionPool);
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'amrei-dev-secret-change-this',
@@ -1033,12 +1065,11 @@ async function sendMarketerLoginNoticeOnce(marketer) {
          SET status_login_notice_sent_for = $1
          WHERE id = $2
            AND status = $1
-           AND status_login_notice_sent_for IS DISTINCT FROM $1
-         RETURNING id`,
+           AND NOT (status_login_notice_sent_for <=> $1)`,
         [marketer.status, marketer.id]
     );
 
-    if (!claimed.rows[0]) return false;
+    if (!claimed.rowCount) return false;
     return sendMarketerAccountNotice(marketer, marketer.status);
 }
 
@@ -1135,7 +1166,7 @@ async function ensureAboutContentTable() {
         CREATE TABLE IF NOT EXISTS about_content (
             id INTEGER PRIMARY KEY,
             html TEXT NOT NULL,
-            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     `);
 }
@@ -1166,13 +1197,13 @@ app.put('/api/admin/about', isAdmin, async (req, res) => {
         }
 
         await ensureAboutContentTable();
-        const result = await pool.query(
+        await pool.query(
             `INSERT INTO about_content (id, html, updated_at)
              VALUES (1, $1, NOW())
-             ON CONFLICT (id) DO UPDATE SET html = EXCLUDED.html, updated_at = NOW()
-             RETURNING updated_at`,
+             ON DUPLICATE KEY UPDATE html = VALUES(html), updated_at = NOW()`,
             [html]
         );
+        const result = await pool.query(`SELECT updated_at FROM about_content WHERE id = 1`);
 
         res.json({
             success: true,
@@ -1190,15 +1221,15 @@ async function ensureActivityTables() {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS activity_information (
             id INTEGER PRIMARY KEY,
-            data JSONB NOT NULL,
-            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            data JSON NOT NULL,
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     `);
     await pool.query(`
         CREATE TABLE IF NOT EXISTS activity_information_archive (
-            id BIGSERIAL PRIMARY KEY,
-            data JSONB NOT NULL,
-            archived_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            id CHAR(36) NOT NULL PRIMARY KEY,
+            data JSON NOT NULL,
+            archived_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     `);
 }
@@ -1243,23 +1274,22 @@ app.put('/api/admin/activity', isAdmin, async (req, res) => {
         try {
             await client.query('BEGIN');
             const current = await client.query(
-                `INSERT INTO activity_information_archive (data, archived_at)
-                 SELECT data, updated_at FROM activity_information WHERE id = 1
-                 RETURNING id`
+                `INSERT INTO activity_information_archive (id, data, archived_at)
+                 SELECT UUID(), data, updated_at FROM activity_information WHERE id = 1`
             );
             if (!current.rowCount && previousActivity) {
                 await client.query(
-                    `INSERT INTO activity_information_archive (data, archived_at) VALUES ($1, NOW())`,
+                    `INSERT INTO activity_information_archive (id, data, archived_at) VALUES (UUID(), $1, NOW())`,
                     [previousActivity]
                 );
             }
-            result = await client.query(
+            await client.query(
                 `INSERT INTO activity_information (id, data, updated_at)
-                 VALUES (1, $1::jsonb, NOW())
-                 ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()
-                 RETURNING updated_at`,
+                 VALUES (1, $1, NOW())
+                 ON DUPLICATE KEY UPDATE data = VALUES(data), updated_at = NOW()`,
                 [JSON.stringify(activity)]
             );
+            result = await client.query(`SELECT updated_at FROM activity_information WHERE id = 1`);
             await client.query('COMMIT');
         } catch (error) {
             await client.query('ROLLBACK');
@@ -1285,9 +1315,9 @@ app.put('/api/admin/activity/archive/:id', isAdmin, async (req, res) => {
         await ensureActivityTables();
         const result = await pool.query(
             `UPDATE activity_information_archive
-             SET data = $1::jsonb
+             SET data = $1
              WHERE id = $2
-             RETURNING id`,
+             `,
             [JSON.stringify(activity), req.params.id]
         );
         if (!result.rowCount) {
@@ -1314,13 +1344,13 @@ app.put('/api/admin/activity/archive/:id/restore', isAdmin, async (req, res) => 
         }
 
         await client.query(
-            `INSERT INTO activity_information_archive (data, archived_at)
-             SELECT data, updated_at FROM activity_information WHERE id = 1`
+            `INSERT INTO activity_information_archive (id, data, archived_at)
+             SELECT UUID(), data, updated_at FROM activity_information WHERE id = 1`
         );
         await client.query(
             `INSERT INTO activity_information (id, data, updated_at)
-             VALUES (1, $1::jsonb, NOW())
-             ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+             VALUES (1, $1, NOW())
+             ON DUPLICATE KEY UPDATE data = VALUES(data), updated_at = NOW()`,
             [JSON.stringify(archived.rows[0].data)]
         );
         await client.query(`DELETE FROM activity_information_archive WHERE id = $1`, [req.params.id]);
@@ -1340,7 +1370,7 @@ app.delete('/api/admin/activity/archive/:id', isAdmin, async (req, res) => {
     try {
         await ensureActivityTables();
         const result = await pool.query(
-            `DELETE FROM activity_information_archive WHERE id = $1 RETURNING id`,
+            `DELETE FROM activity_information_archive WHERE id = $1`,
             [req.params.id]
         );
         if (!result.rowCount) {
@@ -2011,7 +2041,7 @@ function applyGreetingSalutation(message, gender) {
 }
 
 async function getGreetingTargets(customerSource, type) {
-    if (customerSource !== 'postgres') {
+    if (customerSource !== 'mysql') {
         return type === 'anniversary'
             ? []
             : birthdayToday(getExcelCustomers());
@@ -2673,13 +2703,12 @@ app.get('/api/marketers', async (req, res) => {
                 u.status,
 
                 COALESCE(
-                    ARRAY(
-                        SELECT p.nama
+                    (
+                        SELECT JSON_ARRAYAGG(p.nama)
                         FROM properties p
-                        WHERE p.id = ANY(u.selected_products)
-                        ORDER BY p.nama
+                        WHERE JSON_CONTAINS(u.selected_products, JSON_QUOTE(p.id))
                     ),
-                    ARRAY[]::text[]
+                    JSON_ARRAY()
                 ) AS properties
 
             FROM users u
@@ -2725,17 +2754,11 @@ app.get('/api/admin/marketers', isAdmin, async (req, res) => {
                 u.foto_ktp,
                 COALESCE(
                     (
-                        SELECT json_agg(
-                            json_build_object(
-                                'id', p.id,
-                                'nama', p.nama
-                            )
-                            ORDER BY p.nama
-                        )
+                        SELECT JSON_ARRAYAGG(JSON_OBJECT('id', p.id, 'nama', p.nama))
                         FROM properties p
-                        WHERE p.id = ANY(u.selected_products)
+                        WHERE JSON_CONTAINS(u.selected_products, JSON_QUOTE(p.id))
                     ),
-                    '[]'
+                    JSON_ARRAY()
                 ) AS properties
             FROM users u
             WHERE u.role = 'marketer'
@@ -3268,9 +3291,10 @@ app.post(
 
             await pool.query(
                 `INSERT INTO properties
-                (nama, tipe, lokasi, harga, komisi, deskripsi, thumbnail, images, link_sosmed)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+                (id, nama, tipe, lokasi, harga, komisi, deskripsi, thumbnail, images, link_sosmed)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
                 [
+                    randomUUID(),
                     nama,
                     tipe || 'Rukost',
                     lokasi || '-',
@@ -3344,6 +3368,7 @@ app.post('/api/admin/marketers', isAdmin, secureMarketerUpload, async (req, res)
             `
             INSERT INTO users
             (
+                id,
                 name,
                 email,
                 phone,
@@ -3361,20 +3386,21 @@ app.post('/api/admin/marketers', isAdmin, secureMarketerUpload, async (req, res)
             )
             VALUES
             (
-                $1,$2,$3,$4,$5,
+                $1,$2,$3,$4,$5,$6,
                 'marketer',
-                $6,
                 $7,
                 $8,
                 $9,
                 $10,
                 $11,
                 $12,
-                '{}'
+                $13,
+                JSON_ARRAY()
             )
             RETURNING id
             `,
             [
+                randomUUID(),
                 name,
                 email,
                 phone,
@@ -3788,8 +3814,11 @@ const property = result.rows[0];
         await pool.query(
             `
             UPDATE users
-            SET selected_products = array_remove(selected_products, $1::uuid)
-            WHERE $1::uuid = ANY(selected_products)
+            SET selected_products = JSON_REMOVE(
+                selected_products,
+                JSON_UNQUOTE(JSON_SEARCH(selected_products, 'one', CAST($1 AS CHAR)))
+            )
+            WHERE JSON_SEARCH(selected_products, 'one', CAST($1 AS CHAR)) IS NOT NULL
             `,
             [req.params.id]
         );
@@ -3956,10 +3985,11 @@ app.post(
 
             const result = await pool.query(
                 `INSERT INTO articles
-                (judul, kategori, ringkasan, isi, thumbnail)
-                VALUES ($1,$2,$3,$4,$5)
+                (id, judul, kategori, ringkasan, isi, thumbnail)
+                VALUES ($1,$2,$3,$4,$5,$6)
                 RETURNING *`,
                 [
+                    randomUUID(),
                     judul,
                     kategori || 'Properti',
                     ringkasan || '',
@@ -4118,7 +4148,7 @@ app.delete('/api/artikel/:id', isAdmin, async (req, res) => {
         }
 
         // ==========================================
-        // Hapus dari PostgreSQL
+        // Hapus lead dari database.
         // ==========================================
         await pool.query(
             `DELETE FROM articles WHERE id = $1`,
@@ -4199,7 +4229,7 @@ app.post('/api/marketer/products', isMarketer, async (req, res) => {
              WHERE username = $2
              RETURNING *`,
             [
-                selected,
+                JSON.stringify(selected),
                 req.session.user.username
             ]
         );
@@ -4266,7 +4296,10 @@ app.get('/api/marketer/leads', isMarketer, async (req, res) => {
                     OR LOWER(TRIM(customer_service)) LIKE LOWER($1) || ' %'
                 )
                 AND (
-                    to_jsonb(leads)::text ILIKE $2
+                    CONCAT_WS(' ', leads.nama, leads.no_wa, leads.email, leads.tgl_lahir,
+                        leads.tanggal_pernikahan, leads.jenis_kelamin, leads.domisili,
+                        leads.pekerjaan, leads.customer_service, leads.property_name,
+                        leads.jenis_konsumen, leads.status, leads.keterangan) ILIKE $2
                     OR
                     nama ILIKE $2
                     OR no_wa ILIKE $2
@@ -4317,7 +4350,10 @@ app.get('/api/marketer/leads', isMarketer, async (req, res) => {
                     OR LOWER(TRIM(customer_service)) LIKE LOWER($1) || ' %'
                 )
                 AND (
-                    to_jsonb(leads)::text ILIKE $2
+                    CONCAT_WS(' ', leads.nama, leads.no_wa, leads.email, leads.tgl_lahir,
+                        leads.tanggal_pernikahan, leads.jenis_kelamin, leads.domisili,
+                        leads.pekerjaan, leads.customer_service, leads.property_name,
+                        leads.jenis_konsumen, leads.status, leads.keterangan) ILIKE $2
                     OR
                     nama ILIKE $2
                     OR no_wa ILIKE $2
@@ -4441,10 +4477,10 @@ async function createMessageTemplate(req, res, scope) {
         }
 
         const result = await pool.query(
-            `INSERT INTO message_templates (title, message, scope, created_by)
-             VALUES ($1, $2, $3, $4)
+            `INSERT INTO message_templates (id, title, message, scope, created_by)
+             VALUES ($1, $2, $3, $4, $5)
              RETURNING id, title, message, scope, created_by, created_at, updated_at`,
-            [input.title, input.message, scope, req.session.user.username]
+            [randomUUID(), input.title, input.message, scope, req.session.user.username]
         );
         res.status(201).json({ success: true, template: result.rows[0] });
     } catch (error) {
@@ -4549,9 +4585,9 @@ app.get('/api/public/marketer/:slug', async (req, res) => {
         const propertyResult = await pool.query(
             `SELECT *
              FROM properties
-             WHERE id = ANY($1::uuid[])
+             WHERE JSON_CONTAINS(CAST($1 AS JSON), JSON_QUOTE(id))
              ORDER BY created_at DESC`,
-            [selectedProducts]
+            [JSON.stringify(selectedProducts)]
         );
 
         res.json({
@@ -4648,6 +4684,7 @@ if (property_id) {
 `
 INSERT INTO leads
 (
+    id,
     nama,
     no_wa,
     email,
@@ -4662,10 +4699,11 @@ INSERT INTO leads
     status
 )
 VALUES
-($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
 RETURNING *;
 `,
 [
+    randomUUID(),
     String(nama).trim(),
     String(no_wa).trim(),
     String(email).trim(),
@@ -4752,13 +4790,16 @@ app.get('/api/admin/leads', isAdmin, async (req, res) => {
             const limit = 50;
             const search = (req.query.search || '').trim();
 
-        // Ambil data dari PostgreSQL
+        // Ambil data lead dari database.
         const result = await pool.query(
                 `
                 SELECT *
                 FROM leads
                 WHERE
-                    to_jsonb(leads)::text ILIKE $1
+                    CONCAT_WS(' ', leads.nama, leads.no_wa, leads.email, leads.tgl_lahir,
+                        leads.tanggal_pernikahan, leads.jenis_kelamin, leads.domisili,
+                        leads.pekerjaan, leads.customer_service, leads.property_name,
+                        leads.jenis_konsumen, leads.status, leads.keterangan) ILIKE $1
                     OR
                     nama ILIKE $1
                     OR no_wa ILIKE $1
@@ -5008,16 +5049,16 @@ app.get('/api/admin/blast-customers', isAdmin, async (req, res) => {
 
         const result = await pool.query(`
             SELECT
-                (ARRAY_AGG(id))[1] AS id,
+                MIN(id) AS id,
                 nama,
                 no_wa,
-                STRING_AGG(
-                    DISTINCT property_name,
-                    ', '
+                GROUP_CONCAT(
+                    DISTINCT CASE
+                        WHEN property_name IS NOT NULL AND TRIM(property_name) <> ''
+                        THEN property_name
+                    END
                     ORDER BY property_name
-                ) FILTER (
-                    WHERE property_name IS NOT NULL
-                      AND TRIM(property_name) <> ''
+                    SEPARATOR ', '
                 ) AS pernah_tertarik
             FROM leads
             WHERE no_wa IS NOT NULL
@@ -5310,6 +5351,7 @@ app.post(
                         `
                         INSERT INTO leads
                         (
+                            id,
                             nama,
                             no_wa,
                             tgl_lahir,
@@ -5322,9 +5364,10 @@ app.post(
                             created_at
                         )
                         VALUES
-                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
                         `,
                         [
+                            randomUUID(),
                             customer.nama,
                             customerPhone,
                             customer.tgl_lahir || null,
@@ -5508,6 +5551,7 @@ app.post(
                         `
                         INSERT INTO leads
                         (
+                            id,
                             nama,
                             no_wa,
                             tgl_lahir,
@@ -5520,9 +5564,10 @@ app.post(
                             created_at
                         )
                         VALUES
-                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
                         `,
                         [
+                            randomUUID(),
                             customer.nama,
                             customerPhone,
                             tanggalLahir,
@@ -5568,7 +5613,7 @@ app.post(
 
 app.get('/api/admin/birthday-today', isAdmin, (_req, res) => res.json(birthdayToday(getExcelCustomers())));
 app.get(
-    '/api/admin/birthday-today-postgres',
+    '/api/admin/birthday-today-mysql',
     isAdmin,
     async (_req, res) => {
 
@@ -5674,7 +5719,7 @@ app.get('/api/admin/blast-status/:batchId', isAdmin, (req, res) => {
 app.get('/api/admin/greeting-preview', isAdmin, async (req, res) => {
     try {
         const type = req.query.type === 'anniversary' ? 'anniversary' : 'birthday';
-        const customerSource = req.query.customerSource === 'excel' ? 'excel' : 'postgres';
+        const customerSource = req.query.customerSource === 'excel' ? 'excel' : 'mysql';
         const targets = await getGreetingTargets(customerSource, type);
 
         res.json({
@@ -6057,7 +6102,7 @@ app.get('/api/marketer/product-preview/:propertyId', isMarketer, async (req, res
             `SELECT p.id, p.nama, p.lokasi, p.harga, p.deskripsi, p.thumbnail, p.images, p.link_sosmed
              FROM properties p
              JOIN users u ON u.username = $1
-             WHERE p.id = $2 AND p.id = ANY(u.selected_products)`,
+             WHERE p.id = $2 AND JSON_CONTAINS(u.selected_products, JSON_QUOTE(p.id))`,
             [req.session.user.username, req.params.propertyId]
         );
         if (!result.rows.length) return res.status(404).json({ success: false, message: 'Properti tidak ditemukan di daftar marketer.' });
@@ -6241,7 +6286,7 @@ app.post('/api/marketer/broadcast-produk', isMarketer, async (req, res) => {
 
         const propertyResult = await pool.query(
             `SELECT p.* FROM properties p JOIN users u ON u.username = $1
-             WHERE p.id = $2 AND p.id = ANY(u.selected_products)`,
+             WHERE p.id = $2 AND JSON_CONTAINS(u.selected_products, JSON_QUOTE(p.id))`,
             [req.session.user.username, propertyId]
         );
         const property = propertyResult.rows[0];
@@ -6283,6 +6328,7 @@ let httpServer;
 
 async function startServer() {
     await pool.waitForDatabase();
+    await sessionStore.onReady();
     await Promise.all([
         ensureLeadColumns(),
         ensureUserNoticeColumns(),
@@ -6336,4 +6382,3 @@ async function gracefulShutdown(signal) {
 
 process.on('SIGINT', () => { void gracefulShutdown('SIGINT'); });
 process.on('SIGTERM', () => { void gracefulShutdown('SIGTERM'); });
-

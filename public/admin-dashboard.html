@@ -678,7 +678,7 @@ window.addEventListener('pageshow', async () => {
         <input
             type="radio"
             name="customer-source"
-            value="postgres"
+            value="mysql"
             checked
         >
 
@@ -1000,7 +1000,7 @@ window.addEventListener('pageshow', async () => {
             <input
                 type="radio"
                 name="customer-source"
-                value="postgres"
+                value="mysql"
                 checked
             >
             Lead Customer
@@ -5088,7 +5088,7 @@ async function loadExcel() {
         'input[name="customer-source"]:checked'
     ).value;
 
-    if (source === 'postgres') {
+    if (source === 'mysql') {
 
         excelCustomers = await api(
             '/api/admin/blast-customers'
@@ -5280,9 +5280,9 @@ async function loadBirthday() {
     const greetingType = $('greeting-type')?.value || 'birthday';
 
     const endpoint = greetingType === 'anniversary'
-        ? (customerSource === 'postgres' ? '/api/admin/wedding-anniversary-today' : null)
-        : (customerSource === 'postgres'
-            ? '/api/admin/birthday-today-postgres'
+        ? (customerSource === 'mysql' ? '/api/admin/wedding-anniversary-today' : null)
+        : (customerSource === 'mysql'
+            ? '/api/admin/birthday-today-mysql'
             : '/api/admin/birthday-today');
 
     const birthdays = endpoint ? await api(endpoint) : [];
@@ -5350,9 +5350,9 @@ async function refreshDashboardStats() {
 }
 
 async function loadBirthdayDataForStats() {
-    const customerSource = document.querySelector('input[name="customer-source"]:checked')?.value || 'postgres';
-    const endpoint = customerSource === 'postgres'
-        ? '/api/admin/birthday-today-postgres'
+    const customerSource = document.querySelector('input[name="customer-source"]:checked')?.value || 'mysql';
+    const endpoint = customerSource === 'mysql'
+        ? '/api/admin/birthday-today-mysql'
         : '/api/admin/birthday-today';
 
     return api(endpoint);

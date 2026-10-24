@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node --test tests/database.test.js"
   },
   "keywords": [
     "amrei",
@@ -20,17 +21,17 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.3",
-    "connect-pg-simple": "^10.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-mysql-session": "^3.0.3",
     "express-rate-limit": "^8.7.0",
     "express-session": "^1.19.0",
     "get-stream": "5.1.0",
     "helmet": "^8.3.0",
     "multer": "^2.2.0",
-    "nodemailer": "^10.0.1",
+    "mysql2": "^3.24.6",
+    "nodemailer": "^10.1.7",
     "openai": "^7.4.0",
-    "pg": "^8.23.0",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
     "sanitize-html": "^2.17.7",
@@ -39,6 +40,10 @@
     "yauzl": "2.10.0"
   },
   "overrides": {
-    "extract-zip": "file:vendor/extract-zip"
+    "extract-zip": "file:vendor/extract-zip",
+    "ip-address": "^10.7.4",
+    "mysql2": "$mysql2",
+    "proxy-addr": "^2.0.8",
+    "source-map-js": "^1.2.2"
   }
 }

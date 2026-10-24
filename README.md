@@ -10,7 +10,7 @@ Aplikasi ini sudah dirapikan menjadi dua area utama: **Admin** dan **Marketer**,
 - Lead otomatis menyimpan marketer dan properti asal.
 - XLSX digunakan untuk customer blast; tanggal lahir benar-benar difilter berdasarkan hari dan bulan saat ini.
 - Queue WhatsApp default 60 detik per pesan.
-- Data aplikasi disimpan di `data/*.json` agar bisa langsung jalan tanpa database tambahan.
+- Data aplikasi utama disimpan di MySQL. File XLSX, unggahan, dokumen marketer, dan sesi WhatsApp tetap disimpan di folder `data/`.
 - AI punya fallback jika `GEMINI_API_KEY` belum diisi.
 
 ## Jalankan di VS Code
@@ -20,7 +20,7 @@ Aplikasi ini sudah dirapikan menjadi dua area utama: **Admin** dan **Marketer**,
    ```bash
    npm install
    ```
-3. Salin `.env.example` menjadi `.env`.
+3. Salin `.env.example` menjadi `.env`, lalu isi `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, dan `DB_PASSWORD` untuk MySQL. Database MySQL yang disarankan adalah MySQL 8.0.13 atau lebih baru.
 4. Untuk AI Gemini, isi `GEMINI_API_KEY`. Jika kosong, bot memakai jawaban fallback.
 5. Jalankan:
    ```bash
@@ -45,6 +45,12 @@ Jika sudah siap menghubungkan WhatsApp:
 
 Jeda 1 menit hanya mengatur kecepatan antrean; tidak menjamin akun WhatsApp tidak terkena pembatasan. Gunakan hanya untuk customer yang memang memberikan izin menerima pesan.
 
+## Database
+
+Aplikasi menggunakan MySQL sebagai database utama. Migrasi dari PostgreSQL telah selesai dan isi 9 tabel berhasil diverifikasi cocok; kode dan dependency PostgreSQL telah dihapus dari project. Database PostgreSQL lama tidak dihapus atau diubah dan sebaiknya tetap disimpan sebagai cadangan.
+
+Folder `data/uploads/` dan `data/marketer-documents/` berisi file yang tidak berada di database. Folder tersebut tidak diubah oleh migrasi dan harus tetap tersedia saat memindahkan aplikasi ke server lain.
+
 ## Format XLSX yang disarankan
 Header:
 - `Nama`
@@ -59,8 +65,9 @@ Tanggal lahir boleh berupa tanggal Excel atau teks seperti `14/08/2000`.
 Jangan masukkan API key ke GitHub. File `.env` sengaja tidak disertakan dalam ZIP; gunakan `.env.example` sebagai template.
 
 Untuk production:
-- Set `NODE_ENV=production`, `APP_ORIGIN` ke origin HTTPS yang tepat, dan `SESSION_SECRET` ke secret acak yang panjang.
-- Session memakai PostgreSQL, cookie `httpOnly`, `sameSite`, dan `secure`.
+- Set `NODE_ENV=production`, `APP_ORIGIN` ke origin HTTPS yang tepat, dan `SESSION_SECRET` ke secret acak minimal 32 karakter. Buat secret dengan `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`.
+- Set `DB_SSL=true` dan `DB_SSL_REJECT_UNAUTHORIZED=true` agar koneksi MySQL terenkripsi dan sertifikat server diverifikasi.
+- Session memakai MySQL, cookie `httpOnly`, `sameSite`, dan `secure`.
 - Login dibatasi rate limit dan hanya menerima password yang sudah disimpan sebagai hash bcrypt. Akun lama dengan password plaintext harus dimigrasikan atau di-reset sebelum production.
 - Endpoint API memakai rate limit, security headers, validasi Origin untuk request mutasi, dan batas multipart upload.
-- Jalankan `npm audit` sebelum deploy. Saat ini `xlsx` masih memiliki advisory tanpa fix upstream, dan dependency WhatsApp/Puppeteer memiliki advisory yang perlu dievaluasi sebelum dipakai di internet publik.
+- Jalankan `npm audit` sebelum deploy. Audit terakhir masih melaporkan advisori high pada rantai dependency WhatsApp/Puppeteer; jangan menganggap aplikasi bebas risiko dan tinjau ulang sebelum mengaktifkan WhatsApp di server publik.
